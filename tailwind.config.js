@@ -7,7 +7,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      transitionProperty: {
+        'width': 'width 0.1s linear',
+      }
+    },
   },
   plugins: [],
   

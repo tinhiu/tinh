@@ -1,4 +1,7 @@
 import { motion } from "framer-motion"
+import { FiMail } from "react-icons/fi";
+import { SiDiscord, SiTwitter } from "react-icons/si";
+import ContactLink from "../components/ContactLink";
 import Message from "../components/Message"
 
 export default function Contact() {
@@ -20,7 +23,25 @@ export default function Contact() {
                 <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4 mb-20">
                     <Message />
 
-                    
+                    <div className="row-start-1 md:row-auto">
+                    <ContactLink
+                        text="tinh#5050"
+                        icon={<SiDiscord className="w-6 h-6 text-[#5865F2] dark:text-[#f0f8ff]" />}
+                        link="https://discord.com/users/885439540268003338"
+                    />
+
+                    <ContactLink
+                        text="@tinh"
+                        icon={<SiTwitter className="w-6 h-6 text-[#1DA1F2] dark:text-[#f0f8ff]" />}
+                        link="https://twitter.com/@loonailysm"
+                    />
+
+                    <ContactLink
+                        text="tjnhqw@gmail.com"
+                        icon={<FiMail className="w-6 h-6 text-gray-400 dark:text-[#f0f8ff]" />}
+                        link="mailto:tjnhqw@gmail.com"
+                    />
+                </div>
                 </div>
             </motion.div>
         </>

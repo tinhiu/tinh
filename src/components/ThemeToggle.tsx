@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 const ThemeToggle = () => {
-    const [theme, setTheme] = useState<string>("dark");
+    const [theme, setTheme] = useState<string>("light");
 
     useEffect(() => {
         let storedTheme = localStorage.getItem("theme") as string;
@@ -30,8 +30,8 @@ const ThemeToggle = () => {
             className="p-2 rounded-md bg-transparent hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer"
             onClick={() => changeTheme(theme)}
         >
-            {theme === "light" && <FiSun className="text-black w-6 h-6 xs:w-5 xs:h-5" />}
-            {theme === "dark" && <FiMoon className="text-white w-6 h-6 xs:w-5 xs:h-5" />}
+            {theme === "light" && <FiMoon className="text-black w-6 h-6" />}
+            {theme === "dark" && <FiSun className="text-white w-6 h-6" />}
         </button>
     );
 };

@@ -12,6 +12,7 @@ import '../styles/custom.scss';
 import Nav from '../components/Nav';
 import { AnimatePresence } from 'framer-motion';
 import Song from '../components/Song';
+import ScrollToTop from '../components/ScrollToTop';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -23,32 +24,27 @@ type PageProps = {
 };
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	return (
-			<StrictMode>
-				<Head>
-					<meta charSet="utf-8" />
-					<title>Tinh`</title>
-					<link rel="icon" href="/favicon.ico" />
-					<meta name="viewport" content="width=device-width,initial-scale=1" />
-					<meta name="theme-color" content="#000000" />
-					<meta name="keywords" content="tinh, web developer, github, typescript" />
-					<meta name="description" content="Tinh` - Software Engineer" />
-					<meta name="author" content="Tinh`" />
-					<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-				</Head>
-				<div
-					className="text-black dark:text-white flex flex-row justify-center w-full h-full
-	         bg-gradient-to-b from-[#e0dbdb] to-[#ffffffb4]
+		<StrictMode>
+			<Head>
+			<title>tinh</title>
+			<meta name="viewport" content="width=device-width,initial-scale=1" />
+				
+			</Head>
+			<div
+				className="text-black dark:text-white flex flex-row justify-center w-full h-full
+	         bg-gradient-to-b from-[#e0dbdb] to-[#e0dbdb]
 	         dark:from-[#746767] dark:to-[#463a3a81] min-h-screen"
-				>
-					<Nav />
-					<div className="w-[80%] md:w-[45rem]">
-						<AnimatePresence mode="wait">
-							<Component {...pageProps} key={router.pathname} />
-						</AnimatePresence>
-					</div>
-					<Song />
+			>
+				<Nav />
+				<div className="w-[80%] md:w-[45rem]">
+					<AnimatePresence mode="wait">
+						<Component {...pageProps} key={router.pathname} />
+					</AnimatePresence>
+				<ScrollToTop />
 				</div>
-			</StrictMode>
+				<Song />
+			</div>
+		</StrictMode>
 	);
 }
 

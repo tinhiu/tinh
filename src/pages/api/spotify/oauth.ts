@@ -16,7 +16,6 @@ const scopes = ['user-top-read',
 'user-read-private', 
 'user-read-email',
 'user-read-recently-played'
-
 ] as const;
 
 const scope = join(scopes, ' ');
@@ -56,7 +55,6 @@ export default api({
 		});
 
 		const { body: user } = await userAPI.getMe();
-		console.log(user);
 		
 		if (user.id !== '31lhz6y3u5ootzbuxbnkndz4x2ea') {
 			res.throw(403, 'You are not permitted to update OAuth keys!');

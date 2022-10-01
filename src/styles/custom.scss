@@ -29,3 +29,69 @@ html *::-webkit-scrollbar-track {
     border-radius: 0;
     background-color: rgba(0, 0, 0, 0);
 }
+
+
+// back to top
+.top-to-btm {
+  position: relative;
+}
+.icon-position {
+  position: fixed;
+  bottom: 2rem;
+  right: 4rem;
+  z-index: 20;
+}
+@media (max-width: 640px) {
+  .icon-position {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+.icon-style {
+  background-color: #b8b8b8;
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  color: rgba(237, 237, 237, 0.971);
+  cursor: pointer;
+  animation: movebtn 3s ease-out infinite;
+  transition: all 0.5s ease-out;
+}
+.icon-style:hover {
+  background: #fff;
+  color: #b8b8b8;
+}
+@keyframes movebtn {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+// spoity
+@media only screen and (min-width: 1000px) {
+  .move-position {
+    animation: moveSpotify 3s ease-out infinite;
+    transition: all 0.5s ease-out;
+    z-index: 20;
+  }
+  @keyframes moveSpotify {
+    0% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-6px);
+    }
+
+    100% {
+      transform: translateY(0px);
+    }
+  }
+}

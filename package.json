@@ -34,7 +34,6 @@
     "@types/ms": "^0.7.31",
     "@types/node": "18.7.18",
     "@types/nprogress": "^0.2.0",
-    "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "@types/spotify-web-api-node": "^5.0.7",
     "@types/tailwindcss": "^3.1.0",

@@ -4,12 +4,14 @@ import ms from 'ms';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useState } from 'react';
 import SpotifyWebAPI from 'spotify-web-api-node';
+import Image from 'next/image';
 import type { GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 import { HiExternalLink } from 'react-icons/hi';
 import { MdExplicit } from 'react-icons/md';
 import { SiSpotify } from 'react-icons/si';
-import Image from 'next/image';
+import Modal from '../components/Modal';
+import api from '../pages/api/spotify/oauth'
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
 import PlayHistoryObject = SpotifyApi.PlayHistoryObject;
@@ -19,13 +21,14 @@ import {
 	SPOTIFY_CLIENT_SECRET,
 	SPOTIFY_REDIS_KEYS,
 } from '../server/constants';
-
+import Details from '../components/Details';
+import AudioMusic from '../components/AudioMusic';
 
 type Props = {
-	topTracks: TrackObjectFull[],
-	//topTracks: PlayHistoryObject[],
-	
+	topTracks: TrackObjectFull[];
+	//topTracks: PlayHistoryObject[];
 };
+
 dayjs.extend(relativeTime);
 export default function MusicPage({ topTracks }: Props) {
 	return (
@@ -36,39 +39,42 @@ export default function MusicPage({ topTracks }: Props) {
 			transition={{ ease: 'easeInOut', duration: 0.4 }}
 			className="mt-24 w-full mb-32"
 		>
-				<div className="mt-36 ">
-					<h2 className="text-3xl font-bold">Music 🎧</h2>
+			<div className="mt-36 ">
+				<h2 className="text-3xl font-bold">Music 🎧</h2>
 
-					<p className="mt-4 mb-6">
-						Listening to music is my cup of tea. I listen to many different kinds of music.
-						Most of the time, I love listening to music. You can find some kind of music that i love below
-					</p>
-				</div>
+				<p className="mt-4 mb-6">
+					Listening to music is my cup of tea. I listen to many different kinds of music. Most of
+					the time, I love listening to music. Here are some of the songs I listen to the most in
+					recent months
+				</p>
+			</div>
 
-				<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
-					{topTracks.map((track) => (
-						<Track key={track.id} track={track} />
-					))}
-				</div>
+			<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
+				{topTracks.map((track) => (
+					//<Track key={track.id} track={track} />
+					<Track key={track.id} track={track} />
+				))}
+			</div>
 		</motion.div>
 	);
 }
 function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
-	const [openModel, setopenModel] = useState(false);
+
+	const [statsOpen, setStatsOpen] = useState(false);
 
 	const image = track.album.images[0].url;
 	const artists = track.artists.map((artist) => artist.name).join(', ');
 
 	const close = () => {
-		setopenModel(false);
+		setStatsOpen(false);
 	};
 
 	const open = () => {
-		setopenModel(true);
+		setStatsOpen(true);
 	};
+
 	const album = track.album as AlbumObjectFull;
 
-	
 	return (
 		<button
 			key={track.id}
@@ -78,14 +84,81 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 			focus:ring focus:ring-offset-2 dark:focus:ring-offset-neutral-500"
 			onClick={open}
 		>
-			
-			<div className="image-span-block w-full overflow-hidden rounded-lg">
+			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24} />}>
+				<div className="space-y-4">
+					<div className="relative aspect-[3/2]">
+						<Image
+							src={image}
+							layout="fill"
+							alt={`${track.album.name} by ${artists}`}
+							className="rounded-md object-cover pointer-events-none"
+							loading="lazy"
+							decoding="async"
+						/>
+					</div>
+					{track.preview_url ? (
+						<AudioMusic src={track.preview_url || ''} />
+					) : (
+						<p className="text-sm italic flex justify-end">*preview not available</p>
+					)}
+
+					<a
+						href={track.external_urls.spotify}
+						className="group flex justify-between rounded-md border bg-gray-200 p-3 no-underline dark:border-0 dark:bg-neutral-400"
+						target="_blank"
+						rel="noreferrer"
+					>
+						<div className="w-[90%]">
+							<h2 className="md:text-2xl text-xl font-bold group-hover:underline truncate">
+								{track.name}
+							</h2>
+							<h3 className="text-sm italic text-gray-400 dark:text-gray-800">by {artists}</h3>
+						</div>
+
+						<div>
+							<HiExternalLink size={24} />
+						</div>
+					</a>
+
+					<>
+						<Details
+							details={[
+								{
+									name: 'Released:',
+									value: (
+										<span>
+											{dayjs(album.release_date).fromNow()} (
+											{dayjs(album.release_date).format('MMM D, YYYY')})
+										</span>
+									),
+								},
+								{
+									name: 'Album:',
+									value: album.name,
+								},
+								{
+									name: 'Duration:',
+									value: ms(track.duration_ms, { long: true }),
+								},
+							]}
+						/>
+					</>
+
+					<button onClick={close} className="float-right !mt-0">
+						Close
+					</button>
+				</div>
+			</Modal>
+
+			<div className="w-full overflow-hidden rounded-lg">
 				<Image
 					src={image}
-					className="rounded-lg brightness-75 transition-all duration-300 group-hover:scale-110 group-hover:brightness-100"
+					className="pointer-events-none rounded-lg brightness-75 transition-all duration-300 group-hover:scale-110 group-hover:brightness-100"
 					alt={`${track.name} by ${artists}`}
 					width={400}
 					height={400}
+					loading="lazy"
+					decoding="async"
 				/>
 			</div>
 
@@ -141,6 +214,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 			clientSecret: SPOTIFY_CLIENT_SECRET,
 			accessToken: token,
 		});
+		//console.log(api);
+		
 	} else {
 		throw new Error(
 			'No Spotify tokens available! Please manually add them to the Redis store to allow tokens to refresh in the future.'
@@ -148,11 +223,10 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	}
 
 	/* Top tracks playing */
-	const tracks = await api.getMyTopTracks({time_range: 'long_term',});
+	const tracks = await api.getMyTopTracks({ time_range: 'medium_term' });
 
 	/* RecentlyPlayedTracks */
-	//const tracks = await api.getMyRecentlyPlayedTracks({limit: 20, after: 1484811043508});
-
+	//const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 
 	await redis.quit();
 	return {
