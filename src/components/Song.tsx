@@ -7,7 +7,7 @@ const Song = () => {
 	const { data: user } = useLanyard(DISCORD_ID);
 
 	if (!user || !user.spotify) {
-		return undefined;
+		return null;
 	}
 
 	return (
@@ -32,7 +32,7 @@ const Song = () => {
 					<div className="w-full h-[6rem] flex flex-row items-center justify-start">
 						<div className="hover:scale-125 transition duration-500 hover:ease-out">
 							<img
-								src={user.spotify.album_art_url}
+								src={user.spotify.album_art_url || undefined}
 								className="w-[4.5rem] h-[4.5rem] rounded-md mr-4 pointer-events-none bg-cover "
 								alt={user.spotify.album}
 							/>
