@@ -1,4 +1,4 @@
-function Project(props) {
+const Project = ({props}: {props: any}) => {
   return (
     <div className="group relative flex">
       <div className="absolute -inset-0.5 rounded-lg opacity-0 transition-all duration-700 ease-in-out group-hover:opacity-100"></div>
