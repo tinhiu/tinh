@@ -7,7 +7,7 @@ const Song = () => {
 	const { data: user } = useLanyard(DISCORD_ID);
 
 	if (!user || !user.spotify) {
-		return null;
+		return undefined;
 	}
 
 	return (
