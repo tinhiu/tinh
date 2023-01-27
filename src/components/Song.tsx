@@ -5,7 +5,7 @@ import { SiSpotify } from 'react-icons/si';
 export const DISCORD_ID = '885439540268003338';
 
 const Song = () => {
-	const { data: user } = useLanyard(DISCORD_ID);
+	const { data: user }:{user: any} = useLanyard(DISCORD_ID);
 
 	if (!user || !user.spotify) {
 		return (
