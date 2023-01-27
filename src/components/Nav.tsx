@@ -57,7 +57,7 @@ const Nav = () => {
 			<Link href={link}>
 				<a
 					className={classNames(
-						selected ? 'bg-black/20 dark:bg-[#777777e6]' : 'bg-transparent dark:text-white',
+						selected ? 'bg-black/20 dark:bg-[#b7afafe6]' : 'bg-transparent dark:text-white',
 						'flex flex-grow justify-center border-slate-800/30 cursor-pointer w-auto py-4 text-base text-black/80 dark:text-white/80 dark:border-[#ffffff]/30 transition-all duration-75'
 					)}
 					onClick={onClick}
@@ -116,7 +116,8 @@ const Nav = () => {
 							animate={{ opacity: 1 }}
 							exit={{ opacity: 0 }}
 							transition={{ duration: 0.1, ease: 'easeInOut' }}
-							className="flex sm:hidden flex-col items-center justify-start mt-16 fixed w-full h-auto z-[700] bg-white dark:bg-[#a5a5a5]  border-slate-800/30"
+							className="flex sm:hidden flex-col items-center justify-start mt-16 fixed w-full h-auto z-[700]
+							 bg-white dark:bg-[#8c8484]  border-slate-800/30"
 						>
 							<div className="flex flex-col w-full justify-evenly">
 								<MobileLandingButton

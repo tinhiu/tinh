@@ -173,11 +173,19 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 }
 export const getStaticProps: GetStaticProps<Props> = async () => {
 	const redis = new IORedis(REDIS_URL || '');
-
+	fetch("https://usw1-logical-tick-33201.upstash.io/set/foo/bar", {
+		headers: {
+		  Authorization: "Bearer AYGxASQgOTgxNGZmZDItNTQ5Zi00ZDdmLTgxMTYtNTliYTViYTM4YTAzYzhkMTU5ODBhMzViNDM0MWE3MmJjNmQ3OTZkYmI4ODA="
+		}
+	  }).then(response => response.json())
+		.then(data => console.log("data: ", data));
+		
 	const [token, refresh] = await redis.mget(
 		SPOTIFY_REDIS_KEYS.AccessToken,
 		SPOTIFY_REDIS_KEYS.RefreshToken
 	);
+
+	
 
 	let api: SpotifyWebAPI;
 	let revalidate = 120;
@@ -224,7 +232,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 	/* Top tracks playing */
 	const tracks = await api.getMyTopTracks({ time_range: 'medium_term' });
-
+	
 	/* RecentlyPlayedTracks */
 	//const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 

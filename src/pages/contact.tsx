@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import { FiMail } from "react-icons/fi";
-import { SiDiscord, SiTwitter } from "react-icons/si";
+import { SiDiscord, SiFacebook, SiTwitter } from "react-icons/si";
 import ContactLink from "../components/ContactLink";
 import Message from "../components/Message"
 
@@ -31,9 +31,9 @@ export default function Contact() {
                     />
 
                     <ContactLink
-                        text="@tinh"
-                        icon={<SiTwitter className="w-6 h-6 text-[#1DA1F2] dark:text-[#f0f8ff]" />}
-                        link="https://twitter.com/@loonailysm"
+                        text="@buitinh"
+                        icon={<SiFacebook className="w-6 h-6 text-[#1DA1F2] dark:text-[#f0f8ff]" />}
+                        link="https://fb.com/buitinh.aep"
                     />
 
                     <ContactLink
