@@ -1,5 +1,6 @@
 import { useLanyard } from 'use-lanyard';
 import { motion } from 'framer-motion';
+import { SiSpotify } from 'react-icons/si';
 
 export const DISCORD_ID = '885439540268003338';
 
@@ -7,7 +8,19 @@ const Song = () => {
 	const { data: user } = useLanyard(DISCORD_ID);
 
 	if (!user || !user.spotify) {
-		return null;
+		return (
+			<motion.div
+				initial={{ opacity: 0, y: -50 }}
+				animate={{ opacity: 1, y: -100 }}
+				transition={{ duration: 0.8, easing: [0, 0.5, 0.28, 2] }}
+				className="fixed 
+                left-8 -bottom-40 w-[20rem] h-[7rem] hidden lg:flex flex-col items-start justify-start
+                "
+			>
+				<span>Not playing anything</span>
+				</motion.div>
+		
+		);
 	}
 
 	return (
@@ -32,7 +45,7 @@ const Song = () => {
 					<div className="w-full h-[6rem] flex flex-row items-center justify-start">
 						<div className="hover:scale-125 transition duration-500 hover:ease-out">
 							<img
-								src={user.spotify.album_art_url || undefined}
+								src={user.spotify.album_art_url}
 								className="w-[4.5rem] h-[4.5rem] rounded-md mr-4 pointer-events-none bg-cover "
 								alt={user.spotify.album}
 							/>
