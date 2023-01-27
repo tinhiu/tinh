@@ -5,7 +5,7 @@ import { SiSpotify } from 'react-icons/si';
 export const DISCORD_ID = '885439540268003338';
 
 const Song = () => {
-	const { data: user }:{user: any} = useLanyard(DISCORD_ID);
+	const { data: user } = useLanyard(DISCORD_ID);
 
 	if (!user || !user.spotify) {
 		return (
@@ -45,9 +45,9 @@ const Song = () => {
 					<div className="w-full h-[6rem] flex flex-row items-center justify-start">
 						<div className="hover:scale-125 transition duration-500 hover:ease-out">
 							<img
-								src={user.spotify.album_art_url}
+								src={user.spotify.album_art_url | undefined}
 								className="w-[4.5rem] h-[4.5rem] rounded-md mr-4 pointer-events-none bg-cover "
-								alt={user.spotify.album}
+								alt={user.spotify.album | undefined}
 							/>
 						</div>
 						<div className="w-56 h-full flex flex-col items-start justify-center">
@@ -56,13 +56,13 @@ const Song = () => {
 								target="_blank"
 								rel="noreferrer"
 								className="w-full font-medium text-black-900 dark:text-[#e1eafd] hover:underline truncate"
-								title={user.spotify.song}
+								title={user.spotify.song | undefined}
 							>
 								{user.spotify.song}
 							</a>
 							<p
 								className="w-full text-gray-800 dark:text-[#cad2e0] font-normal text-sm truncate relative"
-								title={user.spotify.artist.replace(/;/g, ',')}
+								title={user.spotify.artist.replace(/;/g, ',') | undefined}
 							>
 								by {user.spotify.artist.replace(/;/g, ',')}
 							</p>
@@ -86,9 +86,9 @@ const Song = () => {
 			>
 				<div className="w-full h-[4rem] flex flex-row items-center justify-start">
 					<img
-						src={user.spotify.album_art_url}
+						src={user.spotify.album_art_url | undefined}
 						className="w-[3rem] h-[3rem] rounded-md mr-4 pointer-events-none bg-cover "
-						alt={user.spotify.album}
+						alt={user.spotify.album | undefined}
 					/>
 					<div className="w-[15rem] h-full flex flex-col items-center justify-center ">
 						<a
@@ -96,13 +96,13 @@ const Song = () => {
 							target="_blank"
 							rel="noreferrer"
 							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
-							title={user.spotify.song}
+							title={user.spotify.song | undefined}
 						>
 							{user.spotify.song}
 						</a>
 						<p
 							className="w-full text-gray-800 dark:text-[#cad2e0] font-normal text-sm truncate relative"
-							title={user.spotify.artist.replace(/;/g, ',')}
+							title={user.spotify.artist.replace(/;/g, ',') | undefined}
 						>
 							by {user.spotify.artist.replace(/;/g, ',')}
 						</p>
