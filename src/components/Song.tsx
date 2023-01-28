@@ -2,10 +2,9 @@ import { useLanyard } from 'use-lanyard';
 import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 
-export const DISCORD_ID = '885439540268003338';
 
-const Song = () => {
-	const { data: user } = useLanyard(DISCORD_ID);
+
+const Song = ({user}:{user: unknown}) => {
 
 	if (!user || !user.spotify) {
 		return (

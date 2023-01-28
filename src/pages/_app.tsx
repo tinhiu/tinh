@@ -5,6 +5,7 @@ import { SWRConfig } from 'swr';
 import { StrictMode, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useLanyard } from 'use-lanyard';
 
 import 'nprogress/nprogress.css';
 import '../styles/globals.css';
@@ -17,12 +18,13 @@ import ScrollToTop from '../components/ScrollToTop';
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
-
+export const DISCORD_ID = '885439540268003338';
 type PageProps = {
 	lanyard?: unknown;
 	pinnedRepos?: unknown;
 };
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
+	const { data: user } = useLanyard(DISCORD_ID);
 	return (
 		<StrictMode>
 			<Head>
@@ -42,7 +44,7 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 					</AnimatePresence>
 				<ScrollToTop />
 				</div>
-				<Song />
+				<Song user={user} />
 			</div>
 		</StrictMode>
 	);
