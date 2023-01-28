@@ -45,9 +45,9 @@ const Song = () => {
 					<div className="w-full h-[6rem] flex flex-row items-center justify-start">
 						<div className="hover:scale-125 transition duration-500 hover:ease-out">
 							<img
-								src={user.spotify.album_art_url | undefined}
+								src={user.spotify.album_art_url}
 								className="w-[4.5rem] h-[4.5rem] rounded-md mr-4 pointer-events-none bg-cover "
-								alt={user.spotify.album | undefined}
+								alt={user.spotify.album}
 							/>
 						</div>
 						<div className="w-56 h-full flex flex-col items-start justify-center">
@@ -56,13 +56,13 @@ const Song = () => {
 								target="_blank"
 								rel="noreferrer"
 								className="w-full font-medium text-black-900 dark:text-[#e1eafd] hover:underline truncate"
-								title={user.spotify.song | undefined}
+								title={user.spotify.song}
 							>
 								{user.spotify.song}
 							</a>
 							<p
 								className="w-full text-gray-800 dark:text-[#cad2e0] font-normal text-sm truncate relative"
-								title={user.spotify.artist.replace(/;/g, ',') | undefined}
+								title={user.spotify.artist.replace(/;/g, ',')}
 							>
 								by {user.spotify.artist.replace(/;/g, ',')}
 							</p>
@@ -86,9 +86,9 @@ const Song = () => {
 			>
 				<div className="w-full h-[4rem] flex flex-row items-center justify-start">
 					<img
-						src={user.spotify.album_art_url | undefined}
+						src={user.spotify.album_art_url}
 						className="w-[3rem] h-[3rem] rounded-md mr-4 pointer-events-none bg-cover "
-						alt={user.spotify.album | undefined}
+						alt={user.spotify.album}
 					/>
 					<div className="w-[15rem] h-full flex flex-col items-center justify-center ">
 						<a
@@ -96,13 +96,13 @@ const Song = () => {
 							target="_blank"
 							rel="noreferrer"
 							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
-							title={user.spotify.song | undefined}
+							title={user.spotify.song}
 						>
 							{user.spotify.song}
 						</a>
 						<p
 							className="w-full text-gray-800 dark:text-[#cad2e0] font-normal text-sm truncate relative"
-							title={user.spotify.artist.replace(/;/g, ',') | undefined}
+							title={user.spotify.artist.replace(/;/g, ',')}
 						>
 							by {user.spotify.artist.replace(/;/g, ',')}
 						</p>
