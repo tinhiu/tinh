@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
 import { age } from '../util/age';
-import Technologies from '../components/Technologies';
 import Project from '../components/Project';
 import { SiNextdotjs, SiPrisma, SiTailwindcss, SiTypescript } from 'react-icons/si';
 import { FaNodeJs } from 'react-icons/fa';
@@ -33,10 +32,10 @@ const Home: NextPage = () => {
 				</div>
 
 				{/* Technologies */}
-				<div className="space-y-4">
+				{/* <div className="space-y-4">
 					<h2 className="mt-16 font-bold text-4xl md:text-3xl">Technologies 💻</h2>
 					<Technologies />
-				</div>
+				</div> */}
 				{/* Project */}
 				<div className="space-y-4">
 					<h2 className="mt-16 font-bold text-4xl md:text-3xl">Project 🥲</h2>
