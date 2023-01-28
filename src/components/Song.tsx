@@ -4,7 +4,7 @@ import { SiSpotify } from 'react-icons/si';
 
 
 
-const Song = ({user}:{user: unknown}) => {
+const Song = ({user}:{user: any}) => {
 
 	if (!user || !user.spotify) {
 		return (
