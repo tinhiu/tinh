@@ -5,6 +5,7 @@ import Project from '../components/Project';
 import { SiNextdotjs, SiPrisma, SiTailwindcss, SiTypescript } from 'react-icons/si';
 import { FaNodeJs } from 'react-icons/fa';
 import { GrMysql } from 'react-icons/gr';
+import Technologies from '../components/Technologies';
 const Home: NextPage = () => {
 	const bday = new Date('23 October 2001');
 	const ageMilliseconds = Date.now();
@@ -32,10 +33,10 @@ const Home: NextPage = () => {
 				</div>
 
 				{/* Technologies */}
-				{/* <div className="space-y-4">
-					<h2 className="mt-16 font-bold text-4xl md:text-3xl">Technologies 💻</h2>
+				<div className="space-y-4">
+					<h2 className="mt-16 font-bold text-4xl md:text-3xl">Technologies ⚙️</h2>
 					<Technologies />
-				</div> */}
+				</div>
 				{/* Project */}
 				<div className="space-y-4">
 					<h2 className="mt-16 font-bold text-4xl md:text-3xl">Project 🥲</h2>

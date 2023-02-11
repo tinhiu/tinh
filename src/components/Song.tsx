@@ -13,10 +13,10 @@ const Song = ({user}:{user: any}) => {
 				animate={{ opacity: 1, y: -100 }}
 				transition={{ duration: 0.8, easing: [0, 0.5, 0.28, 2] }}
 				className="fixed 
-                left-8 -bottom-40 w-[20rem] h-[7rem] hidden lg:flex flex-col items-start justify-start
+                left-14 -bottom-40 w-[20rem] h-[7rem] hidden lg:flex flex-col items-start justify-start
                 "
 			>
-				<span>Not playing anything</span>
+				<i className="text-sm">*not playing anything 🥲</i>
 				</motion.div>
 		
 		);

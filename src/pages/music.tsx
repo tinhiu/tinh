@@ -11,10 +11,11 @@ import { HiExternalLink } from 'react-icons/hi';
 import { MdExplicit } from 'react-icons/md';
 import { SiSpotify } from 'react-icons/si';
 import Modal from '../components/Modal';
-import api from '../pages/api/spotify/oauth'
+import api from '../pages/api/spotify/oauth';
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
 import PlayHistoryObject = SpotifyApi.PlayHistoryObject;
+import UserObjectPublic = SpotifyApi.UserObjectPublic;
 import {
 	REDIS_URL,
 	SPOTIFY_CLIENT_ID,
@@ -25,12 +26,17 @@ import Details from '../components/Details';
 import AudioMusic from '../components/AudioMusic';
 
 type Props = {
+	user: UserObjectPublic;
 	topTracks: TrackObjectFull[];
 	//topTracks: PlayHistoryObject[];
 };
 
 dayjs.extend(relativeTime);
-export default function MusicPage({ topTracks }: Props) {
+export default function MusicPage({ user, topTracks }: Props) {
+	const image = user.images[0].url;
+	//console.log(JSON.stringify(user, null, 4));
+	console.log(image);
+
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 7 }}
@@ -40,8 +46,17 @@ export default function MusicPage({ topTracks }: Props) {
 			className="mt-24 w-full mb-32"
 		>
 			<div className="mt-36 ">
-				<h2 className="text-3xl font-bold">Music 🎧</h2>
-
+				<div className="w-full overflow-hidden">
+					<Image
+						src={image}
+						className="pointer-events-none rounded-full"
+						alt={`${user.display_name}`}
+						width={200}
+						height={200}
+						loading="lazy"
+						decoding="async"
+					/>
+				</div>
 				<p className="mt-4 mb-6">
 					Listening to music is my cup of tea. I listen to many different kinds of music. Most of
 					the time, I love listening to music. Here are some of the songs I listen to the most in
@@ -59,7 +74,6 @@ export default function MusicPage({ topTracks }: Props) {
 	);
 }
 function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
-
 	const [statsOpen, setStatsOpen] = useState(false);
 
 	const image = track.album.images[0].url;
@@ -91,7 +105,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 							src={image}
 							layout="fill"
 							alt={`${track.album.name} by ${artists}`}
-							className="rounded-md object-cover pointer-events-none"
+							className="rounded-md object-cover pointer-events-none "
 							loading="lazy"
 							decoding="async"
 						/>
@@ -173,19 +187,19 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 }
 export const getStaticProps: GetStaticProps<Props> = async () => {
 	const redis = new IORedis(REDIS_URL || '');
-	fetch("https://usw1-logical-tick-33201.upstash.io/set/foo/bar", {
+	fetch('https://usw1-logical-tick-33201.upstash.io/set/foo/bar', {
 		headers: {
-		  Authorization: "Bearer AYGxASQgOTgxNGZmZDItNTQ5Zi00ZDdmLTgxMTYtNTliYTViYTM4YTAzYzhkMTU5ODBhMzViNDM0MWE3MmJjNmQ3OTZkYmI4ODA="
-		}
-	  }).then(response => response.json())
-		.then(data => console.log("data: ", data));
-		
+			Authorization:
+				'Bearer AYGxASQgOTgxNGZmZDItNTQ5Zi00ZDdmLTgxMTYtNTliYTViYTM4YTAzYzhkMTU5ODBhMzViNDM0MWE3MmJjNmQ3OTZkYmI4ODA=',
+		},
+	})
+		.then((response) => response.json())
+		.then((data) => console.log('data: ', data));
+
 	const [token, refresh] = await redis.mget(
 		SPOTIFY_REDIS_KEYS.AccessToken,
 		SPOTIFY_REDIS_KEYS.RefreshToken
 	);
-
-	
 
 	let api: SpotifyWebAPI;
 	let revalidate = 120;
@@ -223,7 +237,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 			accessToken: token,
 		});
 		//console.log(api);
-		
 	} else {
 		throw new Error(
 			'No Spotify tokens available! Please manually add them to the Redis store to allow tokens to refresh in the future.'
@@ -232,13 +245,15 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 	/* Top tracks playing */
 	const tracks = await api.getMyTopTracks({ time_range: 'medium_term' });
-	
+	const user = await api.getMe();
+
 	/* RecentlyPlayedTracks */
 	//const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 
 	await redis.quit();
 	return {
 		props: {
+			user: user.body,
 			topTracks: tracks.body.items,
 		},
 		revalidate,
