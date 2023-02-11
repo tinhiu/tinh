@@ -14,7 +14,7 @@ const nextConfig = {
 		// !! WARN !!
 		ignoreBuildErrors: true,
 	},
-	reactStrictMode: true,
+	
 }
 
 module.exports = nextConfig

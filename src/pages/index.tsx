@@ -2,10 +2,11 @@ import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
 import { age } from '../util/age';
 import Project from '../components/Project';
+import Technologies from '../components/Technologies';
+
 import { SiNextdotjs, SiPrisma, SiTailwindcss, SiTypescript } from 'react-icons/si';
 import { FaNodeJs } from 'react-icons/fa';
 import { GrMysql } from 'react-icons/gr';
-import Technologies from '../components/Technologies';
 const Home: NextPage = () => {
 	const bday = new Date('23 October 2001');
 	const ageMilliseconds = Date.now();
