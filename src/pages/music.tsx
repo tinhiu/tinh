@@ -35,7 +35,6 @@ dayjs.extend(relativeTime);
 export default function MusicPage({ user, topTracks }: Props) {
 	const image = user.images[0].url;
 	//console.log(JSON.stringify(user, null, 4));
-	console.log(image);
 
 	return (
 		<motion.div
