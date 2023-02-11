@@ -4,8 +4,12 @@ import { SiSpotify } from 'react-icons/si';
 
 
 
-const Song = ({user}:{user: any}) => {
+export const DISCORD_ID = '885439540268003338';
+const Song = () => {
 
+	const {data: user} = useLanyard(DISCORD_ID);
+	console.log("user: " + user?.discord_user.avatar);
+	
 	if (!user || !user.spotify) {
 		return (
 			<motion.div

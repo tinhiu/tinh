@@ -18,13 +18,11 @@ import ScrollToTop from '../components/ScrollToTop';
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
-export const DISCORD_ID = '885439540268003338';
 type PageProps = {
 	lanyard?: unknown;
 	pinnedRepos?: unknown;
 };
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
-	const { data: user } = useLanyard(DISCORD_ID);
 	return (
 		<StrictMode>
 			<Head>
@@ -44,7 +42,7 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 					</AnimatePresence>
 				<ScrollToTop />
 				</div>
-				<Song user={user} />
+				<Song />
 			</div>
 		</StrictMode>
 	);
