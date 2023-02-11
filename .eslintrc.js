@@ -26,8 +26,7 @@ module.exports = {
 		// Next.js
 		'@typescript-eslint/triple-slash-reference': 'off',
 		'react/react-in-jsx-scope': 'off',
-		"no-unused-vars": "off",
-		"@typescript-eslint/no-unused-vars": ["error"]
+
 		// Prettier handles these
 		'@typescript-eslint/comma-dangle': 'off',
 		'react/function-component-definition': 'off',
