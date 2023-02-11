@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 
 
-
 export const DISCORD_ID = '885439540268003338';
 const Song = () => {
 
