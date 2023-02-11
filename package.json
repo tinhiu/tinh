@@ -28,7 +28,7 @@
     "swr": "^1.3.0",
     "typestr": "0.0.10",
     "urlcat": "^2.0.4",
-    "use-lanyard": "^1.2.0",
+    "use-lanyard": "^1.4.2",
     "zod": "^3.19.1"
   },
   "devDependencies": {

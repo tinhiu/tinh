@@ -3,7 +3,6 @@ import { FiMail } from "react-icons/fi";
 import { SiDiscord, SiFacebook, SiTwitter } from "react-icons/si";
 import ContactLink from "../components/ContactLink";
 import Message from "../components/Message"
-import Technologies from "../components/Technologies";
 
 export default function Contact() {
     return ( 
@@ -42,7 +41,6 @@ export default function Contact() {
                         icon={<FiMail className="w-6 h-6 text-gray-400 dark:text-[#f0f8ff]" />}
                         link="mailto:tjnhqw@gmail.com"
                     />
-                    <Technologies />
                 </div>
                 </div>
             </motion.div>

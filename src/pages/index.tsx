@@ -8,7 +8,6 @@ import { GrMysql } from 'react-icons/gr';
 const Home: NextPage = () => {
 	const bday = new Date('23 October 2001');
 	const ageMilliseconds = Date.now();
-
 	return (
 		<>
 			<motion.div

@@ -1,4 +1,4 @@
-import { useLanyard } from 'use-lanyard';
+import {useLanyardWS} from 'use-lanyard';
 import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 
@@ -7,8 +7,7 @@ import { SiSpotify } from 'react-icons/si';
 export const DISCORD_ID = '885439540268003338';
 const Song = () => {
 
-	const {data: user} = useLanyard(DISCORD_ID);
-	console.log("user: " + user?.discord_user.avatar);
+	const user = useLanyardWS(DISCORD_ID);
 	
 	if (!user || !user.spotify) {
 		return (
