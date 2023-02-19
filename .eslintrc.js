@@ -8,8 +8,7 @@ module.exports = {
 		'next',
 		'next/core-web-vitals',
 		'plugin:react/recommended',
-		'xo-react',
-		'plugin:tailwindcss/recommended',
+		
 	],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
