@@ -1,6 +1,5 @@
 const images = {
-    logo: require('~/assets/image/logo.svg').default,
-    noImg: require('~/assets/image/no-img.png'),
+    loona: require('~/assets/image/loona.png'),
 };
 
 export default images;

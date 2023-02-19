@@ -5,7 +5,7 @@ import { SWRConfig } from 'swr';
 import { StrictMode, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useLanyard } from 'use-lanyard';
+import {useLanyardWS} from 'use-lanyard';
 
 import 'nprogress/nprogress.css';
 import '../styles/globals.css';
@@ -22,13 +22,16 @@ type PageProps = {
 	lanyard?: unknown;
 	pinnedRepos?: unknown;
 };
+export const DISCORD_ID = '885439540268003338';
+
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
+	const userLanyard = useLanyardWS(DISCORD_ID);
 	return (
 		<StrictMode>
 			<Head>
 			<title>tinh</title>
 			<meta name="viewport" content="width=device-width,initial-scale=1" />
-				
+			
 			</Head>
 			<div
 				className="text-black dark:text-white flex flex-row justify-center w-full h-full
@@ -38,11 +41,11 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 				<Nav />
 				<div className="w-[80%] md:w-[45rem]">
 					<AnimatePresence mode="wait">
-						<Component {...pageProps} key={router.pathname} />
+						<Component {...pageProps} key={router.pathname} userLanyard={userLanyard}/>
 					</AnimatePresence>
 				<ScrollToTop />
 				</div>
-				<Song />
+				<Song user={userLanyard} />
 			</div>
 		</StrictMode>
 	);

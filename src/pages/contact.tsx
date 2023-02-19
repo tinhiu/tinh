@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
-import { FiMail } from "react-icons/fi";
+import { AiFillLinkedin } from "react-icons/ai";
+import { FiLinkedin, FiMail } from "react-icons/fi";
 import { SiDiscord, SiFacebook, SiTwitter } from "react-icons/si";
 import ContactLink from "../components/ContactLink";
 import Message from "../components/Message"
@@ -40,6 +41,11 @@ export default function Contact() {
                         text="tjnhqw@gmail.com"
                         icon={<FiMail className="w-6 h-6 text-gray-400 dark:text-[#f0f8ff]" />}
                         link="mailto:tjnhqw@gmail.com"
+                    />
+                    <ContactLink
+                        text="bui-tinh"
+                        icon={<AiFillLinkedin className="w-6 h-6 text-gray-400 dark:text-[#f0f8ff]" />}
+                        link="https://www.linkedin.com/in/bui-tinh-7b9166235/"
                     />
                 </div>
                 </div>

@@ -15,10 +15,12 @@ import { join } from '../../../util/types';
 const scopes = ['user-top-read', 
 'user-read-private', 
 'user-read-email',
-'user-read-recently-played'
+'user-read-recently-played',
+'user-follow-read'
 ] as const;
 
 const scope = join(scopes, ' ');
+console.log("SPOTIFY_REDIRECT_URL: ", SPOTIFY_REDIRECT_URI);
 
 const redirectUrl = urlcat('https://accounts.spotify.com/authorize', {
 	response_type: 'code',

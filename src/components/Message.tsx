@@ -116,6 +116,9 @@ const Message = () => {
 
 	return (
 		<>
+			<Toaster reverseOrder={true} 
+			
+			/>
 			<div className="md:col-span-2 row-span-3 bg-opacity-50 bg-white/80 dark:bg-[#b1a5a5d4] rounded-md p-4 ">
 				<form ref={form} onSubmit={sendEmail} className="rounded-md border-gray-700 md:w-full">
 					<label htmlFor="email-field" className="block font-bold text-black dark:text-white">
@@ -176,7 +179,6 @@ const Message = () => {
 					</div>
 				</form>
 			</div>
-			<Toaster position="bottom-center" reverseOrder={true} />
 		</>
 	);
 };

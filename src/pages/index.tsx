@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { motion } from 'framer-motion';
+import { motion} from 'framer-motion';
 import { age } from '../util/age';
 import Project from '../components/Project';
 import Technologies from '../components/Technologies';
