@@ -12,7 +12,8 @@ import {
 } from '../../../server/constants';
 import { join } from '../../../util/types';
 
-const scopes = ['user-top-read', 
+const scopes = [
+'user-top-read', 
 'user-read-private', 
 'user-read-email',
 'user-read-recently-played',
