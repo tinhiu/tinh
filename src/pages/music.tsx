@@ -241,6 +241,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 		SPOTIFY_REDIS_KEYS.RefreshToken
 	);
 
+	
+
 	let api: SpotifyWebAPI;
 	let revalidate = 120;
 
