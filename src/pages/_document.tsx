@@ -1,14 +1,15 @@
 import { Html, Head, Main, NextScript } from 'next/document';
-
 export default function Document() {
+	//console.log(JSON.stringify(images, null, 4));
+	
 	return (
 		<Html>
 			<Head>
 				<meta charSet="utf-8" />
 				<link
 					rel="icon"
-					type="image/png"
-					href='https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419'
+					type="image/x-icon"
+					href='/images/favicon.ico'
 				/>
 				<meta name="theme-color" content="#e0dbdb" />
 				<meta name="keywords" content="tinh, web developer, github, typescript" />

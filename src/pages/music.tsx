@@ -41,7 +41,8 @@ type Props = {
 dayjs.extend(relativeTime);
 export default function MusicPage({ user, topTracks, playLists, following, userLanyard }: Props) {
 	const image = user.images[0].url;
-	//console.log(JSON.stringify(following, null, 4));
+
+	//console.log(JSON.stringify(topTracks, null, 4));
 
 	return (
 		<motion.div
@@ -286,7 +287,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	}
 
 	/* Top tracks playing */
-	const tracks = await api.getMyTopTracks({ time_range: 'medium_term' });
+	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 30});
 	/* Get me */
 	const user = await api.getMe();
 	/* getUserPlaylists */
