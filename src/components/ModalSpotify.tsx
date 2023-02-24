@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 import { HiExternalLink } from 'react-icons/hi';
 const ModalSpotify = ({ user }: UserObjectPublic) => {
 	//console.log(JSON.stringify(user,null,4));
+	const [isReady, setIsReady] = useState(false);
+
+	const onLoadCallback = () => {
+		setIsReady(true);
+	};
 	if (!user || !user.spotify) {
 		return (
 			<motion.div
@@ -24,21 +29,23 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 						className="cursor-pointer"
 					>
 						<div
-							className="
-					before:content-['']
-					before:bg-noise before:w-full
-					before:h-full before:absolute
-					before:rounded-2xl before:opacity-80
-					"
+						className="
+						before:content-['']
+						before:bg-noise before:w-full
+						before:h-full before:absolute
+						before:rounded-2xl before:opacity-80
+						"
 						>
 							<Image
-								src="https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419"
-								className="drop-shadow-md object-cover object-bottom rounded-2xl -z-[10] saturate-150
-                            blur-[1px] contrast-75"
+							src="https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419"
+							className={`drop-shadow-md object-cover object-bottom rounded-2xl -z-[10] saturate-150
+                            blur-[1px] contrast-75 bg-gray-400 transition duration-3000 ease-linear
+							${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
 								alt={`me`}
 								layout="fill"
 								loading="lazy"
 								decoding="async"
+								onLoadingComplete={onLoadCallback}
 							/>
 						</div>
 						<div className="flex h-full flex-col justify-between p-6  ">
@@ -63,8 +70,8 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 			className="my-4 h-40 relative"
 		>
 			<span
-				className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] bg-slate-50 rounded-2xl
-                transition duration-300 hover:ease-out shadow-lg brightness-100 hover:brightness-110 "
+				className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl
+                transition duration-300 hover:ease-out shadow-lg brightness-95 hover:brightness-105 "
 			>
 				<a
 					href={`https://open.spotify.com/track/${user.spotify.track_id}`}
@@ -82,29 +89,19 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 					>
 						<Image
 							src={user.spotify.album_art_url}
-							className="drop-shadow-md object-cover rounded-2xl -z-[10] opacity-90 saturate-150 "
+							className={`drop-shadow-md object-cover rounded-2xl -z-[10]
+							opacity-90 saturate-150  bg-gray-400 transition duration-3000 ease-linear ${
+								isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'
+							}`}
 							alt={`${user.spotify.album}`}
 							layout="fill"
 							loading="lazy"
 							decoding="async"
+							onLoadingComplete={onLoadCallback}
 						/>
 					</div>
 
 					<div className="flex h-full flex-col justify-between p-6">
-						{/* 	<div>
-							<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-								<filter id="noiseFilter">
-									<feTurbulence
-										type="fractalNoise"
-										baseFrequency="0.65"
-										numOctaves="3"
-										stitchTiles="stitch"
-									/>
-								</filter>
-
-								<rect width="100%" height="10%" filter="url(#noiseFilter)" />
-							</svg>
-						</div> */}
 						<span className="flex justify-between">
 							<SiSpotify size={24} />
 							<HiExternalLink size={24} />

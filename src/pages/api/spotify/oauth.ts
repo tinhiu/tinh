@@ -17,6 +17,7 @@ const scopes = [
 'user-read-private', 
 'user-read-email',
 'user-read-recently-played',
+'user-read-currently-playing',
 'user-follow-read'
 ] as const;
 

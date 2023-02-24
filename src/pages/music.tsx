@@ -20,6 +20,7 @@ import PlayHistoryObject = SpotifyApi.PlayHistoryObject;
 import UserObjectPublic = SpotifyApi.UserObjectPublic;
 import ListOfUsersPlaylist = SpotifyApi.ListOfUsersPlaylistsResponse;
 import FollowedArtists = SpotifyApi.UsersFollowedArtistsResponse;
+import CurrentPlayingTrack = SpotifyApi.CurrentlyPlayingResponse;
 import {
 	REDIS_URL,
 	SPOTIFY_CLIENT_ID,
@@ -31,6 +32,7 @@ import AudioMusic from '../components/AudioMusic';
 import { DISCORD_ID } from '../components/Song';
 type Props = {
 	user: UserObjectPublic;
+	track: CurrentPlayingTrack;
 	topTracks: TrackObjectFull[];
 	playLists: ListOfUsersPlaylist;
 	following: FollowedArtists;
@@ -39,10 +41,17 @@ type Props = {
 };
 
 dayjs.extend(relativeTime);
-export default function MusicPage({ user, topTracks, playLists, following, userLanyard }: Props) {
+export default function MusicPage({
+	user,
+	topTracks,
+	playLists,
+	following,
+	userLanyard,
+	track,
+}: Props) {
 	const image = user.images[0].url;
 
-	//console.log(JSON.stringify(topTracks, null, 4));
+	//console.log(JSON.stringify(userLanyard, null, 4));
 
 	return (
 		<motion.div
@@ -54,7 +63,7 @@ export default function MusicPage({ user, topTracks, playLists, following, userL
 		>
 			<div className="mt-36 ">
 				<div className="w-full flex justify-center ">
-					<div className="hover:scale-105 hover:-translate-x-5 transition duration-500 hover:ease-out">
+					<div className="relative hover:scale-105 hover:-translate-x-5 transition duration-500 hover:ease-out">
 						<Image
 							src={image}
 							className="pointer-events-none rounded-full drop-shadow-md "
@@ -118,7 +127,11 @@ export default function MusicPage({ user, topTracks, playLists, following, userL
 }
 function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 	const [statsOpen, setStatsOpen] = useState(false);
+	const [isReady, setIsReady] = useState(false);
 
+	const onLoadCallback = () => {
+		setIsReady(true);
+	};
 	const image = track.album.images[0].url;
 	const artists = track.artists.map((artist) => artist.name).join(', ');
 
@@ -148,9 +161,12 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 							src={image}
 							layout="fill"
 							alt={`${track.album.name} by ${artists}`}
-							className="rounded-md object-cover pointer-events-none"
+							className={`rounded-md object-cover pointer-events-none transition -z-[10]
+							bg-gray-200 
+							duration-700 ${isReady ? 'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
 							loading="lazy"
 							decoding="async"
+							onLoadingComplete={onLoadCallback}
 						/>
 					</div>
 					{track.preview_url ? (
@@ -161,7 +177,8 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 
 					<a
 						href={track.external_urls.spotify}
-						className="group flex justify-between rounded-md border bg-gray-200 p-3 no-underline dark:border-0 dark:bg-neutral-400"
+						className="group flex justify-between rounded-md border 
+						bg-gray-400  p-3 no-underline dark:border-0 dark:bg-neutral-400"
 						target="_blank"
 						rel="noreferrer"
 					>
@@ -169,7 +186,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 							<h2 className="md:text-2xl text-xl font-bold group-hover:underline truncate">
 								{track.name}
 							</h2>
-							<h3 className="text-sm italic text-gray-400 dark:text-gray-800">by {artists}</h3>
+							<h3 className="text-sm italic text-gray-800 dark:text-gray-800">by {artists}</h3>
 						</div>
 
 						<HiExternalLink size={24} />
@@ -199,7 +216,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 						/>
 					</>
 
-					<button onClick={close} className="float-right !mt-0">
+					<button onClick={close} className="float-right !mt-0 hover:bg-slate-400 py-1 px-2 rounded-lg">
 						Close
 					</button>
 				</div>
@@ -208,12 +225,16 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 			<div className="w-full overflow-hidden rounded-lg">
 				<Image
 					src={image}
-					className="pointer-events-none rounded-lg brightness-75 transition-all duration-300 group-hover:scale-110 group-hover:brightness-100"
+					className={`pointer-events-none rounded-lg md:brightness-90 brightness-105
+					transition-all duration-300 group-hover:scale-110 group-hover:brightness-110
+					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}
+					`}
 					alt={`${track.name} by ${artists}`}
 					width={400}
 					height={400}
 					loading="lazy"
 					decoding="async"
+					onLoadingComplete={onLoadCallback}
 				/>
 			</div>
 
@@ -228,21 +249,11 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 }
 export const getStaticProps: GetStaticProps<Props> = async () => {
 	const redis = new IORedis(REDIS_URL || '');
-	fetch('https://usw1-logical-tick-33201.upstash.io/set/foo/bar', {
-		headers: {
-			Authorization:
-				'Bearer AYGxASQgOTgxNGZmZDItNTQ5Zi00ZDdmLTgxMTYtNTliYTViYTM4YTAzYzhkMTU5ODBhMzViNDM0MWE3MmJjNmQ3OTZkYmI4ODA=',
-		},
-	})
-		.then((response) => response.json())
-		.then((data) => console.log('data: ', data));
 
 	const [token, refresh] = await redis.mget(
 		SPOTIFY_REDIS_KEYS.AccessToken,
 		SPOTIFY_REDIS_KEYS.RefreshToken
 	);
-
-	
 
 	let api: SpotifyWebAPI;
 	let revalidate = 120;
@@ -287,9 +298,12 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	}
 
 	/* Top tracks playing */
-	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 30});
+	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 30 });
 	/* Get me */
 	const user = await api.getMe();
+	/* Get getMyCurrentPlayingTrack*/
+	const track = await api.getMyCurrentPlayingTrack();
+
 	/* getUserPlaylists */
 	const playlists = await api.getUserPlaylists(user.body.id);
 	const followings = await api.getFollowedArtists(1);
@@ -300,6 +314,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	await redis.quit();
 	return {
 		props: {
+			track: track.body,
 			user: user.body,
 			topTracks: tracks.body.items,
 			playLists: playlists.body,
