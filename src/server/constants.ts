@@ -24,9 +24,9 @@ export const REDIS_URL = process.env.NEXT_PUBLIC_REDIS_URL;
 
 // This is local and not an environment variable because I just connect to
 // the production redis instance.
-//export const SPOTIFY_REDIRECT_URI = 'http://localhost:3000/api/spotify/oauth';
+export const SPOTIFY_REDIRECT_URI = 'http://localhost:3000/api/spotify/oauth';
 // product
-export const SPOTIFY_REDIRECT_URI = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI;
+//export const SPOTIFY_REDIRECT_URI = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI;
 
 export const SPOTIFY_REDIS_KEYS = {
 	AccessToken: 'AccessToken',
