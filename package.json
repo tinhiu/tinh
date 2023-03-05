@@ -11,6 +11,7 @@
   "dependencies": {
     "@emailjs/browser": "^3.7.0",
     "@headlessui/react": "^1.7.2",
+    "@videsk/tailwind-random-color": "^0.2.0-beta",
     "dayjs": "^1.11.5",
     "framer-motion": "^7.3.6",
     "ioredis": "^5.2.3",

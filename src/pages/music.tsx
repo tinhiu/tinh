@@ -3,12 +3,13 @@ import dayjs from 'dayjs';
 import ms from 'ms';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useLanyardWS } from 'use-lanyard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SpotifyWebAPI from 'spotify-web-api-node';
 import Image from 'next/image';
 import type { GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 import { HiExternalLink } from 'react-icons/hi';
+import TailwindColor from '@videsk/tailwind-random-color';
 import { MdExplicit } from 'react-icons/md';
 import { SiSpotify } from 'react-icons/si';
 import Modal from '../components/Modal';
@@ -29,7 +30,9 @@ import {
 } from '../server/constants';
 import Details from '../components/Details';
 import AudioMusic from '../components/AudioMusic';
+import { classNames } from '../util/classNames';
 import { DISCORD_ID } from '../components/Song';
+import { getAccessibleColor, getRGBColor } from '../util/color';
 type Props = {
 	user: UserObjectPublic;
 	track: CurrentPlayingTrack;
@@ -63,18 +66,31 @@ export default function MusicPage({
 		>
 			<div className="mt-36 ">
 				<div className="w-full flex justify-center ">
-					<div className="relative hover:scale-105 hover:-translate-x-5 transition duration-500 hover:ease-out">
-						<Image
-							src={image}
-							className="pointer-events-none rounded-full drop-shadow-md "
-							alt={`${user.display_name}`}
-							width={150}
-							height={150}
-							loading="lazy"
-							decoding="async"
-						/>
-					</div>
-					<div className="sm:px-4 px-2 whitespace-nowrap">
+					<motion.div
+						initial={{ opacity: 0, x: -50 }}
+						animate={{ opacity: 1, x: 0 }}
+						exit={{ opacity: 0, x: -50 }}
+						transition={{ ease: 'easeInOut', duration: 1 }}
+					>
+						<div className="relative hover:scale-105 hover:-translate-x-5 transition duration-500 hover:ease-out">
+							<Image
+								src={image}
+								className="pointer-events-none rounded-full drop-shadow-md "
+								alt={`${user.display_name}`}
+								width={150}
+								height={150}
+								loading="lazy"
+								decoding="async"
+							/>
+						</div>
+					</motion.div>
+					<motion.div
+						initial={{ opacity: 0, x: 50 }}
+						animate={{ opacity: 1, x: 0 }}
+						exit={{ opacity: 0, x: 50 }}
+						transition={{ ease: 'easeInOut', duration: 1 }}
+						className="sm:px-4 px-2 whitespace-nowrap"
+					>
 						<span>PROFILE</span>
 						<a
 							href={user.external_urls.spotify}
@@ -104,7 +120,7 @@ export default function MusicPage({
 						>
 							<p>● {playLists.total} Public Playlists</p>
 						</a>
-					</div>
+					</motion.div>
 				</div>
 				<div className="w-full">
 					<ModalSpotify user={userLanyard} />
@@ -128,10 +144,16 @@ export default function MusicPage({
 function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 	const [statsOpen, setStatsOpen] = useState(false);
 	const [isReady, setIsReady] = useState(false);
-
+	const options = {
+		colors: ['yellow', 'orange', 'blue', 'cyan', 'purple', 'emerald'],
+		range: [3,5], // Between 300 and 500,
+		prefix: 'shadow'
+	};
+	const [ranDom, setRanDom] = useState(new TailwindColor(options).pick());
 	const onLoadCallback = () => {
 		setIsReady(true);
 	};
+
 	const image = track.album.images[0].url;
 	const artists = track.artists.map((artist) => artist.name).join(', ');
 
@@ -143,6 +165,14 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 		setStatsOpen(true);
 	};
 
+	
+	
+	const changeRandom = () => {
+		const randomColor = new TailwindColor(options).pick();
+		// const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+		//console.log(randomColor);
+		setRanDom(randomColor);
+	};
 	const album = track.album as AlbumObjectFull;
 
 	return (
@@ -153,6 +183,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 			focus:outline-none focus:ring-neutral-400
 			focus:ring-4  dark:focus:ring-gray-300"
 			onClick={open}
+			onMouseLeave={changeRandom}
 		>
 			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24} />}>
 				<div className="space-y-4">
@@ -161,7 +192,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 							src={image}
 							layout="fill"
 							alt={`${track.album.name} by ${artists}`}
-							className={`rounded-md object-cover pointer-events-none transition -z-[10]
+							className={`rounded-md object-cover pointer-events-none transition -z-[10] 
 							bg-gray-200 
 							duration-700 ${isReady ? 'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
 							loading="lazy"
@@ -216,17 +247,23 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 						/>
 					</>
 
-					<button onClick={close} className="float-right !mt-0 hover:bg-slate-400 py-1 px-2 rounded-lg">
+					<button
+						onClick={close}
+						className="float-right !mt-0 hover:bg-slate-400 py-1 px-2 rounded-lg"
+					>
 						Close
 					</button>
 				</div>
 			</Modal>
 
-			<div className="w-full overflow-hidden rounded-lg">
+			<div
+				className={`w-full transition-all group-hover:shadow-lg
+				group-hover:${ranDom}`}
+			>
 				<Image
 					src={image}
-					className={`pointer-events-none rounded-lg md:brightness-90 brightness-105
-					transition-all duration-300 group-hover:scale-110 group-hover:brightness-110
+					className={`pointer-events-none rounded-lg md:brightness-90 brightness-105 scale-100 
+					transition-all duration-300 group-hover:scale-110 group-hover:brightness-110 
 					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}
 					`}
 					alt={`${track.name} by ${artists}`}
@@ -234,16 +271,19 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 					height={400}
 					loading="lazy"
 					decoding="async"
+					sizes="100vw"
 					onLoadingComplete={onLoadCallback}
 				/>
 			</div>
 
-			<ul className="py-0.5 text-lg contents items-center">
-				<li className="truncate font-bold w-full ">
-					{track.explicit && <MdExplicit className="-mt-1 inline" />} {track.name}
-				</li>{' '}
-				<li className="truncate w-full text-gray-600 dark:text-neutral-200/70">by {artists}</li>
-			</ul>
+			<div className='truncate w-full'>
+				<ul className="py-0.5 text-lg contents items-center mt-4">
+					<li className="truncate font-bold w-full" >
+						{track.explicit && <MdExplicit className="-mt-1 inline" />} {track.name}
+					</li>{' '}
+					<li className="truncate w-full text-gray-600 dark:text-neutral-200/70" >by {artists}</li>
+				</ul>
+			</div>
 		</button>
 	);
 }
@@ -298,7 +338,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	}
 
 	/* Top tracks playing */
-	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 48 });
+	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 33 });
 	/* Get me */
 	const user = await api.getMe();
 	/* Get getMyCurrentPlayingTrack*/

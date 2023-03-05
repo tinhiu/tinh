@@ -70,7 +70,8 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 			className="my-4 h-40 relative"
 		>
 			<span
-				className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl
+				className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl drop-shadow-md
+				 shadow-gray-600/50 dark:shadow-gray-400/50
                 transition duration-300 hover:ease-out shadow-lg brightness-95 hover:brightness-105 "
 			>
 				<a
@@ -106,10 +107,10 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 							<SiSpotify size={24} />
 							<HiExternalLink size={24} />
 						</span>
-						<span className="flex flex-col">
+						<span className="flex flex-col w-full text-ellipsis overflow-hidden ">
 							<span className="font-semibold sm:text-base text-sm">
 								I'm listening to
-								<span className="font-extrabold ml-2 text-lg">{user.spotify.song}</span>
+								<span className=" font-extrabold ml-2 text-lg  ">{user.spotify.song}</span>
 							</span>
 							<span className="font-semibold sm:text-base text-sm">
 								by
