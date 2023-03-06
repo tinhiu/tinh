@@ -75,7 +75,7 @@ const Nav = () => {
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: -10 }}
 				transition={{ cease: 'easeInOut', duration: 0.5 }}
-				className="hidden z-[10] fixed w-[90%] md:w-[50rem] sm:flex flex-row justify-between items-center px-4 py-2 mt-4 md:mt-6 rounded-lg bg-white/60 dark:bg-[#5f5555ad] dark:border-white/30 backdrop-blur-lg shadow-lg"
+				className="hidden z-[10] fixed w-[90%] md:w-[50rem] sm:flex flex-row justify-between items-center px-4 py-2 mt-4 md:mt-6 rounded-lg bg-white/60 dark:bg-[#5f5555ad] dark:border-white/30 backdrop-blur-lg shadow-md"
 			>
 				<div className="flex flex-row items-center justify-center gap-2">
 					<NavLink name="Home" link="/" selected={router.pathname === '/'} />
@@ -86,7 +86,7 @@ const Nav = () => {
 					<ThemeToggle />
 				</div>
 			</motion.div>
-			<motion.div className="sm:hidden z-[990] fixed w-full flex flex-row justify-between items-center px-4 py-3 bg-white/60 dark:bg-[#5f5555ad] dark:border-white/30 border-b border-slate-800/50 backdrop-blur-lg shadow-lg">
+			<motion.div className="sm:hidden z-[990] fixed w-full flex flex-row justify-between items-center px-4 py-3 bg-white/60 dark:bg-[#5f5555ad] dark:border-white/30 border-b border-slate-800/50 backdrop-blur-lg shadow-md">
 				<div  className="flex flex-row items-center justify-center">
 					<button onClick={handleMenu} className="h-9 w-9 flex items-center justify-center">
 						{!openMenu ? <HiMenu className="w-7 h-7" /> : <HiX className="w-7 h-7" />}

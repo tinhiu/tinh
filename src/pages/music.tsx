@@ -146,7 +146,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 	const [isReady, setIsReady] = useState(false);
 	const options = {
 		colors: ['yellow', 'orange', 'blue', 'cyan', 'purple', 'emerald'],
-		range: [3,5], // Between 300 and 500,
+		range: [4, 4], // Between 400 and 400,
 		prefix: 'shadow'
 	};
 	const [ranDom, setRanDom] = useState(new TailwindColor(options).pick());
@@ -180,8 +180,8 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 			key={track.id}
 			type="button"
 			className="group flex flex-col space-y-2 text-left align-top no-underline outline-none
-			focus:outline-none focus:ring-neutral-400
-			focus:ring-4  dark:focus:ring-gray-300"
+			focus:outline-none focus:ring-neutral-400 p-[2px] 
+			focus:ring-4 dark:focus:ring-gray-200"
 			onClick={open}
 			onMouseLeave={changeRandom}
 		>
@@ -278,7 +278,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 
 			<div className='truncate w-full'>
 				<ul className="py-0.5 text-lg contents items-center mt-4">
-					<li className="truncate font-bold w-full" >
+					<li className="truncate font-bold w-full " >
 						{track.explicit && <MdExplicit className="-mt-1 inline" />} {track.name}
 					</li>{' '}
 					<li className="truncate w-full text-gray-600 dark:text-neutral-200/70" >by {artists}</li>

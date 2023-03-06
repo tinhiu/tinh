@@ -19,8 +19,8 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 				className="my-4 h-40 relative "
 			>
 				<span
-					className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl
-                transition duration-500 hover:ease-out shadow-lg brightness-100 hover:brightness-110"
+					className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl shadow-gray-600/50 dark:shadow-gray-400/50
+                transition duration-500 hover:ease-out shadow-md brightness-100 hover:brightness-110"
 				>
 					<a
 						href="https://open.spotify.com/user/31lhz6y3u5ootzbuxbnkndz4x2ea"
@@ -70,9 +70,9 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 			className="my-4 h-40 relative"
 		>
 			<span
-				className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl drop-shadow-md
+				className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl 
 				 shadow-gray-600/50 dark:shadow-gray-400/50
-                transition duration-300 hover:ease-out shadow-lg brightness-95 hover:brightness-105 "
+                transition duration-300 hover:ease-out shadow-md brightness-95 hover:brightness-105 "
 			>
 				<a
 					href={`https://open.spotify.com/track/${user.spotify.track_id}`}
