@@ -29,7 +29,7 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 						className="cursor-pointer"
 					>
 						<div
-						className="
+							className="
 						before:content-['']
 						before:bg-noise before:w-full
 						before:h-full before:absolute
@@ -37,8 +37,8 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 						"
 						>
 							<Image
-							src="https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419"
-							className={`drop-shadow-md object-cover object-bottom rounded-2xl -z-[10] saturate-150
+								src="https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419"
+								className={`drop-shadow-md object-cover object-bottom rounded-2xl -z-[10] saturate-150
                             blur-[1px] contrast-75 bg-gray-400 transition duration-3000 ease-linear
 							${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
 								alt={`me`}
@@ -70,7 +70,7 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 			className="my-4 h-40 relative"
 		>
 			<span
-				className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl 
+				className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl  overflow-hidden
 				 shadow-gray-600/50 dark:shadow-gray-400/50
                 transition duration-300 hover:ease-out shadow-md brightness-95 hover:brightness-105 "
 			>
@@ -81,7 +81,7 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 					className="cursor-pointer"
 				>
 					<div
-						className="
+					className="
 					before:content-['']
 					before:bg-noise before:w-full
 					before:h-full before:absolute
@@ -89,20 +89,21 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 					"
 					>
 						<Image
+						 	style={{borderRadius: '2rem!important'}}
 							src={user.spotify.album_art_url}
-							className={`drop-shadow-md object-cover rounded-2xl -z-[10]
-							opacity-90 saturate-150  bg-gray-400 transition duration-3000 ease-linear ${
-								isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'
-							}`}
+							className={`drop-shadow-md object-cover -z-[10] rounded-2xl 
+							opacity-90 saturate-150  bg-gray-400 transition duration-3000 ease-linear
+							${ isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
 							alt={`${user.spotify.album}`}
 							layout="fill"
 							loading="lazy"
 							decoding="async"
 							onLoadingComplete={onLoadCallback}
 						/>
+				
 					</div>
 
-					<div className="flex h-full flex-col justify-between p-6">
+					<div className="flex h-full flex-col justify-between p-6 rounded-2xl ">
 						<span className="flex justify-between">
 							<SiSpotify size={24} />
 							<HiExternalLink size={24} />

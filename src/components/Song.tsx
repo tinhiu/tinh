@@ -9,7 +9,7 @@ const Song = ({user}: any) => {
 			<motion.div
 				initial={{ opacity: 0, y: -50 }}
 				animate={{ opacity: 1, y: -100 }}
-				transition={{ duration: 0.8, easing: [0, 0.5, 0.28, 2] }}
+				transition={{ delay: 1, duration: 2, easing: [0, 0.5, 0.28, 2]}}
 				className="fixed 
                 left-14 -bottom-40 w-[20rem] h-[7rem] hidden lg:flex flex-col items-start justify-start
                 "
@@ -25,7 +25,7 @@ const Song = ({user}: any) => {
 			<motion.div
 				initial={{ opacity: 0, y: -50 }}
 				animate={{ opacity: 1, y: -100 }}
-				transition={{ duration: 0.8, easing: [0, 0.5, 0.28, 2] }}
+				transition={{delay: 5, duration: 0.6, easing: [0, 0.5, 0.28, 2], }}
 				className="fixed 
                 left-6 -bottom-16 w-[20rem] h-[7rem] hidden lg:flex flex-col items-start justify-start
                 "

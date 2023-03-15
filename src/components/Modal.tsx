@@ -21,14 +21,15 @@ function Modal({ isOpen, ...props }: Props) {
 				className="fixed inset-0 z-[99] overflow-y-auto"
 				initialFocus={props.focusRef}
 				>
-				<Dialog.Panel>
+				<Dialog.Panel
+				className="w-full ">
 					<div className="min-h-screen px-4 text-center">
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-300"
 							enterFrom="opacity-0"
 							enterTo="opacity-100"
-							leave="ease-in duration-200"
+							leave="ease-in duration-1000"
 							leaveFrom="opacity-100"
 							leaveTo="opacity-0"
 						>
@@ -41,10 +42,10 @@ function Modal({ isOpen, ...props }: Props) {
 
 						<Transition.Child
 							as={Fragment}
-							enter="ease-out duration-300"
+							enter="ease-out duration-400"
 							enterFrom="opacity-0 scale-95"
 							enterTo="opacity-100 scale-100"
-							leave="ease-in duration-200"
+							leave="ease-in duration-600"
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>

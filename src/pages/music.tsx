@@ -13,7 +13,7 @@ import TailwindColor from '@videsk/tailwind-random-color';
 import { MdExplicit } from 'react-icons/md';
 import { SiSpotify } from 'react-icons/si';
 import Modal from '../components/Modal';
-import ModalSpotify from '../components/ModalSpotify';
+import ModalSpotify from '../components/Spotify';
 import api from '../pages/api/spotify/oauth';
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
@@ -149,7 +149,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 		range: [4, 4], // Between 400 and 400,
 		prefix: 'shadow'
 	};
-	const [ranDom, setRanDom] = useState(new TailwindColor(options).pick());
+	const [ranDom, setRanDom] = useState('shadow-blue-400');
 	const onLoadCallback = () => {
 		setIsReady(true);
 	};
@@ -257,8 +257,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 			</Modal>
 
 			<div
-				className={`w-full transition-all group-hover:shadow-lg
-				group-hover:${ranDom}`}
+				className={`w-full transition-all group-hover:shadow-lg group-hover:${ranDom}`}
 			>
 				<Image
 					src={image}

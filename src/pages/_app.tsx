@@ -5,7 +5,7 @@ import { SWRConfig } from 'swr';
 import { StrictMode, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import {useLanyardWS} from 'use-lanyard';
+import {useLanyardWS, useLanyard} from 'use-lanyard';
 
 import 'nprogress/nprogress.css';
 import '../styles/globals.css';
@@ -25,6 +25,7 @@ type PageProps = {
 export const DISCORD_ID = '885439540268003338';
 
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
+	//const {data: userLanyard} = useLanyard(DISCORD_ID);
 	const userLanyard = useLanyardWS(DISCORD_ID);
 	return (
 		<StrictMode>
