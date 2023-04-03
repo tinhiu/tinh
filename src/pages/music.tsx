@@ -150,7 +150,7 @@ export default function MusicPage({
 							<a href={randomLastFMTrack.artist.url} target="_blank">
 								{randomLastFMTrack.artist.name}
 							</a>
-						</div>{' '}about 
+						</div>{' '}about{' '}
 						<span className="font-bold text-lg underline">{randomLastFMTrack.play_count}</span> times a month!
 					</p>
 				</p>
