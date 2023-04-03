@@ -22,7 +22,10 @@ import UserObjectPublic = SpotifyApi.UserObjectPublic;
 import ListOfUsersPlaylist = SpotifyApi.ListOfUsersPlaylistsResponse;
 import FollowedArtists = SpotifyApi.UsersFollowedArtistsResponse;
 import CurrentPlayingTrack = SpotifyApi.CurrentlyPlayingResponse;
+import type {LastFMGetTrack} from '../server/last-fm';
+import {LastFM} from '../server/last-fm';
 import {
+	LAST_FM_API_KEY,
 	REDIS_URL,
 	SPOTIFY_CLIENT_ID,
 	SPOTIFY_CLIENT_SECRET,
@@ -33,13 +36,15 @@ import AudioMusic from '../components/AudioMusic';
 import { classNames } from '../util/classNames';
 import { DISCORD_ID } from '../components/Song';
 import { getAccessibleColor, getRGBColor } from '../util/color';
+import {rand} from '../util/types';
 type Props = {
 	user: UserObjectPublic;
-	track: CurrentPlayingTrack;
 	topTracks: TrackObjectFull[];
 	playLists: ListOfUsersPlaylist;
-	following: FollowedArtists;
+	following: any;
 	userLanyard: any;
+	randomLastFMTrack: LastFMGetTrack;
+
 	//topTracks: PlayHistoryObject[];
 };
 
@@ -50,7 +55,7 @@ export default function MusicPage({
 	playLists,
 	following,
 	userLanyard,
-	track,
+	randomLastFMTrack
 }: Props) {
 	const image = user.images[0].url;
 
@@ -111,14 +116,14 @@ export default function MusicPage({
 							target="_blank"
 							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
 						>
-							<p>● {following.artists.total} Following</p>
+							<p>● {following} Following</p>
 						</a>
 						<a
 							href={`${user.external_urls.spotify}/playlists`}
 							target="_blank"
 							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
 						>
-							<p>● {playLists.total} Public Playlists</p>
+							<p>● {playLists} Public Playlists</p>
 						</a>
 					</motion.div>
 				</div>
@@ -128,7 +133,12 @@ export default function MusicPage({
 				<p className="mt-4 mb-6">
 					Listening to music is my cup of tea. I listen to many different kinds of music. Most of
 					the time, I love listening to music. Here are some of the songs I listen to the most in
-					recent months
+					recent months.
+					<br/>The song{' '}
+					<span className="font-bold">{randomLastFMTrack.name}</span> by{' '}
+					<span className="font-bold">{randomLastFMTrack.artist.name}</span>{' '}that I've listened to the most,
+					{' '}exactly{' '}
+					<span className="font-bold">{randomLastFMTrack.play_count}</span>{' '}times in a month!
 				</p>
 			</div>
 
@@ -337,10 +347,15 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	}
 
 	/* Top tracks playing */
-	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 33 });
+	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 48 });
 	/* Get me */
 	const user = await api.getMe();
+	delete user.body.email;
+
 	/* Get getMyCurrentPlayingTrack*/
+
+
+
 	const track = await api.getMyCurrentPlayingTrack();
 
 	/* getUserPlaylists */
@@ -351,13 +366,25 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	//const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 
 	await redis.quit();
+	const lfm = new LastFM(LAST_FM_API_KEY);
+	let topLFMTracks = await lfm.getTopTracks('loonailysm', '1month', 6);
+	topLFMTracks = topLFMTracks.map(item => (
+		{
+			name: item.name,
+			url: item.url,
+			artist: item.artist,
+			'@attr': item['@attr'],
+			play_count: item.playcount,
+			duration: item.duration,
+		}
+	))
 	return {
 		props: {
-			track: track.body,
 			user: user.body,
 			topTracks: tracks.body.items,
-			playLists: playlists.body,
-			following: followings.body,
+			playLists: playlists.body.total,
+			following: followings.body.artists.total,
+			randomLastFMTrack: rand(topLFMTracks),
 		},
 		revalidate,
 	};

@@ -11,7 +11,7 @@ function env<Key extends keyof NodeJS.ProcessEnv>(key: Key) {
 }
 
 //export const DISCORD_WEBHOOK = env('DISCORD_WEBHOOK');
-//export const LAST_FM_API_KEY = process.env.NEXT_PUBLIC_LAST_FM_API_KEY;
+export const LAST_FM_API_KEY = process.env.NEXT_PUBLIC_LAST_FM_API_KEY;
 export const SPOTIFY_CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 export const SPOTIFY_CLIENT_SECRET = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
 
