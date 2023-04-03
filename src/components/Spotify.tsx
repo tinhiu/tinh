@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
+import Image from 'next/future/image';
 import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 import { HiExternalLink } from 'react-icons/hi';
@@ -29,24 +29,25 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 						className="cursor-pointer"
 					>
 						<div
-							className="
+						className="
 						before:content-['']
 						before:bg-noise before:w-full
 						before:h-full before:absolute
-						before:rounded-2xl before:opacity-80
-						"
+						before:rounded-2xl before:opacity-80"
 						>
-							<Image
-								src="https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419"
-								className={`drop-shadow-md object-cover object-bottom rounded-2xl -z-[10] saturate-150
-                            blur-[1px] contrast-75 bg-gray-400 transition duration-3000 ease-linear
-							${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
-								alt={`me`}
-								layout="fill"
-								loading="lazy"
-								decoding="async"
-								onLoadingComplete={onLoadCallback}
-							/>
+							<div className='rounded-2xl overflow-hidden border-0 m-0 p-0'>
+								<Image
+									src="https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419"
+									className={`drop-shadow-md object-cover object-bottom rounded-2xl -z-[10] saturate-150
+		                            blur-[1px] contrast-75 bg-gray-400 transition duration-3000 ease-linear
+									${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-sm'}`}
+									alt={`me`}
+									fill
+									loading="lazy"
+									decoding="async"
+									onLoadingComplete={onLoadCallback}
+								/>
+							</div>
 						</div>
 						<div className="flex h-full flex-col justify-between p-6  ">
 							<span className="flex justify-between">
@@ -81,26 +82,27 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 					className="cursor-pointer"
 				>
 					<div
-					className="
+						className="
 					before:content-['']
 					before:bg-noise before:w-full
 					before:h-full before:absolute
 					before:rounded-2xl before:opacity-60
 					"
 					>
+					<div className='rounded-2xl overflow-hidden border-0 m-0 p-0'>
 						<Image
-						 	style={{borderRadius: '2rem!important'}}
+							style={{ borderRadius: '2rem!important' }}
 							src={user.spotify.album_art_url}
-							className={`drop-shadow-md object-cover -z-[10] rounded-2xl 
-							opacity-90 saturate-150  bg-gray-400 transition duration-3000 ease-linear
-							${ isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
+							className={`drop-shadow-md object-cover -z-[10] rounded-2xl blur-[1px]
+							opacity-90 saturate-150 bg-gray-400 transition duration-3000 ease-linear
+							${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-md'}`}
 							alt={`${user.spotify.album}`}
-							layout="fill"
+							fill
 							loading="lazy"
 							decoding="async"
 							onLoadingComplete={onLoadCallback}
 						/>
-				
+					</div>
 					</div>
 
 					<div className="flex h-full flex-col justify-between p-6 rounded-2xl ">

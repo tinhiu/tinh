@@ -29,7 +29,7 @@ export class LastFM {
 			format: 'json',
 			...params,
 		});
-
+		
 		const request = await fetch(url);
 		const response = (await request.json()) as T;
 

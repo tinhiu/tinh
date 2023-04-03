@@ -14,6 +14,11 @@ const nextConfig = {
 		// !! WARN !!
 		ignoreBuildErrors: true,
 	},
+	experimental: {
+        images: {
+            allowFutureImage: true
+        }
+    },
 	
 }
 

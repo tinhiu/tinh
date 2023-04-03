@@ -22,8 +22,8 @@ import UserObjectPublic = SpotifyApi.UserObjectPublic;
 import ListOfUsersPlaylist = SpotifyApi.ListOfUsersPlaylistsResponse;
 import FollowedArtists = SpotifyApi.UsersFollowedArtistsResponse;
 import CurrentPlayingTrack = SpotifyApi.CurrentlyPlayingResponse;
-import type {LastFMGetTrack} from '../server/last-fm';
-import {LastFM} from '../server/last-fm';
+import type { LastFMGetTrack } from '../server/last-fm';
+import { LastFM } from '../server/last-fm';
 import {
 	LAST_FM_API_KEY,
 	REDIS_URL,
@@ -36,7 +36,7 @@ import AudioMusic from '../components/AudioMusic';
 import { classNames } from '../util/classNames';
 import { DISCORD_ID } from '../components/Song';
 import { getAccessibleColor, getRGBColor } from '../util/color';
-import {rand} from '../util/types';
+import { rand } from '../util/types';
 type Props = {
 	user: UserObjectPublic;
 	topTracks: TrackObjectFull[];
@@ -55,7 +55,7 @@ export default function MusicPage({
 	playLists,
 	following,
 	userLanyard,
-	randomLastFMTrack
+	randomLastFMTrack,
 }: Props) {
 	const image = user.images[0].url;
 
@@ -130,15 +130,29 @@ export default function MusicPage({
 				<div className="w-full">
 					<ModalSpotify user={userLanyard} />
 				</div>
-				<p className="mt-4 mb-6">
-					Listening to music is my cup of tea. I listen to many different kinds of music. Most of
-					the time, I love listening to music. Here are some of the songs I listen to the most in
-					recent months.
-					<br/>The song{' '}
-					<span className="font-bold">{randomLastFMTrack.name}</span> by{' '}
-					<span className="font-bold">{randomLastFMTrack.artist.name}</span>{' '}that I've listened to the most,
-					{' '}exactly{' '}
-					<span className="font-bold">{randomLastFMTrack.play_count}</span>{' '}times in a month!
+				<p className="mx-4">
+					<p className="mt-4 mb-6 ">
+						Listening to music is my cup of tea. I listen to many different kinds of music. Most of
+						the time, I love listening to music. Here are some of the songs I listen to the most in
+						recent months.
+						<br />
+						I've listened to{' '}
+						<div
+						className="font-bold text-lg scale-100 hover:scale-95 inline-block transition duration-200 hover:ease-out"
+						>
+							<a className="" href={randomLastFMTrack.url} target="_blank">
+								{randomLastFMTrack.name}
+							</a>
+						</div>{' '}by{' '}
+						<div
+							className="font-bold text-lg scale-100 hover:scale-95 inline-block transition duration-200 hover:ease-out"
+						>
+							<a href={randomLastFMTrack.artist.url} target="_blank">
+								{randomLastFMTrack.artist.name}
+							</a>
+						</div>{' '}about 
+						<span className="font-bold text-lg underline">{randomLastFMTrack.play_count}</span> times a month!
+					</p>
 				</p>
 			</div>
 
@@ -157,7 +171,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 	const options = {
 		colors: ['yellow', 'orange', 'blue', 'cyan', 'purple', 'emerald'],
 		range: [4, 4], // Between 400 and 400,
-		prefix: 'shadow'
+		prefix: 'shadow',
 	};
 	const [ranDom, setRanDom] = useState('shadow-blue-400');
 	const onLoadCallback = () => {
@@ -175,8 +189,6 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 		setStatsOpen(true);
 	};
 
-	
-	
 	const changeRandom = () => {
 		const randomColor = new TailwindColor(options).pick();
 		// const randomColor = Math.floor(Math.random() * 16777215).toString(16);
@@ -266,9 +278,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 				</div>
 			</Modal>
 
-			<div
-				className={`w-full transition-all group-hover:shadow-lg group-hover:${ranDom}`}
-			>
+			<div className={`w-full transition-all group-hover:shadow-lg group-hover:${ranDom}`}>
 				<Image
 					src={image}
 					className={`pointer-events-none rounded-lg md:brightness-90 brightness-105 scale-100 
@@ -285,12 +295,12 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 				/>
 			</div>
 
-			<div className='truncate w-full'>
+			<div className="truncate w-full">
 				<ul className="py-0.5 text-lg contents items-center mt-4">
-					<li className="truncate font-bold w-full " >
+					<li className="truncate font-bold w-full ">
 						{track.explicit && <MdExplicit className="-mt-1 inline" />} {track.name}
 					</li>{' '}
-					<li className="truncate w-full text-gray-600 dark:text-neutral-200/70" >by {artists}</li>
+					<li className="truncate w-full text-gray-600 dark:text-neutral-200/70">by {artists}</li>
 				</ul>
 			</div>
 		</button>
@@ -354,8 +364,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 	/* Get getMyCurrentPlayingTrack*/
 
-
-
 	const track = await api.getMyCurrentPlayingTrack();
 
 	/* getUserPlaylists */
@@ -368,16 +376,14 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	await redis.quit();
 	const lfm = new LastFM(LAST_FM_API_KEY);
 	let topLFMTracks = await lfm.getTopTracks('loonailysm', '1month', 6);
-	topLFMTracks = topLFMTracks.map(item => (
-		{
-			name: item.name,
-			url: item.url,
-			artist: item.artist,
-			'@attr': item['@attr'],
-			play_count: item.playcount,
-			duration: item.duration,
-		}
-	))
+	topLFMTracks = topLFMTracks.map((item) => ({
+		name: item.name,
+		url: item.url,
+		artist: item.artist,
+		'@attr': item['@attr'],
+		play_count: item.playcount,
+		duration: item.duration,
+	}));
 	return {
 		props: {
 			user: user.body,
