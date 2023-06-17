@@ -19,8 +19,9 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 				className="my-4 h-40 relative "
 			>
 				<span
-					className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl shadow-gray-600/50 dark:shadow-gray-400/50
-                transition duration-500 hover:ease-out shadow-md brightness-100 hover:brightness-110"
+					className="absolute w-full h-full scale-[0.96] hover:scale-[0.99] rounded-2xl 
+					shadow-gray-600/50 dark:shadow-gray-400/50
+                	transition duration-500 hover:ease-out shadow-md brightness-100 hover:brightness-110"
 				>
 					<a
 						href="https://open.spotify.com/user/31lhz6y3u5ootzbuxbnkndz4x2ea"
@@ -35,14 +36,15 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 						before:h-full before:absolute
 						before:rounded-2xl before:opacity-80"
 						>
-							<div className='rounded-2xl overflow-hidden border-0 m-0 p-0'>
+							<div className='rounded-2xl overflow-hidden border-0 m-0 p-0 h-full'>
 								<Image
 									src="https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419"
 									className={`drop-shadow-md object-cover object-bottom rounded-2xl -z-[10] saturate-150
-		                            blur-[1px] contrast-75 bg-gray-400 transition duration-3000 ease-linear
+		                            blur-[1px] contrast-75 bg-gray-400 transition duration-3000 ease-linear h-full
 									${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-sm'}`}
 									alt={`me`}
-									fill
+									fill="true"
+									sizes="(max-width: 768px) 100vw"
 									loading="lazy"
 									decoding="async"
 									onLoadingComplete={onLoadCallback}
@@ -89,18 +91,20 @@ const ModalSpotify = ({ user }: UserObjectPublic) => {
 					before:rounded-2xl before:opacity-60
 					"
 					>
-					<div className='rounded-2xl overflow-hidden border-0 m-0 p-0'>
+					<div className='rounded-2xl overflow-hidden border-0 m-0 p-0 h-full'>
 						<Image
 							style={{ borderRadius: '2rem!important' }}
 							src={user.spotify.album_art_url}
-							className={`drop-shadow-md object-cover -z-[10] rounded-2xl blur-[1px]
+							className={`drop-shadow-md object-cover -z-[10] rounded-2xl blur-[1px] 
 							opacity-90 saturate-150 bg-gray-400 transition duration-3000 ease-linear
 							${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-md'}`}
 							alt={`${user.spotify.album}`}
-							fill
+							fill="true"
+							sizes="(max-width: 768px) 100vw"
 							loading="lazy"
 							decoding="async"
 							onLoadingComplete={onLoadCallback}
+							
 						/>
 					</div>
 					</div>

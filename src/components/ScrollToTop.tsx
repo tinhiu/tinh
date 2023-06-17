@@ -1,38 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { FaAngleUp } from 'react-icons/fa';
-
-
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ScrollToTop = () => {
-    const [showTopBtn, setShowTopBtn] = useState(false);
-    useEffect(() => {
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 100) {
-                setShowTopBtn(true);
-            } else {
-                setShowTopBtn(false);
-            }
-        });
-    }, []);
-    
-    const goToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    };
-    return (
-        
-            <div className="top-to-btm">
+	const [scrollPosition, setScrollPosition] = useState(0);
 
-                {showTopBtn && (
-                    <FaAngleUp
-                        className="icon-position icon-style"
-                        onClick={goToTop}
-                    />
-                )}
-            </div>
+	useEffect(() => {
+		const updatePosition = () => {
+			setScrollPosition(window.pageYOffset);
+		};
 
-    );
+		window.addEventListener('scroll', updatePosition);
+
+		return () => window.removeEventListener('scroll', updatePosition);
+	}, []);
+	const goToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
+	return (
+		<AnimatePresence>
+			{scrollPosition > 100 && (
+				<motion.button
+					className="top-to-btm dark:bg-slate-400 bg-slate-500 shadow-sm"
+					onClick={goToTop}
+					initial={{ scale: 0, opacity: 0 }}
+					animate={{ scale: 1, opacity: 1, transition: { duration: 0.2 } }}
+					exit={{ scale: 0, opacity: 0, transition: { duration: 0.3 } }}
+					whileHover={{
+						scale: 1.1,
+						transition: { duration: 0.2 },
+					}}
+					whileTap={{ scale: 1 }}
+				>
+					{<FaAngleUp size={24} className='text-white'/>}
+				</motion.button>
+			)}
+		</AnimatePresence>
+	);
 };
 export default ScrollToTop;

@@ -5,7 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { useLanyardWS } from 'use-lanyard';
 import { useEffect, useState } from 'react';
 import SpotifyWebAPI from 'spotify-web-api-node';
-import Image from 'next/image';
+import Image from "next/image"
 import type { GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 import { HiExternalLink } from 'react-icons/hi';
@@ -70,7 +70,7 @@ export default function MusicPage({
 			className="mt-24 w-full mb-32"
 		>
 			<div className="mt-36 ">
-				<div className="w-full flex justify-center ">
+				<div className="flex justify-center ">
 					<motion.div
 						initial={{ opacity: 0, x: -50 }}
 						animate={{ opacity: 1, x: 0 }}
@@ -80,7 +80,7 @@ export default function MusicPage({
 						<div className="relative hover:scale-105 hover:-translate-x-5 transition duration-500 hover:ease-out">
 							<Image
 								src={image}
-								className="pointer-events-none rounded-full drop-shadow-md "
+								className="pointer-events-none rounded-full drop-shadow-md h-auto"
 								alt={`${user.display_name}`}
 								width={150}
 								height={150}
@@ -130,8 +130,8 @@ export default function MusicPage({
 				<div className="w-full">
 					<ModalSpotify user={userLanyard} />
 				</div>
-				<p className="mx-4">
-					<p className="mt-4 mb-6 ">
+				<div className="mx-4">
+					<div className="mt-4 mb-6 ">
 						Listening to music is my cup of tea. I listen to many different kinds of music. Most of
 						the time, I love listening to music. Here are some of the songs I listen to the most in
 						recent months.
@@ -152,8 +152,8 @@ export default function MusicPage({
 							</a>
 						</div>{' '}about{' '}
 						<span className="font-bold text-lg underline">{randomLastFMTrack.play_count}</span> times a month!
-					</p>
-				</p>
+					</div>
+				</div>
 			</div>
 
 			<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
@@ -202,7 +202,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 			key={track.id}
 			type="button"
 			className="group flex flex-col space-y-2 text-left align-top no-underline outline-none
-			focus:outline-none focus:ring-neutral-400 p-[2px] 
+			focus:outline-none focus:ring-amber-100 p-[2px] 
 			focus:ring-4 dark:focus:ring-gray-200"
 			onClick={open}
 			onMouseLeave={changeRandom}
@@ -214,7 +214,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 							src={image}
 							layout="fill"
 							alt={`${track.album.name} by ${artists}`}
-							className={`rounded-md object-cover pointer-events-none transition -z-[10] 
+							className={`rounded-md object-cover pointer-events-none transition -z-[10]  w-full h-auto
 							bg-gray-200 
 							duration-700 ${isReady ? 'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
 							loading="lazy"
@@ -357,10 +357,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	}
 
 	/* Top tracks playing */
-	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 48 });
+	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 42 });
 	/* Get me */
 	const user = await api.getMe();
 	delete user.body.email;
+	delete user.body.explicit_content;
+	delete user.body.country;
+	delete user.body.href;
 
 	/* Get getMyCurrentPlayingTrack*/
 

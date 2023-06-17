@@ -12,14 +12,9 @@ const nextConfig = {
 		// Dangerously allow production builds to successfully complete even if
 		// your project has type errors.
 		// !! WARN !!
-		ignoreBuildErrors: true,
-	},
-	experimental: {
-        images: {
-            allowFutureImage: true
-        }
-    },
-	
+		ignoreBuildErrors: false
+	}
+
 }
 
 module.exports = nextConfig
