@@ -42,7 +42,7 @@ type Props = {
 	topTracks: TrackObjectFull[];
 	playLists: number;
 	following: any;
-	userLanyard: Data;
+	userLanyard: any;
 	randomLastFMTrack: LastFMGetTrack;
 
 	//topTracks: PlayHistoryObject[];

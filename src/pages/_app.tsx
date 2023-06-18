@@ -19,7 +19,7 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 type PageProps = {
-	lanyard?: Data;
+	lanyard?: unknown;
 	pinnedRepos?: unknown;
 };
 export const DISCORD_ID = '885439540268003338';
