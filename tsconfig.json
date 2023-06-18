@@ -15,12 +15,8 @@
 		"jsx": "preserve",
 		"noFallthroughCasesInSwitch": true,
 		"allowSyntheticDefaultImports": true,
-		"incremental": true,
-		"baseUrl": "./",
-		"paths": {
-			"*": ["src/tailwind-random-color/*"]
-		}
+		"incremental": true
 	},
-	"exclude": ["node_modules", "src/tailwind-random-color/*"],
+	"exclude": ["node_modules"],
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
