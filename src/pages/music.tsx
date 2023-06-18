@@ -19,7 +19,7 @@ import api from '../pages/api/spotify/oauth';
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
 import PlayHistoryObject = SpotifyApi.PlayHistoryObject;
-import UserObjectPublic = SpotifyApi.UserObjectPublic;
+import CurrentUsersProfileResponse = SpotifyApi.CurrentUsersProfileResponse;
 import ListOfUsersPlaylist = SpotifyApi.ListOfUsersPlaylistsResponse;
 import FollowedArtists = SpotifyApi.UsersFollowedArtistsResponse;
 import CurrentPlayingTrack = SpotifyApi.CurrentlyPlayingResponse;
@@ -38,11 +38,11 @@ import { classNames } from '../util/classNames';
 import { getAccessibleColor, getRGBColor } from '../util/color';
 import { rand } from '../util/types';
 type Props = {
-	user: any;
+	user: CurrentUsersProfileResponse;
 	topTracks: TrackObjectFull[];
-	playLists: any;
+	playLists: number;
 	following: any;
-	userLanyard: any;
+	userLanyard: Data;
 	randomLastFMTrack: LastFMGetTrack;
 
 	//topTracks: PlayHistoryObject[];
