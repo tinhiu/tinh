@@ -37,7 +37,7 @@ import { classNames } from '../util/classNames';
 import { getAccessibleColor, getRGBColor } from '../util/color';
 import { rand } from '../util/types';
 type Props = {
-	user: UserObjectPublic;
+	user: any;
 	topTracks: TrackObjectFull[];
 	playLists: ListOfUsersPlaylist;
 	following: any;
@@ -56,7 +56,7 @@ export default function MusicPage({
 	userLanyard,
 	randomLastFMTrack,
 }: Props) {
-	const image = user.images[0]?.url;
+	const image = user?.images[0].url;
 
 	//console.log(JSON.stringify(userLanyard, null, 4));
 
