@@ -150,7 +150,7 @@ export default function MusicPage({
 								{randomLastFMTrack.artist.name}
 							</a>
 						</div>{' '}about{' '}
-						<span className="font-bold text-lg underline">{randomLastFMTrack.play_count}</span> times a month!
+						<span className="font-bold text-lg underline">{randomLastFMTrack.playcount}</span> times a month!
 					</div>
 				</div>
 			</div>
@@ -378,12 +378,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	await redis.quit();
 	const lfm = new LastFM(LAST_FM_API_KEY);
 	let topLFMTracks = await lfm.getTopTracks('loonailysm', '1month', 6);
+	console.log('topLFMTracks: ', topLFMTracks);
 	topLFMTracks = topLFMTracks.map((item) => ({
 		name: item.name,
 		url: item.url,
 		artist: item.artist,
 		'@attr': item['@attr'],
-		play_count: item.playcount,
+		playcount: item.playcount,
 		duration: item.duration,
 	}));
 	return {
