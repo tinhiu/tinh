@@ -15,7 +15,7 @@ module.exports = {
 		ecmaFeatures: {jsx: true},
 		ecmaVersion: 12,
 		sourceType: 'module',
-		project: './tsconfig.json',
+		project: './tsconfig.json'
 	},
 	plugins: ['react', '@typescript-eslint', 'tailwindcss'],
 	ignorePatterns: ['**/*.js'],
