@@ -56,7 +56,7 @@ export default function MusicPage({
 	userLanyard,
 	randomLastFMTrack,
 }: Props) {
-	const image = user?.images[0].url;
+	const image = user.images[0].url;
 
 	//console.log(JSON.stringify(userLanyard, null, 4));
 
@@ -378,7 +378,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	await redis.quit();
 	const lfm = new LastFM(LAST_FM_API_KEY);
 	let topLFMTracks = await lfm.getTopTracks('loonailysm', '1month', 6);
-	console.log('topLFMTracks: ', topLFMTracks);
 	topLFMTracks = topLFMTracks.map((item) => ({
 		name: item.name,
 		url: item.url,
