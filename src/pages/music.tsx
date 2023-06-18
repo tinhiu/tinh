@@ -39,7 +39,7 @@ import { rand } from '../util/types';
 type Props = {
 	user: any;
 	topTracks: TrackObjectFull[];
-	playLists: ListOfUsersPlaylist;
+	playLists: any;
 	following: any;
 	userLanyard: any;
 	randomLastFMTrack: LastFMGetTrack;
