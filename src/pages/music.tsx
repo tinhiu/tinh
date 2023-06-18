@@ -9,6 +9,7 @@ import Image from "next/image"
 import type { GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 import { HiExternalLink } from 'react-icons/hi';
+// @ts-ignore
 import TailwindColor from '@videsk/tailwind-random-color';
 import { MdExplicit } from 'react-icons/md';
 import { SiSpotify } from 'react-icons/si';
