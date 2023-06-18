@@ -12,7 +12,6 @@ import {
   SiGit,
   SiTailwindcss,
   SiMongodb,
-  SiJava,
   SiCsharp
 } from "react-icons/si";
 import { GrMysql } from "react-icons/gr";
@@ -32,7 +31,6 @@ const Technologies = () => {
       <Icon name="C++" _icon={SiCplusplus} />
       <Icon name="C#" _icon={SiCsharp} />
       <Icon name="php" _icon={SiPhp} />
-      <Icon name="Java" _icon={SiJava} />
       <Icon name="HTML" _icon={SiHtml5} />
       <Icon name="CSS" _icon={SiCss3} />
       <Icon name="Javascript" _icon={SiJavascript} />
