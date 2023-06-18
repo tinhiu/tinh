@@ -3,8 +3,7 @@ import Image from 'next/future/image';
 import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 import { HiExternalLink } from 'react-icons/hi';
-import UserObjectPublic = SpotifyApi.UserObjectPublic;
-const ModalSpotify = ({ user }: UserObjectPublic) => {
+const ModalSpotify = ({ user }: any) => {
 	//console.log(JSON.stringify(user,null,4));
 	const [isReady, setIsReady] = useState(false);
 
