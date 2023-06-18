@@ -43,7 +43,7 @@ const ModalSpotify = ({ user }: any) => {
 		                            blur-[1px] contrast-75 bg-gray-400 transition duration-3000 ease-linear h-full
 									${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-sm'}`}
 									alt={`me`}
-									fill="true"
+									fill={true}
 									sizes="(max-width: 768px) 100vw"
 									loading="lazy"
 									decoding="async"
@@ -99,7 +99,7 @@ const ModalSpotify = ({ user }: any) => {
 							opacity-90 saturate-150 bg-gray-400 transition duration-3000 ease-linear
 							${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-md'}`}
 							alt={`${user.spotify.album}`}
-							fill="true"
+							fill={true}
 							sizes="(max-width: 768px) 100vw"
 							loading="lazy"
 							decoding="async"
