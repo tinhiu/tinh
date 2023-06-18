@@ -57,7 +57,7 @@ export default function MusicPage({
 	userLanyard,
 	randomLastFMTrack,
 }: Props) {
-	const image = user.images[0].url;
+	const image = user?.images[0].url;
 
 	//console.log(JSON.stringify(userLanyard, null, 4));
 
