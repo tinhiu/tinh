@@ -34,7 +34,6 @@ import {
 import Details from '../components/Details';
 import AudioMusic from '../components/AudioMusic';
 import { classNames } from '../util/classNames';
-import { DISCORD_ID } from '../components/Song';
 import { getAccessibleColor, getRGBColor } from '../util/color';
 import { rand } from '../util/types';
 type Props = {
