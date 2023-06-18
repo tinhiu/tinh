@@ -17,7 +17,8 @@ export default function Contact() {
             >
                 <h1 className="text-black dark:text-white font-bold text-3xl mb-3 mt-8">Let's have a connection 📨</h1>
                 <p className="text-gray-800 dark:text-gray-200 mb-6">
-                    You can contact me through any of the forms below. I am very happy to talk with you. I'll reply to you as quickly as possible
+                    You can contact me through any of the forms below.
+                    I am very happy to talk with you. I'll reply to you as quickly as possible
                 </p>
 
 

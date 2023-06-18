@@ -1,4 +1,4 @@
-export const getRGBColor = (hex, type) => {
+export const getRGBColor = (hex: string, type: any) => {
 	let color = hex.replace(/#/g, '');
 	// rgb values
 	var r = parseInt(color.substr(0, 2), 16);
@@ -11,7 +11,7 @@ export const getRGBColor = (hex, type) => {
 /////////////////////////////////////////////////////////////////////
 // Determine the accessible color of text
 /////////////////////////////////////////////////////////////////////
-export const getAccessibleColor = (hex) => {
+export const getAccessibleColor = (hex: string) => {
 	let color = hex.replace(/#/g, '');
 	// rgb values
 	var r = parseInt(color.substr(0, 2), 16);

@@ -5,7 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { useLanyardWS } from 'use-lanyard';
 import { useEffect, useState } from 'react';
 import SpotifyWebAPI from 'spotify-web-api-node';
-import Image from "next/image"
+import Image from 'next/image';
 import type { GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 import { HiExternalLink } from 'react-icons/hi';
@@ -19,7 +19,7 @@ import api from '../pages/api/spotify/oauth';
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
 import PlayHistoryObject = SpotifyApi.PlayHistoryObject;
-import CurrentUsersProfileResponse = SpotifyApi.CurrentUsersProfileResponse;
+import UserObjectPublic = SpotifyApi.UserObjectPublic;
 import ListOfUsersPlaylist = SpotifyApi.ListOfUsersPlaylistsResponse;
 import FollowedArtists = SpotifyApi.UsersFollowedArtistsResponse;
 import CurrentPlayingTrack = SpotifyApi.CurrentlyPlayingResponse;
@@ -34,17 +34,14 @@ import {
 } from '../server/constants';
 import Details from '../components/Details';
 import AudioMusic from '../components/AudioMusic';
-import { classNames } from '../util/classNames';
-import { getAccessibleColor, getRGBColor } from '../util/color';
+
 import { rand } from '../util/types';
 type Props = {
-	user: any;
+	user: UserObjectPublic | any;
 	topTracks: TrackObjectFull[];
-	playLists: number;
-	following: any;
-	userLanyard: any;
+	playLists: number | any;
+	following: number | any;
 	randomLastFMTrack: LastFMGetTrack;
-
 	//topTracks: PlayHistoryObject[];
 };
 
@@ -54,9 +51,8 @@ export default function MusicPage({
 	topTracks,
 	playLists,
 	following,
-	userLanyard,
 	randomLastFMTrack,
-}: Props) {
+}: Props, userLanyard: any) {
 	const image = user.images[0].url;
 
 	//console.log(JSON.stringify(userLanyard, null, 4));
@@ -101,6 +97,7 @@ export default function MusicPage({
 							href={user.external_urls.spotify}
 							target="_blank"
 							className="w-full font-bold text-gray-900 dark:text-[#e1eafd] truncate"
+							rel="noreferrer"
 						>
 							<h1 className="text-6xl">{user.display_name}</h1>
 						</a>
@@ -108,6 +105,7 @@ export default function MusicPage({
 							href={`${user.external_urls.spotify}/followers`}
 							target="_blank"
 							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
+							rel="noreferrer"
 						>
 							<p>● {user.followers?.total} Followers</p>
 						</a>
@@ -115,6 +113,7 @@ export default function MusicPage({
 							href={`${user.external_urls.spotify}/following`}
 							target="_blank"
 							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
+							rel="noreferrer"
 						>
 							<p>● {following} Following</p>
 						</a>
@@ -122,6 +121,7 @@ export default function MusicPage({
 							href={`${user.external_urls.spotify}/playlists`}
 							target="_blank"
 							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
+							rel="noreferrer"
 						>
 							<p>● {playLists} Public Playlists</p>
 						</a>
@@ -137,21 +137,19 @@ export default function MusicPage({
 						recent months.
 						<br />
 						I've listened to{' '}
-						<div
-						className="font-bold text-lg scale-100 hover:scale-95 inline-block transition duration-200 hover:ease-out"
-						>
-							<a className="" href={randomLastFMTrack.url} target="_blank">
+						<div className="font-bold text-lg scale-100 hover:scale-95 inline-block transition duration-200 hover:ease-out">
+							<a className="" href={randomLastFMTrack.url} target="_blank" rel="noreferrer">
 								{randomLastFMTrack.name}
 							</a>
-						</div>{' '}by{' '}
-						<div
-							className="font-bold text-lg scale-100 hover:scale-95 inline-block transition duration-200 hover:ease-out"
-						>
-							<a href={randomLastFMTrack.artist.url} target="_blank">
+						</div>{' '}
+						by{' '}
+						<div className="font-bold text-lg scale-100 hover:scale-95 inline-block transition duration-200 hover:ease-out">
+							<a href={randomLastFMTrack.artist.url} target="_blank" rel="noreferrer">
 								{randomLastFMTrack.artist.name}
 							</a>
-						</div>{' '}about{' '}
-						<span className="font-bold text-lg underline">{randomLastFMTrack.playcount}</span> times a month!
+						</div>{' '}
+						about <span className="font-bold text-lg underline">{randomLastFMTrack.playcount}</span>{' '}
+						times a month!
 					</div>
 				</div>
 			</div>
@@ -360,10 +358,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 42 });
 	/* Get me */
 	const user = await api.getMe();
-	delete user.body.email;
-	delete user.body.explicit_content;
-	delete user.body.country;
-	delete user.body.href;
 
 	/* Get getMyCurrentPlayingTrack*/
 
@@ -371,15 +365,16 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 	/* getUserPlaylists */
 	const playlists = await api.getUserPlaylists(user.body.id);
-	const followings = await api.getFollowedArtists(1);
+	const followings = await api.getFollowedArtists();
 
 	/* RecentlyPlayedTracks */
 	//const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 
 	await redis.quit();
 	const lfm = new LastFM(LAST_FM_API_KEY);
-	let topLFMTracks = await lfm.getTopTracks('loonailysm', '1month', 6);
+	let topLFMTracks = await lfm.getTopTracks('loonailysm', '1month', '6');
 	topLFMTracks = topLFMTracks.map((item) => ({
+		mbid: item.mbid,
 		name: item.name,
 		url: item.url,
 		artist: item.artist,

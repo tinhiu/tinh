@@ -6,20 +6,20 @@ export type LastFMParams = { method: string } & Record<string, string>;
 export class LastFM {
 	private readonly apiKey: string;
 
-	constructor(apiKey: string) {
-		this.apiKey = apiKey;
+	constructor(apiKey: string | undefined) {
+		this.apiKey = apiKey!
 	}
 
 	async getTopTracks(
 		user: string,
 		period: 'overall' | '7day' | '1month' | '3month' | '6month' | '12month' = 'overall',
-		limit: number,
+		limit: string,
 	): Promise<LastFMGetTrack[]> {
 		return this.req<GetTopTracks>('get', {
 			user,
 			method: 'user.gettoptracks',
 			period,
-			limit,
+			limit
 		}).then((res) => res.toptracks.track);
 	}
 
