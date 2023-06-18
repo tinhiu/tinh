@@ -18,9 +18,9 @@
 		"incremental": true,
 		"baseUrl": "./",
 		"paths": {
-			"*": ["src/client/@videsk/tailwind-random-color/*"]
+			"*": ["src/tailwind-random-color/*"]
 		}
 	},
-	"exclude": ["node_modules", "src/client/@videsk/tailwind-random-color/*"],
+	"exclude": ["node_modules", "src/tailwind-random-color/*"],
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
