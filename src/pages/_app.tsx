@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app';
 import { Router } from 'next/router';
 import NProgress from 'nprogress';
 import { SWRConfig } from 'swr';
-import { StrictMode } from 'react';
+import { StrictMode, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import 'nprogress/nprogress.css';
 import '../styles/globals.css';
@@ -12,6 +12,7 @@ import { AnimatePresence, useScroll, useSpring, motion } from 'framer-motion';
 import Song from '../components/Song';
 import ScrollToTop from '../components/ScrollToTop';
 import { useLanyardWS } from 'use-lanyard';
+import { loadCursor } from '../util/cursor';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -25,6 +26,14 @@ export const DISCORD_ID = '885439540268003338';
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	
 	const userLanyard = useLanyardWS(DISCORD_ID);
+	const ballCanvas = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		if (typeof window === 'undefined' || !ballCanvas.current) {
+			return;
+		}
+
+		return loadCursor(ballCanvas.current);
+	}, []);
 	return (
 		<StrictMode>
 			<Head>
@@ -44,6 +53,12 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 					<ScrollToTop />
 				</div>
 				<Song user={userLanyard} />
+				<div
+					ref={ballCanvas}
+					className="ball-transitions pointer-events-none fixed
+					z-[100] h-6 w-6 rounded-full border border-gray-500 bg-transparent
+					opacity-0 shadow-md duration-200 dark:border-amber-100"
+				/>
 			</div>
 		</StrictMode>
 	);

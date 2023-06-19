@@ -56,7 +56,7 @@ html *::-webkit-scrollbar-track {
 	border-radius: 50%;
 	cursor: pointer;
 }
-// spoity
+// spotify
 @media only screen and (min-width: 1000px) {
 	.move-position {
 		animation: moveSpotify 3s ease-out infinite;
@@ -76,4 +76,8 @@ html *::-webkit-scrollbar-track {
 			transform: translateY(0px);
 		}
 	}
+}
+// ball
+.ball-transitions {
+	transition: opacity 0.2s, transform 0.2s;
 }

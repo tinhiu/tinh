@@ -35,7 +35,7 @@ const Home: NextPage = () => {
 				</div>
 				{/* Project */}
 				<div className="space-y-4">
-					<h2 className="mt-16 text-4xl font-bold md:text-3xl">Project 🥲</h2>
+					<h2 className="mt-16 text-4xl font-bold md:text-3xl">Project 📂</h2>
 					<div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 						<Project
 							title={'🌟 tinh \u2197'}
