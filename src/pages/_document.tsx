@@ -9,7 +9,7 @@ export default function Document() {
 				<link
 					rel="icon"
 					type="image/x-icon"
-					href='/images/loona.ico'
+					href='/images/favicon.ico'
 				/>
 				<meta name="theme-color" content="#e0dbdb" />
 				<meta name="keywords" content="tinh, web developer, github, typescript" />
