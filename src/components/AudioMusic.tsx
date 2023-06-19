@@ -18,7 +18,7 @@ function AudioMusic({ src }: Props) {
 	useEffect(() => {
 		if (!src) return; // don't have preview_url
 		currentSong.current.volume = 0.15;
-	}, []);
+	}, [currentSong, src]);
 	const handlePausePlayClick = () => {
 		if (playing) {
 			currentSong.current.pause();
@@ -59,13 +59,13 @@ function AudioMusic({ src }: Props) {
 			</div> */}
 			<div className="flex items-center">
 				<span className="">{formatTime(musicinfo.currentTime || 0)}</span>
-				<div className="bg-gray-400 h-1 mx-1 w-full rounded-sm">
+				<div className="mx-1 h-1 w-full rounded-sm bg-gray-400">
 					<div
-						className="bg-neutral-700 h-full rounded-sm transition-[width]"
+						className="h-full rounded-sm bg-neutral-700 transition-[width]"
 						style={{ width: `${musicinfo.progressWidth}%` }}
 					></div>
 				</div>
-				<div className=" flex items-center ml-auto">
+				<div className=" ml-auto flex items-center">
 					<div className="group">
 						<span className="block group-hover:hidden">{formatTime(musicinfo.duration || 0)}</span>
 						<span className="hidden group-hover:block">

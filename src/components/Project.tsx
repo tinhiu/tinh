@@ -10,7 +10,7 @@ const Project = ({url, title, description}: {url: string, title: string, descrip
         rel="noopener noreferrer"
         className="flex w-full"
       >
-        <button className="relative w-full rounded-lg border border-gray-700 dark:border-gray-100 bg-transparent px-7 py-6 transition-all duration-700 ease-in-out group-hover:bg-slate-400">
+        <button className="relative w-full rounded-lg border border-gray-700 bg-transparent px-7 py-6 transition-all duration-700 ease-in-out group-hover:bg-slate-400 dark:border-gray-100">
           <span className="mb-3 block text-left font-semibold text-black dark:text-white">
             {title}
           </span>

@@ -13,7 +13,7 @@ const ThemeToggle = () => {
             setTheme(storedTheme);
             storedTheme === "dark" ? document.querySelector("html")?.classList.add("dark") : null;
         }
-    }, []);
+    }, [theme]);
 
     const changeTheme = (theme: string) => {
         let newTheme = theme === "light" ? "dark" : "light";
@@ -27,11 +27,11 @@ const ThemeToggle = () => {
 
     return (
         <button
-            className="p-2 rounded-md bg-transparent hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer"
+            className="cursor-pointer rounded-md bg-transparent p-2 hover:bg-black/5 dark:hover:bg-white/5"
             onClick={() => changeTheme(theme)}
         >
-            {theme === "light" && <FiMoon className="text-black w-6 h-6" />}
-            {theme === "dark" && <FiSun className="text-white w-6 h-6" />}
+            {theme === "light" && <FiMoon className="h-6 w-6 text-black" />}
+            {theme === "dark" && <FiSun className="h-6 w-6 text-white" />}
         </button>
     );
 };

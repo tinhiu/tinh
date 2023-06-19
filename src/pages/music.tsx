@@ -3,12 +3,13 @@ import dayjs from 'dayjs';
 import ms from 'ms';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useLanyardWS } from 'use-lanyard';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SpotifyWebAPI from 'spotify-web-api-node';
 import Image from 'next/image';
 import type { GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 import { HiExternalLink } from 'react-icons/hi';
+
 // @ts-ignore
 import TailwindColor from '@videsk/tailwind-random-color';
 import { MdExplicit } from 'react-icons/md';
@@ -41,21 +42,24 @@ type Props = {
 	topTracks: TrackObjectFull[];
 	playLists: number | any;
 	following: number | any;
+	userLanyard: any;
 	randomLastFMTrack: LastFMGetTrack;
 	//topTracks: PlayHistoryObject[];
 };
 
 dayjs.extend(relativeTime);
+
 export default function MusicPage({
 	user,
 	topTracks,
 	playLists,
 	following,
 	randomLastFMTrack,
-}: Props, userLanyard: any) {
+	userLanyard,
+}: Props) {
 	const image = user.images[0].url;
 
-	//console.log(JSON.stringify(userLanyard, null, 4));
+	// console.log(JSON.stringify(userLanyard, null, 4));
 
 	return (
 		<motion.div
@@ -63,7 +67,7 @@ export default function MusicPage({
 			animate={{ opacity: 1, y: 0 }}
 			exit={{ opacity: 0, y: -4 }}
 			transition={{ ease: 'easeInOut', duration: 0.4 }}
-			className="mt-24 w-full mb-32"
+			className="mb-32 mt-24 w-full"
 		>
 			<div className="mt-36 ">
 				<div className="flex justify-center ">
@@ -73,10 +77,10 @@ export default function MusicPage({
 						exit={{ opacity: 0, x: -50 }}
 						transition={{ ease: 'easeInOut', duration: 1 }}
 					>
-						<div className="relative hover:scale-105 hover:-translate-x-5 transition duration-500 hover:ease-out">
+						<div className="relative transition duration-500 hover:-translate-x-5 hover:scale-105 hover:ease-out">
 							<Image
 								src={image}
-								className="pointer-events-none rounded-full drop-shadow-md h-auto"
+								className="pointer-events-none h-auto rounded-full drop-shadow-md"
 								alt={`${user.display_name}`}
 								width={150}
 								height={150}
@@ -90,13 +94,13 @@ export default function MusicPage({
 						animate={{ opacity: 1, x: 0 }}
 						exit={{ opacity: 0, x: 50 }}
 						transition={{ ease: 'easeInOut', duration: 1 }}
-						className="sm:px-4 px-2 whitespace-nowrap"
+						className="whitespace-nowrap px-2 sm:px-4"
 					>
 						<span>PROFILE</span>
 						<a
 							href={user.external_urls.spotify}
 							target="_blank"
-							className="w-full font-bold text-gray-900 dark:text-[#e1eafd] truncate"
+							className="w-full truncate font-bold text-gray-900 dark:text-[#e1eafd]"
 							rel="noreferrer"
 						>
 							<h1 className="text-6xl">{user.display_name}</h1>
@@ -104,7 +108,7 @@ export default function MusicPage({
 						<a
 							href={`${user.external_urls.spotify}/followers`}
 							target="_blank"
-							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
+							className="w-full truncate font-medium text-gray-900 hover:underline dark:text-[#e1eafd]"
 							rel="noreferrer"
 						>
 							<p>● {user.followers?.total} Followers</p>
@@ -112,7 +116,7 @@ export default function MusicPage({
 						<a
 							href={`${user.external_urls.spotify}/following`}
 							target="_blank"
-							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
+							className="w-full truncate font-medium text-gray-900 hover:underline dark:text-[#e1eafd]"
 							rel="noreferrer"
 						>
 							<p>● {following} Following</p>
@@ -120,7 +124,7 @@ export default function MusicPage({
 						<a
 							href={`${user.external_urls.spotify}/playlists`}
 							target="_blank"
-							className="w-full font-medium text-gray-900 dark:text-[#e1eafd] hover:underline truncate"
+							className="w-full truncate font-medium text-gray-900 hover:underline dark:text-[#e1eafd]"
 							rel="noreferrer"
 						>
 							<p>● {playLists} Public Playlists</p>
@@ -131,24 +135,24 @@ export default function MusicPage({
 					<ModalSpotify user={userLanyard} />
 				</div>
 				<div className="mx-4">
-					<div className="mt-4 mb-6 ">
+					<div className="mb-6 mt-4 ">
 						Listening to music is my cup of tea. I listen to many different kinds of music. Most of
 						the time, I love listening to music. Here are some of the songs I listen to the most in
 						recent months.
 						<br />
 						I've listened to{' '}
-						<div className="font-bold text-lg scale-100 hover:scale-95 inline-block transition duration-200 hover:ease-out">
+						<div className="inline-block scale-100 text-lg font-bold transition duration-200 hover:scale-95 hover:ease-out">
 							<a className="" href={randomLastFMTrack.url} target="_blank" rel="noreferrer">
 								{randomLastFMTrack.name}
 							</a>
 						</div>{' '}
 						by{' '}
-						<div className="font-bold text-lg scale-100 hover:scale-95 inline-block transition duration-200 hover:ease-out">
+						<div className="inline-block scale-100 text-lg font-bold transition duration-200 hover:scale-95 hover:ease-out">
 							<a href={randomLastFMTrack.artist.url} target="_blank" rel="noreferrer">
 								{randomLastFMTrack.artist.name}
 							</a>
 						</div>{' '}
-						about <span className="font-bold text-lg underline">{randomLastFMTrack.playcount}</span>{' '}
+						about <span className="text-lg font-bold underline">{randomLastFMTrack.playcount}</span>{' '}
 						times a month!
 					</div>
 				</div>
@@ -199,9 +203,9 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 		<button
 			key={track.id}
 			type="button"
-			className="group flex flex-col space-y-2 text-left align-top no-underline outline-none
-			focus:outline-none focus:ring-amber-100 p-[2px] 
-			focus:ring-4 dark:focus:ring-gray-200"
+			className="group flex flex-col space-y-2 p-[2px] text-left align-top no-underline
+			outline-none focus:outline-none focus:ring-4 
+			focus:ring-amber-100 dark:focus:ring-gray-200"
 			onClick={open}
 			onMouseLeave={changeRandom}
 		>
@@ -212,8 +216,8 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 							src={image}
 							layout="fill"
 							alt={`${track.album.name} by ${artists}`}
-							className={`rounded-md object-cover pointer-events-none transition -z-[10]  w-full h-auto
-							bg-gray-200 
+							className={`pointer-events-none z-[-10] h-auto w-full rounded-md  bg-gray-200 object-cover
+							transition 
 							duration-700 ${isReady ? 'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
 							loading="lazy"
 							decoding="async"
@@ -223,7 +227,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 					{track.preview_url ? (
 						<AudioMusic src={track.preview_url || ''} />
 					) : (
-						<p className="text-sm italic flex justify-end">*preview not available</p>
+						<p className="flex justify-end text-sm italic">*preview not available</p>
 					)}
 
 					<a
@@ -234,7 +238,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 						rel="noreferrer"
 					>
 						<div className="w-[90%]">
-							<h2 className="md:text-2xl text-xl font-bold group-hover:underline truncate">
+							<h2 className="truncate text-xl font-bold group-hover:underline md:text-2xl">
 								{track.name}
 							</h2>
 							<h3 className="text-sm italic text-gray-800 dark:text-gray-800">by {artists}</h3>
@@ -269,18 +273,18 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 
 					<button
 						onClick={close}
-						className="float-right !mt-0 hover:bg-slate-400 py-1 px-2 rounded-lg"
+						className="float-right !mt-0 rounded-lg px-2 py-1 hover:bg-slate-400"
 					>
 						Close
 					</button>
 				</div>
 			</Modal>
 
-			<div className={`w-full transition-all group-hover:shadow-lg group-hover:${ranDom}`}>
+			<div className={`group-hover: w-full transition-all group-hover:shadow-lg${ranDom}`}>
 				<Image
 					src={image}
-					className={`pointer-events-none rounded-lg md:brightness-90 brightness-105 scale-100 
-					transition-all duration-300 group-hover:scale-110 group-hover:brightness-110 
+					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
+					duration-300 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
 					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}
 					`}
 					alt={`${track.name} by ${artists}`}
@@ -293,20 +297,19 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 				/>
 			</div>
 
-			<div className="truncate w-full">
-				<ul className="py-0.5 text-lg contents items-center mt-4">
-					<li className="truncate font-bold w-full ">
+			<div className="w-full truncate">
+				<ul className="mt-4 contents items-center py-0.5 text-lg">
+					<li className="w-full truncate font-bold ">
 						{track.explicit && <MdExplicit className="-mt-1 inline" />} {track.name}
 					</li>{' '}
-					<li className="truncate w-full text-gray-600 dark:text-neutral-200/70">by {artists}</li>
+					<li className="w-full truncate text-gray-600 dark:text-neutral-200/70">by {artists}</li>
 				</ul>
 			</div>
 		</button>
 	);
 }
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any) => {
 	const redis = new IORedis(REDIS_URL || '');
-
 	const [token, refresh] = await redis.mget(
 		SPOTIFY_REDIS_KEYS.AccessToken,
 		SPOTIFY_REDIS_KEYS.RefreshToken
@@ -361,7 +364,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 	/* Get getMyCurrentPlayingTrack*/
 
-	const track = await api.getMyCurrentPlayingTrack();
+	/* const track = await api.getMyCurrentPlayingTrack(); */
 
 	/* getUserPlaylists */
 	const playlists = await api.getUserPlaylists(user.body.id);
@@ -389,6 +392,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 			playLists: playlists.body.total,
 			following: followings.body.artists.total,
 			randomLastFMTrack: rand(topLFMTracks),
+			userLanyard: userLanyard || null,
 		},
 		revalidate,
 	};

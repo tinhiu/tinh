@@ -24,7 +24,7 @@ const ScrollToTop = () => {
 		<AnimatePresence>
 			{scrollPosition > 100 && (
 				<motion.button
-					className="top-to-btm dark:bg-slate-400 bg-slate-500 shadow-sm"
+					className="top-to-btm shadow-sm dark:bg-neutral-300/75"
 					onClick={goToTop}
 					initial={{ scale: 0, opacity: 0 }}
 					animate={{ scale: 1, opacity: 1, transition: { duration: 0.2 } }}

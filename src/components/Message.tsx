@@ -117,12 +117,12 @@ const Message = () => {
 	return (
 		<>
 			<Toaster reverseOrder={true} />
-			<div className="md:col-span-2 row-span-3 bg-opacity-50 bg-white/80 dark:bg-[#b1a5a5d4] rounded-md p-4 ">
+			<div className="row-span-3 rounded-md bg-white/60 p-4 dark:bg-[#b1a5a5d4] md:col-span-2 ">
 				<form ref={form} onSubmit={sendEmail} className="rounded-md border-gray-700 md:w-full">
 					<label htmlFor="email-field" className="block font-bold text-black dark:text-white">
 						Email
 					</label>
-					<div className="relative rounded-md flex items-center mb-4 ">
+					<div className="relative mb-4 flex items-center rounded-md ">
 						<MdOutlineMail size={'24px'} className="absolute ml-3 flex h-5 w-5" />
 						<input
 							className={classNames(
@@ -145,7 +145,7 @@ const Message = () => {
 					<label htmlFor="message-field" className="block font-bold text-black dark:text-white">
 						Message
 					</label>
-					<div className="relative rounded-md flex items-start mb-4">
+					<div className="relative mb-4 flex items-start rounded-md">
 						<RiMessage3Line size={'24px'} className="absolute ml-[0.7rem] mt-2 flex h-5 w-5" />
 						<textarea
 							className={classNames(
@@ -168,11 +168,11 @@ const Message = () => {
 					<div className="flex flex-row-reverse">
 						<button
 							type="submit"
-							className="flex items-center text-[#624b4b] cursor-pointer bg-[#e2e2e2] px-3 py-2 font-semibold rounded-3xl shadow-button transition duration-400 hover:ease-out hover:scale-105 dark:bg-[#716868] dark:text-white/80"
+							className="shadow-button duration-400 flex cursor-pointer items-center rounded-3xl bg-[#e2e2e2] px-3 py-2 font-semibold text-[#624b4b] transition hover:scale-105 hover:ease-out dark:bg-[#716868] dark:text-white/80"
 						>
 							Send
 							{!sending && <RiSendPlane2Fill className="ml-2 " />}
-							{sending && <ImSpinner2 className="w-4 h-4 ml-2 animate-spin" />}
+							{sending && <ImSpinner2 className="ml-2 h-4 w-4 animate-spin" />}
 						</button>
 					</div>
 				</form>

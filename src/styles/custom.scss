@@ -1,5 +1,13 @@
 $progress-color: #c2b0ac;
-
+.progress-bar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 5px;
+	background: $progress-color;
+	transform-origin: 0%;
+}
 #nprogress .bar {
 	background: $progress-color;
 	height: 3.3px;
@@ -43,7 +51,7 @@ html *::-webkit-scrollbar-track {
 	font-size: 1rem;
 	line-height: 3rem;
 	z-index: 1;
-	background-color: #807c80;
+	background-color: #afa9a9;
 	border: none;
 	border-radius: 50%;
 	cursor: pointer;

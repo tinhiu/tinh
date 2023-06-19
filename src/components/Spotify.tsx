@@ -39,7 +39,7 @@ const ModalSpotify = ({ user }: any) => {
 							<div className='m-0 h-full overflow-hidden rounded-2xl border-0 p-0'>
 								<Image
 									src="https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419"
-									className={`duration-3000 -z-[10] h-full rounded-2xl bg-gray-400 object-cover
+									className={`duration-3000 z-[-10] h-full rounded-2xl bg-gray-400 object-cover
 		                            object-bottom blur-[1px] contrast-75 drop-shadow-md saturate-150 transition ease-linear
 									${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-sm'}`}
 									alt={`me`}
@@ -95,7 +95,7 @@ const ModalSpotify = ({ user }: any) => {
 						<Image
 							style={{ borderRadius: '2rem!important' }}
 							src={user.spotify.album_art_url}
-							className={`duration-3000 -z-[10] rounded-2xl bg-gray-400 object-cover 
+							className={`duration-3000 z-[-10] rounded-2xl bg-gray-400 object-cover 
 							opacity-90 blur-[1px] drop-shadow-md saturate-150 transition ease-linear
 							${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-md'}`}
 							alt={`${user.spotify.album}`}

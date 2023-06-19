@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useSpring, useScroll, useCycle } from 'framer-motion';
 import Link from 'next/link';
 import { classNames } from '../util/classNames';
 import { useRouter } from 'next/router';
@@ -6,6 +6,7 @@ import { useState, useRef } from 'react';
 import ThemeToggle from './ThemeToggle';
 import { HiMenu, HiX } from 'react-icons/hi';
 import useOnClickOutside from '../hooks/useClickOutSide';
+import { MenuToggle } from './MenuToggle';
 
 const NavLink = ({ name, link, selected }: { name: string; link: string; selected: boolean }) => {
 	return (
@@ -24,9 +25,16 @@ const NavLink = ({ name, link, selected }: { name: string; link: string; selecte
 	);
 };
 const Nav = () => {
+	const containerRef = useRef(null);
 	const router = useRouter();
-
+	const [isOpen, toggleOpen] = useCycle(false, true);
 	const [openMenu, setOpenMenu] = useState(false);
+	const { scrollYProgress } = useScroll();
+	const scaleX = useSpring(scrollYProgress, {
+		stiffness: 100,
+		damping: 30,
+		restDelta: 0.001,
+	});
 	const handleMenu = () => {
 		setOpenMenu(!openMenu);
 	};
@@ -34,14 +42,13 @@ const Nav = () => {
 	//HTMLButtonElement
 	const ref = useRef<HTMLDivElement>(null);
 	const clickOutsidehandler = (e: any) => {
-		if(e.target.tagName === "DIV") {
+		if (e.target.tagName === 'DIV') {
 			setOpenMenu(false);
 		}
-		return ;
-		
+		return;
 	};
 	useOnClickOutside(ref, clickOutsidehandler);
-	
+
 	const MobileLandingButton = ({
 		name,
 		link,
@@ -67,15 +74,15 @@ const Nav = () => {
 			</Link>
 		);
 	};
+	
 	return (
 		<>
-		
 			<motion.div
 				initial={{ opacity: 0, y: -10 }}
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: -10 }}
 				transition={{ cease: 'easeInOut', duration: 0.5 }}
-				className="hidden z-[10] fixed w-[90%] md:w-[50rem] sm:flex flex-row justify-between items-center px-4 py-2 mt-4 md:mt-6 rounded-lg bg-white/60 dark:bg-[#5f5555ad] dark:border-white/30 backdrop-blur-lg shadow-md"
+				className="fixed z-[10] mt-4 hidden w-[90%] flex-row items-center justify-between rounded-lg bg-white/60 px-4 py-2 shadow-md backdrop-blur-lg dark:border-white/30 dark:bg-[#5f5555ad] sm:flex md:mt-6 md:w-[50rem]"
 			>
 				<div className="flex flex-row items-center justify-center gap-2">
 					<NavLink name="Home" link="/" selected={router.pathname === '/'} />
@@ -85,41 +92,45 @@ const Nav = () => {
 				<div className="flex flex-row items-center justify-center gap-4">
 					<ThemeToggle />
 				</div>
+				<motion.div className="progress-bar rounded-lg dark:bg-neutral-400" style={{ scaleX }} />
 			</motion.div>
-			<motion.div className="sm:hidden z-[990] fixed w-full flex flex-row justify-between items-center px-4 py-3 bg-white/60 dark:bg-[#5f5555ad] dark:border-white/30 border-b border-slate-800/50 backdrop-blur-lg shadow-md">
-				<div  className="flex flex-row items-center justify-center">
-					<button onClick={handleMenu} className="h-9 w-9 flex items-center justify-center">
-						{!openMenu ? <HiMenu className="w-7 h-7" /> : <HiX className="w-7 h-7" />}
-					</button>
+			<motion.div className="fixed z-[990] flex w-full flex-row items-center justify-between border-b border-slate-800/50 bg-white/60 px-4 py-3 shadow-md backdrop-blur-lg dark:border-white/30 dark:bg-[#5f5555ad] sm:hidden">
+				<div className="flex flex-row items-center justify-center">
+					<motion.div 
+					className="flex h-9 w-9 items-center justify-center"
+					animate={isOpen ? 'open' : 'closed'}>
+						<MenuToggle toggle={() => toggleOpen()} />
+					</motion.div>
 				</div>
 				<div className="flex flex-row items-center justify-between gap-2">
 					<ThemeToggle />
 				</div>
-				
+				<motion.div className="progress-bar rounded-lg dark:bg-neutral-400" style={{ scaleX }} />
 			</motion.div>
 			<AnimatePresence mode="wait">
-				{openMenu && (
+				{isOpen && (
 					<>
-						<motion.div
+						<motion.nav
+							ref={containerRef}
 							key="NavBackdrop"
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							exit={{ opacity: 0 }}
-							transition={{ duration: 0.1, ease: 'easeInOut' }}
-							className=" sm:hidden z-[500] fixed w-full h-screen overflow-hidden backdrop-blur-md bg-black/10 flex flex-col items-center justify-content"
+							transition={{ duration: 0.2, ease: 'easeInOut' }}
+							className=" justify-content fixed z-[500] flex h-screen w-full flex-col items-center overflow-hidden bg-black/10 backdrop-blur-md sm:hidden"
 						/>
 
 						<motion.div
-							ref={ref} 
+							ref={ref}
 							key="NavMenu"
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							exit={{ opacity: 0 }}
-							transition={{ duration: 0.1, ease: 'easeInOut' }}
-							className="flex sm:hidden flex-col items-center justify-start mt-16 fixed w-full h-auto z-[700]
-							 bg-white dark:bg-[#8c8484]  border-slate-800/30"
+							initial={{ opacity: 0, y: -130 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: -150 }}
+							transition={{ duration: 0.4, ease: 'easeInOut' }}
+							className="fixed z-[700] mt-16 flex h-auto w-full flex-col items-center justify-start border-slate-800/30
+							 bg-white dark:bg-[#8c8484] sm:hidden"
 						>
-							<div className="flex flex-col w-full justify-evenly">
+							<div className="flex w-full flex-col justify-evenly">
 								<MobileLandingButton
 									name="Home"
 									link="/"

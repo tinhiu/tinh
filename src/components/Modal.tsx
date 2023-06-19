@@ -49,17 +49,17 @@ function Modal({ isOpen, ...props }: Props) {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<div className="relative z-99 my-8 inline-block w-full max-w-xl
+							<div className="z-99 relative my-8 inline-block w-full max-w-xl
 							 overflow-hidden rounded-2xl bg-neutral-200 p-6 text-left align-middle shadow-xl
 							  transition-all dark:bg-neutral-200">
 								<div className="relative">
-									<Dialog.Title as="h3" className="text-lg text-[#1DB954] font-medium leading-6">
+									<Dialog.Title as="h3" className="text-lg font-medium leading-6 text-[#1DB954]">
 										{props.title}
 									</Dialog.Title>
 
-									<div className="absolute top-0 right-0 text-xl">
+									<div className="absolute right-0 top-0 text-xl">
 										<button type="button"
-										className="leading-none px-3 py-1" onClick={close}>
+										className="px-3 py-1 leading-none" onClick={close}>
 											&times;
 										</button>
 									</div>
