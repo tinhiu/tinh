@@ -4,7 +4,7 @@ import { classNames } from '../util/classNames';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import ThemeToggle from './ThemeToggle';
-import useOnClickOutside from '../hooks/useClickOutSide';
+import { useOnClickOutside } from 'usehooks-ts'
 import { MenuToggle } from './MenuToggle';
 
 const NavLink = ({ name, link, selected }: { name: string; link: string; selected: boolean }) => {
@@ -36,6 +36,7 @@ const Nav = () => {
 	//HTMLButtonElement
 	const ref = useRef<HTMLDivElement>(null);
 	const clickOutsidehandler = (e: any) => {
+		console.log('e.target.tagName: ', e.target.tagName);
 		if (e.target.tagName === 'BUTTON' || e.target.tagName === 'NAV') {
 			toggleOpen();
 			return;
