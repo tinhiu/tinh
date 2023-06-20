@@ -2,9 +2,8 @@ import { motion, AnimatePresence, useSpring, useScroll, useCycle } from 'framer-
 import Link from 'next/link';
 import { classNames } from '../util/classNames';
 import { useRouter } from 'next/router';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import ThemeToggle from './ThemeToggle';
-import { HiMenu, HiX } from 'react-icons/hi';
 import useOnClickOutside from '../hooks/useClickOutSide';
 import { MenuToggle } from './MenuToggle';
 
@@ -28,24 +27,19 @@ const Nav = () => {
 	const containerRef = useRef(null);
 	const router = useRouter();
 	const [isOpen, toggleOpen] = useCycle(false, true);
-	const [openMenu, setOpenMenu] = useState(false);
 	const { scrollYProgress } = useScroll();
 	const scaleX = useSpring(scrollYProgress, {
 		stiffness: 100,
 		damping: 30,
 		restDelta: 0.001,
 	});
-	const handleMenu = () => {
-		setOpenMenu(!openMenu);
-	};
-
 	//HTMLButtonElement
 	const ref = useRef<HTMLDivElement>(null);
 	const clickOutsidehandler = (e: any) => {
-		if (e.target.tagName === 'DIV') {
-			setOpenMenu(false);
+		if (e.target.tagName === 'BUTTON' || e.target.tagName === 'NAV') {
+			toggleOpen();
+			return;
 		}
-		return;
 	};
 	useOnClickOutside(ref, clickOutsidehandler);
 
@@ -64,7 +58,7 @@ const Nav = () => {
 			<Link href={link}>
 				<a
 					className={classNames(
-						selected ? 'bg-black/20 dark:bg-[#b7afafe6]' : 'bg-transparent dark:text-white',
+						selected ? 'bg-black/20 dark:bg-[#b7afafe6]' : 'bg-transparent dark:bg-[#827676] dark:text-white',
 						'flex flex-grow justify-center border-slate-800/30 cursor-pointer w-auto py-4 text-base text-black/80 dark:text-white/80 dark:border-[#ffffff]/30 transition-all duration-75'
 					)}
 					onClick={onClick}
@@ -74,7 +68,7 @@ const Nav = () => {
 			</Link>
 		);
 	};
-	
+
 	return (
 		<>
 			<motion.div
@@ -96,9 +90,10 @@ const Nav = () => {
 			</motion.div>
 			<motion.div className="fixed z-[990] flex w-full flex-row items-center justify-between border-b border-slate-800/50 bg-white/60 px-4 py-3 shadow-md backdrop-blur-lg dark:border-white/30 dark:bg-[#5f5555ad] sm:hidden">
 				<div className="flex flex-row items-center justify-center">
-					<motion.div 
-					className="flex h-9 w-9 items-center justify-center"
-					animate={isOpen ? 'open' : 'closed'}>
+					<motion.div
+						className="flex h-9 w-9 items-center justify-center"
+						animate={isOpen ? 'open' : 'closed'}
+					>
 						<MenuToggle toggle={() => toggleOpen()} />
 					</motion.div>
 				</div>
@@ -136,7 +131,7 @@ const Nav = () => {
 									link="/"
 									selected={router.pathname === '/'}
 									onClick={() => {
-										setOpenMenu(false);
+										toggleOpen();
 									}}
 								/>
 								<MobileLandingButton
@@ -144,7 +139,7 @@ const Nav = () => {
 									link="/contact"
 									selected={router.pathname === '/contact'}
 									onClick={() => {
-										setOpenMenu(false);
+										toggleOpen();
 									}}
 								/>
 								<MobileLandingButton
@@ -152,7 +147,7 @@ const Nav = () => {
 									link="/music"
 									selected={router.pathname === '/music'}
 									onClick={() => {
-										setOpenMenu(false);
+										toggleOpen();
 									}}
 								/>
 							</div>
