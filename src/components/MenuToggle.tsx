@@ -13,7 +13,7 @@ const Path = (props: React.JSX.IntrinsicAttributes & SVGMotionProps<SVGPathEleme
 export const MenuToggle = ({ toggle }: any) => {
 	return (
 		<button onClick={toggle} className='cursor-pointer rounded-md bg-transparent p-2 hover:bg-black/5 dark:hover:bg-white/5'>
-			<svg width="23" height="23" viewBox="0 0 23 23"  className='stroke-slate-700 dark:stroke-stone-300'>
+			<svg width="23" height="23" viewBox="0 0 21 21"  className='stroke-slate-700 dark:stroke-stone-300'>
 				<Path
 					variants={{
 						closed: { d: 'M 2 2.5 L 20 2.5' },

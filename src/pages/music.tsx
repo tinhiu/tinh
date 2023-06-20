@@ -9,8 +9,6 @@ import Image from 'next/image';
 import type { GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 import { HiExternalLink } from 'react-icons/hi';
-
-// @ts-ignore
 import TailwindColor from '@videsk/tailwind-random-color';
 import { MdExplicit } from 'react-icons/md';
 import { SiSpotify } from 'react-icons/si';
@@ -280,7 +278,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 				</div>
 			</Modal>
 
-			<div className={`group-hover: w-full transition-all group-hover:shadow-lg${ranDom}`}>
+			<div className={`group-hover:${ranDom} w-full transition-all group-hover:shadow-lg`}>
 				<Image
 					src={image}
 					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
