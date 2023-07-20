@@ -55,7 +55,7 @@ export default function MusicPage({
 	randomLastFMTrack,
 	userLanyard,
 }: Props) {
-	const image = user.images[0].url;
+	const image = user.images[1].url;
 
 	// console.log(JSON.stringify(userLanyard, null, 4));
 
@@ -130,7 +130,7 @@ export default function MusicPage({
 					</motion.div>
 				</div>
 				<div className="w-full">
-					<ModalSpotify user={userLanyard} />
+					<ModalSpotify user={userLanyard} spotify={user}/>
 				</div>
 				<div className="mx-4">
 					<div className="mb-6 mt-4 ">
@@ -357,22 +357,24 @@ export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any
 
 	/* Top tracks playing */
 	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 42 });
+
 	/* Get me */
-	const user = await api.getMe();
+	const getMe = await api.getMe();
+	const user = (({ country, email, product, ...rest }: any) => rest)(getMe.body);
 
 	/* Get getMyCurrentPlayingTrack*/
 
 	/* const track = await api.getMyCurrentPlayingTrack(); */
 
 	/* getUserPlaylists */
-	const playlists = await api.getUserPlaylists(user.body.id);
+	const playlists = await api.getUserPlaylists(user?.id);
 	const followings = await api.getFollowedArtists();
 
 	/* RecentlyPlayedTracks */
 	//const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 
 	await redis.quit();
-	const lfm = new LastFM(LAST_FM_API_KEY);
+	const lfm = new LastFM(LAST_FM_API_KEY!);
 	let topLFMTracks = await lfm.getTopTracks('loonailysm', '1month', '6');
 	topLFMTracks = topLFMTracks.map((item) => ({
 		mbid: item.mbid,
@@ -385,7 +387,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any
 	}));
 	return {
 		props: {
-			user: user.body,
+			user: user,
 			topTracks: tracks.body.items,
 			playLists: playlists.body.total,
 			following: followings.body.artists.total,

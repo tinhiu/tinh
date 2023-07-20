@@ -6,8 +6,8 @@ export type LastFMParams = { method: string } & Record<string, string>;
 export class LastFM {
 	private readonly apiKey: string;
 
-	constructor(apiKey: string | undefined) {
-		this.apiKey = apiKey!
+	constructor(apiKey: string) {
+		this.apiKey = apiKey;
 	}
 
 	async getTopTracks(

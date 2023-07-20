@@ -3,8 +3,8 @@ import Image from 'next/future/image';
 import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 import { HiExternalLink } from 'react-icons/hi';
-const ModalSpotify = ({ user }: any) => {
-	//console.log(JSON.stringify(user,null,4));
+const ModalSpotify = ({ user, spotify }: any) => {
+	// console.log(JSON.stringify(spotify,null,4));
 	const [isReady, setIsReady] = useState(false);
 
 	const onLoadCallback = () => {
@@ -24,7 +24,7 @@ const ModalSpotify = ({ user }: any) => {
                 	transition duration-500 hover:scale-[0.99] hover:brightness-110 hover:ease-out dark:shadow-gray-400/50"
 				>
 					<a
-						href="https://open.spotify.com/user/31lhz6y3u5ootzbuxbnkndz4x2ea"
+						href={spotify.external_urls.spotify_url}
 						target="_blank"
 						rel="norel noreferrer"
 						className="cursor-pointer"
@@ -38,10 +38,10 @@ const ModalSpotify = ({ user }: any) => {
 						>
 							<div className='m-0 h-full overflow-hidden rounded-2xl border-0 p-0'>
 								<Image
-									src="https://i.scdn.co/image/ab6775700000ee85857be609ae822848766e7419"
+									src={spotify.images[1].url}
 									className={`duration-3000 z-[-10] h-full rounded-2xl bg-gray-400 object-cover
 		                            object-bottom blur-[1px] contrast-75 drop-shadow-md saturate-150 transition ease-linear
-									${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-sm'}`}
+									${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-sm'}` }
 									alt={`me`}
 									fill={true}
 									sizes="(max-width: 768px) 100vw"
