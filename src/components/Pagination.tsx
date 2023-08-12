@@ -18,6 +18,8 @@ const Pagination = ({
   renderPageLink,
 }: PaginationProps) => {
   const pages = usePagination(totalItems, currentPage, itemsPerPage)
+  console.log('pages: ', pages);
+  console.log('currentPage: ', currentPage);
 
   return (
     <div className="my-8 flex items-center justify-center">
@@ -34,9 +36,8 @@ const Pagination = ({
             <a
               key={i}
               href={renderPageLink(pageNumber as number)}
-              className={`${
-                pageNumber === currentPage ? 'text-success-dark' : 'text-black'
-              } mx-1 rounded-full px-4 py-2 text-sm font-semibold no-underline`}
+              className={`${pageNumber == currentPage ? 'text-black  dark:text-gray-600' : ' text-gray-400  dark:text-white'
+                } mx-1 rounded-full px-4 py-2 text-sm font-semibold  no-underline`}
             >
               {pageNumber}
             </a>

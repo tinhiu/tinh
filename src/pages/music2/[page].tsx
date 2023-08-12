@@ -23,14 +23,12 @@ export const PER_PAGE = 12
 
 function PaginatedPage({ music, currentPage, totalProducts }: PageProps) {
   return (
-    <>
       <PaginationPage
         music={music}
         currentPage={currentPage}
         totalProducts={totalProducts}
         perPage={PER_PAGE}
       />
-    </>
   )
 }
 
@@ -87,7 +85,6 @@ export const getStaticProps: GetStaticProps = async ({
   const page = Number(params?.page) || 1
   const { body: userTopTracks } = await api.getMyTopTracks({ time_range: 'short_term', limit: 50 });
   const { music, total, totalPages } = await getProducts({ music: userTopTracks.items, limit: PER_PAGE, page });
-
   if (!music.length) {
     return {
       notFound: true,
@@ -98,7 +95,7 @@ export const getStaticProps: GetStaticProps = async ({
   if (page === 1 || totalPages < page) {
     return {
       redirect: {
-        destination: '/music',
+        destination: '/music2',
         permanent: true,
       },
     }
@@ -114,5 +111,14 @@ export const getStaticProps: GetStaticProps = async ({
   }
 }
 
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    // Prerender the next 5 pages after the first page, which is handled by the index page.
+    // Other pages will be prerendered at runtime.
+    paths: Array.from({ length: 5 }).map((_, i) => `/music2/${i + 2}`),
+    // Block the request for non-generated pages and cache them in the background
+    fallback: 'blocking',
+  }
+}
 
 export default PaginatedPage
