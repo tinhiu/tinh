@@ -1,19 +1,20 @@
 import type { AppProps } from 'next/app';
 import { Router } from 'next/router';
 import NProgress from 'nprogress';
-import { SWRConfig } from 'swr';
 import { StrictMode, useEffect, useRef } from 'react';
 import Head from 'next/head';
-import 'nprogress/nprogress.css';
-import '../styles/globals.css';
-import '../styles/custom.scss';
+import GoogleAnalytics from "@bradgarropy/next-google-analytics";
+
 import Nav from '../components/Nav';
-import { AnimatePresence, useScroll, useSpring, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import Song from '../components/Song';
 import ScrollToTop from '../components/ScrollToTop';
 import { useLanyardWS } from 'use-lanyard';
 import { loadCursor } from '../util/cursor';
 
+import 'nprogress/nprogress.css';
+import '../styles/globals.css';
+import '../styles/custom.scss';
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
@@ -24,7 +25,6 @@ type PageProps = {
 export const DISCORD_ID = '885439540268003338';
 
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
-	
 	const userLanyard = useLanyardWS(DISCORD_ID);
 	const ballCanvas = useRef<HTMLDivElement>(null);
 	useEffect(() => {
@@ -40,6 +40,7 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 				<title>tinh</title>
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 			</Head>
+			<GoogleAnalytics measurementId="G-5P1XGDL96" />
 			<div
 				className="flex h-full min-h-screen w-full flex-row justify-center bg-gradient-to-b
 	         from-[#e0dbdb] to-[#e0dbdb] text-black

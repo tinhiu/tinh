@@ -2,45 +2,35 @@ import IORedis from 'ioredis';
 import dayjs from 'dayjs';
 import ms from 'ms';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { useLanyardWS } from 'use-lanyard';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SpotifyWebAPI from 'spotify-web-api-node';
 import Image from 'next/image';
 import type { GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
-import { HiExternalLink } from 'react-icons/hi';
-import TailwindColor from '@videsk/tailwind-random-color';
-import { MdExplicit } from 'react-icons/md';
-import { SiSpotify } from 'react-icons/si';
-import Modal from '../components/Modal';
-import ModalSpotify from '../components/Spotify';
-import api from './api/spotify/oauth';
-import TrackObjectFull = SpotifyApi.TrackObjectFull;
-import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
-import UsersTopTracksResponse = SpotifyApi.UsersTopTracksResponse;
-import PlayHistoryObject = SpotifyApi.PlayHistoryObject;
+import ModalSpotify from '../../components/Spotify';
 import UserObjectPublic = SpotifyApi.UserObjectPublic;
-import ListOfUsersPlaylist = SpotifyApi.ListOfUsersPlaylistsResponse;
-import FollowedArtists = SpotifyApi.UsersFollowedArtistsResponse;
-import CurrentPlayingTrack = SpotifyApi.CurrentlyPlayingResponse;
-import type { LastFMGetTrack } from '../server/last-fm';
-import { LastFM } from '../server/last-fm';
+import type { LastFMGetTrack } from '../../server/last-fm';
+import { LastFM } from '../../server/last-fm';
 import {
 	LAST_FM_API_KEY,
 	REDIS_URL,
 	SPOTIFY_CLIENT_ID,
 	SPOTIFY_CLIENT_SECRET,
 	SPOTIFY_REDIS_KEYS,
-} from '../server/constants';
-import Details from '../components/Details';
-import AudioMusic from '../components/AudioMusic';
+} from '../../server/constants';
 
-import { rand } from '../util/types';
+import { rand } from '../../util/types';
+import getProducts from '../../lib/getProducts';
+import PaginationPage from '../../components/PaginatedPage';
+import { PER_PAGE } from './[page]';
 import { useRouter } from 'next/router';
-import getProducts from '../lib/getProducts';
 type Props = {
 	user: UserObjectPublic | any;
-	topTracks: TrackObjectFull[];
+	music: any[];
+	currentPage: number | any;
+	totalProducts: number | any;
 	playLists: number | any;
 	following: number | any;
 	userLanyard: any;
@@ -52,7 +42,9 @@ dayjs.extend(relativeTime);
 
 export default function MusicPage({
 	user,
-	topTracks,
+	music,
+	currentPage,
+	totalProducts,
 	playLists,
 	following,
 	randomLastFMTrack,
@@ -60,6 +52,20 @@ export default function MusicPage({
 }: Props) {
 	const image = user.images[1].url;
 	// console.log(JSON.stringify(userLanyard, null, 4));
+	const router = useRouter();
+	const query = router.query;
+	const page = (query.page as string) ?? '1';
+	const perPage = (query.perPage as string) ?? '12';
+	// console.log('perPage: ', perPage);
+	// console.log('page: ', page);
+	// useCallback(async () => {
+	// 	const userTopTracks = await api.getMyTopTracks({
+	// 		time_range: 'short_term',
+	// 		limit: 12,
+	// 		offset: 6,
+	// 	});
+	// 	console.log(JSON.stringify(profiles));
+	// }, []);
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 7 }}
@@ -157,158 +163,23 @@ export default function MusicPage({
 				</div>
 			</div>
 
-			<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
-				{topTracks.map((track) => (
+			{/* <div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
+				{userTopTracks.items.map((track) => (
 					//<Track key={track.id} track={track} />
 					<Track key={track.id} track={track} />
 				))}
-			</div>
-			{/* <Pagination page={parseInt(page)} perPage={parseInt(perPage)} itemCount={userTopTracks.total ?? 0} /> */}
+			</div> */}
+			<PaginationPage
+				music={music}
+				currentPage={currentPage}
+				totalProducts={totalProducts}
+				perPage={PER_PAGE}
+			/>
 		</motion.div>
 	);
 }
-function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
-	const [statsOpen, setStatsOpen] = useState(false);
-	const [isReady, setIsReady] = useState(false);
-	const options = {
-		colors: ['yellow', 'orange', 'blue', 'cyan', 'purple', 'emerald'],
-		range: [4, 4], // Between 400 and 400,
-		prefix: 'shadow',
-	};
-	const [ranDom, setRanDom] = useState('shadow-blue-400');
-	const onLoadCallback = () => {
-		setIsReady(true);
-	};
 
-	const image = track.album.images[0].url;
-	const artists = track.artists.map((artist) => artist.name).join(', ');
-
-	const close = () => {
-		setStatsOpen(false);
-	};
-
-	const open = () => {
-		setStatsOpen(true);
-	};
-
-	const changeRandom = () => {
-		const randomColor = new TailwindColor(options).pick();
-		// const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-		//console.log(randomColor);
-		setRanDom(randomColor);
-	};
-	const album = track.album as AlbumObjectFull;
-
-	return (
-		<button
-			key={track.id}
-			type="button"
-			className="group flex flex-col space-y-2 p-[2px] text-left align-top no-underline
-			outline-none focus:outline-none focus:ring-4 
-			focus:ring-amber-100 dark:focus:ring-gray-200"
-			onClick={open}
-			onMouseLeave={changeRandom}
-		>
-			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24} />}>
-				<div className="space-y-4">
-					<div className="relative aspect-[3/2] ">
-						<Image
-							src={image}
-							layout="fill"
-							alt={`${track.album.name} by ${artists}`}
-							className={`pointer-events-none z-[-10] h-auto w-full rounded-md  bg-gray-200 object-cover
-							transition 
-							duration-700 ${isReady ? 'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
-							loading="lazy"
-							decoding="async"
-							onLoadingComplete={onLoadCallback}
-						/>
-					</div>
-					{track.preview_url ? (
-						<AudioMusic src={track.preview_url || ''} />
-					) : (
-						<p className="flex justify-end text-sm italic">*preview not available</p>
-					)}
-
-					<a
-						href={track.external_urls.spotify}
-						className="group flex justify-between rounded-md border 
-						bg-gray-400  p-3 no-underline dark:border-0 dark:bg-neutral-400"
-						target="_blank"
-						rel="noreferrer"
-					>
-						<div className="w-[90%]">
-							<h2 className="truncate text-xl font-bold group-hover:underline md:text-2xl">
-								{track.name}
-							</h2>
-							<h3 className="text-sm italic text-gray-800 dark:text-gray-800">by {artists}</h3>
-						</div>
-
-						<HiExternalLink size={24} />
-					</a>
-
-					<>
-						<Details
-							details={[
-								{
-									name: 'Released:',
-									value: (
-										<span>
-											{dayjs(album.release_date).fromNow()} (
-											{dayjs(album.release_date).format('MMM D, YYYY')})
-										</span>
-									),
-								},
-								{
-									name: 'Album:',
-									value: album.name,
-								},
-								{
-									name: 'Duration:',
-									value: ms(track.duration_ms, { long: true }),
-								},
-							]}
-						/>
-					</>
-
-					<button
-						onClick={close}
-						className="float-right !mt-0 rounded-lg px-2 py-1 hover:bg-slate-400"
-					>
-						Close
-					</button>
-				</div>
-			</Modal>
-
-			<div className={`group-hover:${ranDom} w-full transition-all group-hover:shadow-lg`}>
-				<Image
-					src={image}
-					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
-					duration-300 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
-					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}
-					`}
-					alt={`${track.name} by ${artists}`}
-					width={400}
-					height={400}
-					loading="lazy"
-					decoding="async"
-					sizes="100vw"
-					onLoadingComplete={onLoadCallback}
-				/>
-			</div>
-
-			<div className="w-full truncate">
-				<ul className="mt-4 contents items-center py-0.5 text-lg">
-					<li className="w-full truncate font-bold ">
-						{track.explicit && <MdExplicit className="-mt-1 inline" />} {track.name}
-					</li>{' '}
-					<li className="w-full truncate text-gray-600 dark:text-neutral-200/70">by {artists}</li>
-				</ul>
-			</div>
-		</button>
-	);
-}
-export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any) => {
+export const getServerSideProps: GetServerSideProps<Props> = async ({ query: { page = 1 } }) => {
 	const redis = new IORedis(REDIS_URL || '');
 	const [token, refresh] = await redis.mget(
 		SPOTIFY_REDIS_KEYS.AccessToken,
@@ -350,7 +221,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any
 			clientSecret: SPOTIFY_CLIENT_SECRET,
 			accessToken: token,
 		});
-		//console.log(api);
 	} else {
 		throw new Error(
 			'No Spotify tokens available! Please manually add them to the Redis store to allow tokens to refresh in the future.'
@@ -358,7 +228,17 @@ export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any
 	}
 
 	/* Top tracks playing */
-	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 42  });
+	/* const tracks = await api.getMyTopTracks({ time_range: 'short_term' }); */
+	const { body: userTopTracks } = await api.getMyTopTracks({
+		time_range: 'short_term',
+		limit: 60,
+		offset: 0,
+	});
+	const { music, total } = await getProducts({
+		music: userTopTracks.items,
+		limit: PER_PAGE,
+		page: page as number,
+	});
 	/* Get me */
 	const getMe = await api.getMe();
 	const user = (({ country, email, product, ...rest }: any) => rest)(getMe.body);
@@ -386,15 +266,17 @@ export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any
 		playcount: item.playcount,
 		duration: item.duration,
 	}));
+
 	return {
 		props: {
 			user: user,
-			topTracks: tracks.body.items,
+			music: music,
+			currentPage: page as number,
+			totalProducts: total,
 			playLists: playlists.body.total,
 			following: followings.body.artists.total,
 			randomLastFMTrack: rand(topLFMTracks),
-			userLanyard: userLanyard || null,
+			userLanyard: null,
 		},
-		revalidate,
 	};
 };

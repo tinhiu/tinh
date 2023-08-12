@@ -16,7 +16,6 @@ export function loadCursor(ball: HTMLDivElement) {
 	function drawBall() {
 		ballX += (x - ballX) * 0.1 - 1;
 		ballY += (y - ballY) * 0.1 - 1;
-
 		ball.style.top = `${ballY - window.scrollY}px`;
 		ball.style.left = `${ballX}px`;
 	}

@@ -22,7 +22,6 @@ const scopes = [
 ] as const;
 
 const scope = join(scopes, ' ');
-console.log("SPOTIFY_REDIRECT_URL: ", SPOTIFY_REDIRECT_URI);
 
 const redirectUrl = urlcat('https://accounts.spotify.com/authorize', {
 	response_type: 'code',
