@@ -85,10 +85,8 @@ export const getStaticProps: GetStaticProps = async ({
 		);
 	}
   const page = Number(params?.page) || 1
-  console.log('page: ', page);
   const { body: userTopTracks } = await api.getMyTopTracks({ time_range: 'short_term', limit: 50 });
   const { music, total, totalPages } = await getProducts({ music: userTopTracks.items, limit: PER_PAGE, page });
-  console.log('totalPages: ', totalPages);
 
   if (!music.length) {
     return {
@@ -116,14 +114,5 @@ export const getStaticProps: GetStaticProps = async ({
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    // Prerender the next 5 pages after the first page, which is handled by the index page.
-    // Other pages will be prerendered at runtime.
-    paths: Array.from({ length: 5 }).map((_, i) => `/music2?page=${i + 2}`),
-    // Block the request for non-generated pages and cache them in the background
-    fallback: 'blocking',
-  }
-}
 
 export default PaginatedPage
