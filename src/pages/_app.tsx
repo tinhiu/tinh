@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 				<title>tinh</title>
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 			</Head>
-			<GoogleAnalytics measurementId="G-5P1XGDL96" />
+			<GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS as string}/>
 			<div
 				className="flex h-full min-h-screen w-full flex-row justify-center bg-gradient-to-b
 	         from-[#e0dbdb] to-[#e0dbdb] text-black
