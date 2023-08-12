@@ -120,7 +120,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     // Prerender the next 5 pages after the first page, which is handled by the index page.
     // Other pages will be prerendered at runtime.
-    paths: Array.from({ length: 5 }).map((_, i) => `/music2?page=/${i + 2}`),
+    paths: Array.from({ length: 5 }).map((_, i) => `/music2?page=${i + 2}`),
     // Block the request for non-generated pages and cache them in the background
     fallback: 'blocking',
   }
