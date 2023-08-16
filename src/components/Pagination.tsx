@@ -18,11 +18,9 @@ const Pagination = ({
   renderPageLink,
 }: PaginationProps) => {
   const pages = usePagination(totalItems, currentPage, itemsPerPage)
-  console.log('pages: ', pages);
-  console.log('currentPage: ', currentPage);
-
+  
   return (
-    <div className="my-8 flex items-center justify-center">
+    <div className="my-8 mt-32 flex items-center justify-center">
       {pages.map((pageNumber, i) =>
         pageNumber === dotts ? (
           <span
@@ -35,9 +33,8 @@ const Pagination = ({
           <Link key={i} href={renderPageLink(pageNumber as number)}>
             <a
               key={i}
-              href={renderPageLink(pageNumber as number)}
               className={`${pageNumber == currentPage ? 'text-black  dark:text-gray-600' : ' text-gray-400  dark:text-white'
-                } mx-1 rounded-full px-4 py-2 text-sm font-semibold  no-underline`}
+                } mx-1 rounded-full px-4 py-2 text-sm font-semibold  no-underline hover:bg-amber-100 dark:hover:bg-indigo-500`}
             >
               {pageNumber}
             </a>

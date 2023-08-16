@@ -2,9 +2,11 @@ import IORedis from 'ioredis';
 import dayjs from 'dayjs';
 import ms from 'ms';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import type { InferGetServerSidePropsType, GetServerSideProps, GetStaticPropsContext } from 'next';
 import { useLanyardWS } from 'use-lanyard';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 import SpotifyWebAPI from 'spotify-web-api-node';
 import Image from 'next/image';
 import type { GetStaticProps } from 'next';
@@ -20,12 +22,10 @@ import {
 	SPOTIFY_CLIENT_SECRET,
 	SPOTIFY_REDIS_KEYS,
 } from '../../server/constants';
-
 import { rand } from '../../util/types';
 import getProducts from '../../lib/getProducts';
 import PaginationPage from '../../components/PaginatedPage';
-import { PER_PAGE } from './[page]';
-import { useRouter } from 'next/router';
+const PER_PAGE = 12;
 type Props = {
 	user: UserObjectPublic | any;
 	music: any[];
@@ -52,20 +52,7 @@ export default function MusicPage({
 }: Props) {
 	const image = user.images[1].url;
 	// console.log(JSON.stringify(userLanyard, null, 4));
-	const router = useRouter();
-	const query = router.query;
-	const page = (query.page as string) ?? '1';
-	const perPage = (query.perPage as string) ?? '12';
-	// console.log('perPage: ', perPage);
-	// console.log('page: ', page);
-	// useCallback(async () => {
-	// 	const userTopTracks = await api.getMyTopTracks({
-	// 		time_range: 'short_term',
-	// 		limit: 12,
-	// 		offset: 6,
-	// 	});
-	// 	console.log(JSON.stringify(profiles));
-	// }, []);
+	
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 7 }}
@@ -171,6 +158,7 @@ export default function MusicPage({
 			</div> */}
 			<PaginationPage
 				music={music}
+				url='music2'
 				currentPage={currentPage}
 				totalProducts={totalProducts}
 				perPage={PER_PAGE}
@@ -179,7 +167,8 @@ export default function MusicPage({
 	);
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async ({ query: { page = 1 } }) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const page = context.query.page || 1;
 	const redis = new IORedis(REDIS_URL || '');
 	const [token, refresh] = await redis.mget(
 		SPOTIFY_REDIS_KEYS.AccessToken,
@@ -226,7 +215,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query: { p
 			'No Spotify tokens available! Please manually add them to the Redis store to allow tokens to refresh in the future.'
 		);
 	}
-
 	/* Top tracks playing */
 	/* const tracks = await api.getMyTopTracks({ time_range: 'short_term' }); */
 	const { body: userTopTracks } = await api.getMyTopTracks({
@@ -237,14 +225,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query: { p
 	const { music, total } = await getProducts({
 		music: userTopTracks.items,
 		limit: PER_PAGE,
-		page: page as number,
+		page: page as unknown as number,
 	});
 	/* Get me */
 	const getMe = await api.getMe();
 	const user = (({ country, email, product, ...rest }: any) => rest)(getMe.body);
 
 	/* Get getMyCurrentPlayingTrack*/
-
 	/* const track = await api.getMyCurrentPlayingTrack(); */
 
 	/* getUserPlaylists */
@@ -252,7 +239,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query: { p
 	const followings = await api.getFollowedArtists();
 
 	/* RecentlyPlayedTracks */
-	//const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
+	const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 
 	await redis.quit();
 	const lfm = new LastFM(LAST_FM_API_KEY!);
@@ -271,7 +258,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query: { p
 		props: {
 			user: user,
 			music: music,
-			currentPage: page as number,
+			currentPage: page || 1,
 			totalProducts: total,
 			playLists: playlists.body.total,
 			following: followings.body.artists.total,

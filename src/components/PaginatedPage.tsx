@@ -17,6 +17,7 @@ import { MdExplicit } from 'react-icons/md';
 type PageProps = {
 	music: any[];
 	currentPage: number;
+	url: string;
 	totalProducts: number;
 	perPage: number;
 };
@@ -167,6 +168,7 @@ const PaginationPage = ({
 	currentPage,
 	totalProducts,
 	perPage,
+	url,
 	music,
 }: PageProps): JSX.Element => {
 	return (
@@ -181,7 +183,7 @@ const PaginationPage = ({
 				totalItems={totalProducts}
 				currentPage={currentPage}
 				itemsPerPage={perPage}
-				renderPageLink={(page) => `/music2?page=${page}`}
+				renderPageLink={(page) => `/${url}?page=${page}`}
 			/>
 		</>
 	);
