@@ -1,4 +1,3 @@
-import IORedis from 'ioredis';
 import SpotifyWebAPI from 'spotify-web-api-node';
 import {
 	SPOTIFY_CLIENT_ID,

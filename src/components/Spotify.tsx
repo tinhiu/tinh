@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 import { HiExternalLink } from 'react-icons/hi';
 const ModalSpotify = ({ user, spotify }: any) => {
-	// console.log(JSON.stringify(spotify,null,4));
+	// console.log(JSON.stringify(user,null,4));
 	const [isReady, setIsReady] = useState(false);
 
 	const onLoadCallback = () => {
@@ -24,7 +24,7 @@ const ModalSpotify = ({ user, spotify }: any) => {
                 	transition duration-500 hover:scale-[0.99] hover:brightness-110 hover:ease-out dark:shadow-gray-400/50"
 				>
 					<a
-						href={spotify.external_urls.spotify_url}
+						href={spotify.external_urls.spotify}
 						target="_blank"
 						rel="norel noreferrer"
 						className="cursor-pointer"

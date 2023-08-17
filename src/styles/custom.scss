@@ -81,3 +81,18 @@ html *::-webkit-scrollbar-track {
 .ball-transitions {
 	transition: opacity 0.2s, transform 0.2s;
 }
+// tippy
+.tippy-popper {
+	left: -10px!important;
+}
+.dark .tippy-tooltip-content {
+	color: #000 !important;
+}
+.tippy-tooltip {
+	color: #000 !important;
+	background-color: #dccdcd !important;
+}
+.arrow-regular {
+	bottom: -6px !important;
+	border-top-color: #dccdcd !important;
+}

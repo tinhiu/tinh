@@ -150,12 +150,6 @@ export default function MusicPage({
 				</div>
 			</div>
 
-			{/* <div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
-				{userTopTracks.items.map((track) => (
-					//<Track key={track.id} track={track} />
-					<Track key={track.id} track={track} />
-				))}
-			</div> */}
 			<PaginationPage
 				music={music}
 				url='music2'
