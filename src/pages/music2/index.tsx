@@ -59,9 +59,9 @@ export default function MusicPage({
 			animate={{ opacity: 1, y: 0 }}
 			exit={{ opacity: 0, y: -4 }}
 			transition={{ ease: 'easeInOut', duration: 0.4 }}
-			className="mb-32 mt-24 w-full"
+			className="mb-32 mt-16 w-full"
 		>
-			<div className="mt-36 ">
+			<div className="mt-1 ">
 				<div className="flex justify-center ">
 					<motion.div
 						initial={{ opacity: 0, x: -50 }}

@@ -1,18 +1,19 @@
 import { motion } from 'framer-motion';
 import Image from 'next/future/image';
+import { SiSpotify } from 'react-icons/si';
 
 const Song = ({ user }: any) => {
 	if (!user || !user.spotify) {
 		return (
 			<motion.div
-				initial={{ opacity: 0, y: -50 }}
-				animate={{ opacity: 1, y: -100 }}
+				initial={{ opacity: 0, y: 0 }}
+				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 1, duration: 2, easing: [0, 0.5, 0.28, 2] }}
 				className="fixed 
-                -bottom-40 left-14 hidden h-[7rem] w-[20rem] flex-col items-start justify-start lg:flex
+                -bottom-8 left-14 hidden h-[7rem] w-[20rem] flex-col items-start justify-start lg:flex
                 "
 			>
-				<i className="text-sm">*not playing anything 🥲</i>
+				<i className="flex items-center text-sm">*not playing anything <SiSpotify size={12} className='ml-2' /> </i> 
 			</motion.div>
 		);
 	}
@@ -20,11 +21,11 @@ const Song = ({ user }: any) => {
 	return (
 		<>
 			<motion.div
-				initial={{ opacity: 0, y: -50 }}
-				animate={{ opacity: 1, y: -100 }}
+				initial={{ opacity: 0, y: 0 }}
+				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 5, duration: 0.6, easing: [0, 0.5, 0.28, 2] }}
 				className="fixed 
-                -bottom-16 left-6 hidden h-[7rem] w-[20rem] flex-col items-start justify-start lg:flex
+                bottom-8 left-6 hidden h-[7rem] w-[20rem] flex-col items-start justify-start laptop:flex
                 "
 			>
 				<div className="move-position">
@@ -77,7 +78,7 @@ const Song = ({ user }: any) => {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.8, easing: [0, 0.5, 0.28, 2] }}
 				className="fixed bottom-0 flex  w-full flex-col items-start justify-start bg-white/60 px-6 
-                py-2  backdrop-blur-lg dark:bg-[#5f5555ad] sm:hidden
+                py-2  backdrop-blur-lg dark:bg-[#5f5555ad] laptop:hidden
                 "
 			>
 				<div className="flex h-[4rem] w-full flex-row items-center justify-start">
@@ -88,7 +89,7 @@ const Song = ({ user }: any) => {
 						width={150}
 						height={150}
 					/>
-					<div className="flex h-full w-[15rem] flex-col items-center justify-center ">
+					<div className="flex h-full w-[15rem] flex-col items-center justify-center sm:w-full ">
 						<a
 							href={`https://open.spotify.com/track/${user.spotify.track_id}`}
 							target="_blank"

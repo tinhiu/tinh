@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 				</Head>
 				<GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS as string} />
 				<div
-					className="flex h-full min-h-screen w-full flex-col justify-center bg-gradient-to-b from-[#e0dbdb] to-[#e0dbdb] text-black dark:from-[#746767] dark:to-[#463a3a81] dark:text-white"
+					className="flex h-full min-h-screen w-full flex-col justify-start bg-gradient-to-b from-[#e0dbdb] to-[#e0dbdb] text-black dark:from-[#746767] dark:to-[#463a3a81] dark:text-white"
 				>
 					<Nav />
 					<div className="mx-auto w-[85%] md:max-w-3xl">

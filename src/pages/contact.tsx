@@ -13,7 +13,7 @@ export default function Contact() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ ease: "easeInOut", duration: 0.4 }}
-                className="my-16 h-screen w-full"
+                className="my-16 w-full"
             >
                 <h1 className="mb-3 mt-8 text-3xl font-bold text-black dark:text-white">Let's have a connection 📨</h1>
                 <p className="mb-6 text-gray-800 dark:text-gray-200">

@@ -26,7 +26,6 @@ export function loadCursor(ball: HTMLDivElement) {
 	}
 
 	loop();
-
 	function touch(event: TouchEvent) {
 		x = event.touches[0].pageX;
 		y = event.touches[0].pageY;

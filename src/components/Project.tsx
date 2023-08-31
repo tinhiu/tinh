@@ -6,6 +6,10 @@ import {
   SiTypescript,
   SiNextdotjs,
   SiTailwindcss,
+  SiMongodb,
+  SiReact,
+  SiNodedotjs,
+  SiExpress
 
 } from "react-icons/si";
 import 'react-tippy/dist/tippy.css'
@@ -16,32 +20,39 @@ interface TechProps {
 const projects = [
   {
     title: "🌟 tinh \u2197",
-    description: "An ecommerce app build with MERN STACK",
+    description: "My personal website",
     url: "",
-    techs: [{
-      name: 'Nextjs',
-      icon: SiNextdotjs
-    }, {
-      name: 'Typescript',
-      icon: SiTypescript
-    }, {
-      name: 'Tailwind',
-      icon: SiTailwindcss
-    }]
+    techs: [
+      {
+        name: 'Typescript',
+        icon: SiTypescript
+      }, {
+        name: 'Nextjs',
+        icon: SiNextdotjs
+      }, {
+        name: 'Tailwind',
+        icon: SiTailwindcss
+      }
+    ]
   }, {
-    title: "🌟 tinh \u2197",
+    title: "🌟 loc mobile \u2197",
     description: "An ecommerce app build with MERN STACK",
     url: "",
-    techs: [{
-      name: 'Nextjs',
-      icon: SiNextdotjs
-    }, {
-      name: 'Typescript',
-      icon: SiTypescript
-    }, {
-      name: 'Tailwind',
-      icon: SiTailwindcss
-    }]
+    techs: [
+      {
+        name: 'Mongodb',
+        icon: SiMongodb
+      }, {
+        name: 'Express',
+        icon: SiExpress
+      }, {
+        name: 'React',
+        icon: SiReact
+      }, {
+        name: 'Nodejs',
+        icon: SiNodedotjs
+      }
+    ]
   }
 ];
 export const TechItem = ({ name, icon }: TechProps) => {
