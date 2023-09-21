@@ -63,36 +63,40 @@ export const TechItem = ({ name, icon }: TechProps) => {
   );
 };
 
-const Project = () => {
+const Project = (): JSX.Element => {
   return (
-    projects.map((prj, index) => (
-      <div className="group relative flex" key={index}>
-        <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-t from-violet-400 to-amber-300 opacity-0 blur-sm transition-all duration-700 ease-in-out group-hover:opacity-100"></div>
-        <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-t from-violet-400 to-amber-300 opacity-0 blur-sm transition-all duration-700 ease-in-out group-hover:opacity-100"></div>
-        <a
-          href={prj.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex w-full"
-        >
-          <button className="relative w-full space-y-3 rounded-lg border border-gray-700/50 bg-gray-300 px-7 py-6 transition-all duration-700 ease-in-out group-hover:bg-slate-400/70 dark:border-gray-100 dark:bg-[#5f5555ad] dark:group-hover:bg-red-400/30">
-            <span className=" block border-b-[2px] border-gray-500/60 text-left font-semibold text-black dark:border-neutral-400 dark:text-white">
-              {prj.title}
-            </span>
-            <span className="block text-left text-sm text-gray-700 dark:text-white">
-              {prj.description}
-            </span>
-            <span className="block text-left text-sm text-gray-700 dark:text-white">
-              <div className="flex items-center justify-start">
-                {prj.techs.map((item, index) => (
-                  <TechItem key={index} name={item.name} icon={item.icon} />
-                ))}
-              </div>
-            </span>
-          </button>
-        </a>
-      </div>
-    ))
+    <>
+      {projects.map((prj, index) => {
+        return (
+          <div className="group relative flex" key={index}>
+            <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-t from-violet-400 to-amber-300 opacity-0 blur-sm transition-all duration-700 ease-in-out group-hover:opacity-100"></div>
+            <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-t from-violet-400 to-amber-300 opacity-0 blur-sm transition-all duration-700 ease-in-out group-hover:opacity-100"></div>
+            <a
+              href={prj.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex w-full"
+            >
+              <button className="relative w-full space-y-3 rounded-lg border border-gray-700/50 bg-gray-300 px-7 py-6 transition-all duration-700 ease-in-out group-hover:bg-slate-400/70 dark:border-gray-100 dark:bg-[#5f5555ad] dark:group-hover:bg-red-400/30">
+                <span className=" block border-b-[2px] border-gray-500/60 text-left font-semibold text-black dark:border-neutral-400 dark:text-white">
+                  {prj.title}
+                </span>
+                <span className="block text-left text-sm text-gray-700 dark:text-white">
+                  {prj.description}
+                </span>
+                <span className="block text-left text-sm text-gray-700 dark:text-white">
+                  <div className="flex items-center justify-start">
+                    {prj.techs.map((item, index) => (
+                      <TechItem key={index} name={item.name} icon={item.icon} />
+                    ))}
+                  </div>
+                </span>
+              </button>
+            </a>
+          </div>
+        )
+      })}
+    </>
   );
 }
 
