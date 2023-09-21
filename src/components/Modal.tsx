@@ -1,8 +1,8 @@
 import { Transition, Dialog } from '@headlessui/react';
 import { Fragment } from 'react';
+import Image from 'next/image';
 import type { Dispatch, MutableRefObject, ReactNode, SetStateAction } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-
+import { MdOutlineClose } from 'react-icons/md'
 type Props = {
 	isOpen: boolean;
 	setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -10,8 +10,9 @@ type Props = {
 	children: ReactNode;
 	focusRef?: MutableRefObject<HTMLElement | null>;
 	description?: string;
+	image?: string;
 };
-function Modal({ isOpen, ...props }: Props) {
+function Modal({ isOpen, image, ...props }: Props) {
 	const close = () => {
 		props.setIsOpen(false);
 	};
@@ -20,9 +21,9 @@ function Modal({ isOpen, ...props }: Props) {
 			<Dialog open={isOpen} onClose={close} as="div"
 				className="fixed inset-0 z-[99] overflow-y-auto"
 				initialFocus={props.focusRef}
-				>
+			>
 				<Dialog.Panel
-				className="w-full ">
+					className="w-full ">
 					<div className="min-h-screen px-4 text-center">
 						<Transition.Child
 							as={Fragment}
@@ -33,7 +34,16 @@ function Modal({ isOpen, ...props }: Props) {
 							leaveFrom="opacity-100"
 							leaveTo="opacity-0"
 						>
-							<Dialog.Overlay className="fixed inset-0 bg-black/30 backdrop-blur-[250px] dark:bg-neutral-700/5" />
+							<Dialog.Overlay className="fixed inset-0 bg-black/30 backdrop-blur-[250px] dark:bg-neutral-700/5">
+								<Image
+									src={image as string}
+									alt="bg"
+									layout="fill"
+									className={`h-auto w-full object-cover blur-3xl backdrop-blur-[250px] transition duration-700`}
+									loading="lazy"
+									decoding="async"
+								/>
+							</Dialog.Overlay>
 						</Transition.Child>
 
 						<span className="inline-block h-screen align-middle" aria-hidden="true">
@@ -59,8 +69,10 @@ function Modal({ isOpen, ...props }: Props) {
 
 									<div className="absolute right-0 top-0 text-xl">
 										<button type="button"
-										className="px-3 py-1 leading-none" onClick={close}>
-											&times;
+											className="hover: rounded-full p-2 leading-none 
+											hover:bg-slate-500/40  hover:delay-200"
+											onClick={close}>
+											<MdOutlineClose size={17} />
 										</button>
 									</div>
 								</div>

@@ -57,6 +57,61 @@ html *::-webkit-scrollbar-track {
 	cursor: pointer;
 }
 // spotify
+@keyframes quiet {
+	25% {
+		transform: scaleY(0.6);
+	}
+	50% {
+		transform: scaleY(0.4);
+	}
+	75% {
+		transform: scaleY(0.8);
+	}
+}
+
+@keyframes normal {
+	25% {
+		transform: scaleY(1);
+	}
+	50% {
+		transform: scaleY(0.4);
+	}
+	75% {
+		transform: scaleY(0.6);
+	}
+}
+.boxContainer {
+	display: flex;
+	justify-content: space-between;
+	--boxSize: 4px;
+	--gutter: -1px;
+	width: calc((var(--boxSize) + var(--gutter)) * 5);
+}
+
+.box {
+	transform: scaleY(0.4);
+	height: 100%;
+	width: var(--boxSize);
+	background: #1DB954;
+	animation-duration: 1.2s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	border-radius: 8px;
+}
+
+.box1 {
+	animation-name: quiet;
+}
+
+.box2 {
+	animation-name: normal;
+}
+
+.box3 {
+	transition-delay: 250ms;
+	animation-name: quiet;
+}
+
 @media only screen and (min-width: 1000px) {
 	.move-position {
 		animation: moveSpotify 3s ease-out infinite;
@@ -83,7 +138,7 @@ html *::-webkit-scrollbar-track {
 }
 // tippy
 .tippy-popper {
-	left: -10px!important;
+	left: -10px !important;
 }
 .dark .tippy-tooltip-content {
 	color: #000 !important;
@@ -95,4 +150,19 @@ html *::-webkit-scrollbar-track {
 .arrow-regular {
 	bottom: -6px !important;
 	border-top-color: #dccdcd !important;
+}
+
+.border-image-clip-path {
+	border-image: linear-gradient(45deg, violet, purple) 1;
+	clip-path: inset(0px round 0px);
+	animation: huerotate 8s infinite linear;
+	filter: hue-rotate(360deg);
+}
+@keyframes huerotate {
+	0% {
+		filter: hue-rotate(0deg);
+	}
+	100% {
+		filter: hue-rorate(360deg);
+	}
 }

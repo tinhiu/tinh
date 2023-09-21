@@ -7,23 +7,24 @@ import GoogleAnalytics from "@bradgarropy/next-google-analytics";
 
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { AnimatePresence } from 'framer-motion';
 
 import Nav from '../components/Nav';
-import { AnimatePresence } from 'framer-motion';
 import Song from '../components/Song';
+import Footer from '../components/Footer';
 import ScrollToTop from '../components/ScrollToTop';
-import { useLanyardWS } from 'use-lanyard';
+import { Data, useLanyardWS } from 'use-lanyard';
 import { loadCursor } from '../util/cursor';
 
 import 'nprogress/nprogress.css';
 import '../styles/globals.css';
 import '../styles/custom.scss';
+import { Toaster } from 'react-hot-toast';
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 type PageProps = {
-	userLanyard?: unknown;
-	pinnedRepos?: unknown;
+	userLanyard?: Data | any;
 };
 export const DISCORD_ID = '885439540268003338';
 const queryClient = new QueryClient();
@@ -59,9 +60,11 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 					<div
 						ref={ballCanvas}
 						className="ball-transitions pointer-events-none fixed
-						z-[100] h-6 w-6 rounded-full border border-gray-500 bg-transparent
-						opacity-0 shadow-md duration-200 dark:border-amber-100"
+						z-[100] h-4 w-4 rounded-full border-4 border-gray-500 bg-transparent
+						opacity-0 duration-200 dark:border-amber-100 "
 					/>
+					<Footer />
+					<Toaster reverseOrder={true} />
 				</div>
 				<ReactQueryDevtools initialIsOpen />
 			</QueryClientProvider>

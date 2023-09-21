@@ -50,18 +50,11 @@ function AudioMusic({ src }: Props) {
 
 	return (
 		<>
-			{/* <div className="absolute flex items-center top-[13rem] left-[17rem] ">
-				{playing ? (
-					<AiOutlinePauseCircle className="justify-center" size={'32px'} onClick={handlePausePlayClick} />
-				) : (
-					<AiOutlinePlayCircle className="justify-center" size={'32px'} onClick={handlePausePlayClick} />
-				)}
-			</div> */}
 			<div className="flex items-center">
 				<span className="">{formatTime(musicinfo.currentTime || 0)}</span>
 				<div className="mx-1 h-1 w-full rounded-sm bg-gray-400">
 					<div
-						className="h-full rounded-sm bg-neutral-700 transition-[width]"
+						className="border-image-clip-path h-full rounded-sm border-2 bg-neutral-700 transition-[width]"
 						style={{ width: `${musicinfo.progressWidth}%` }}
 					></div>
 				</div>

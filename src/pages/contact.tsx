@@ -15,14 +15,14 @@ export default function Contact() {
                 transition={{ ease: "easeInOut", duration: 0.4 }}
                 className="my-16 w-full"
             >
-                <h1 className="mb-3 mt-8 text-3xl font-bold text-black dark:text-white">Let's have a connection 📨</h1>
-                <p className="mb-6 text-gray-800 dark:text-gray-200">
+                <h1 className="mb-4 mt-8 text-3xl font-bold text-black dark:text-white">Let's have a connection 📨</h1>
+                <p className="mb-[1.7rem] text-gray-800 dark:text-gray-200">
                     You can contact me through any of the forms below.
                     I am very happy to talk with you. I'll reply to you as quickly as possible
                 </p>
 
 
-                <div className="mb-20 grid grid-cols-1 md:grid-cols-3 md:gap-4">
+                <div className="mb-16 grid grid-cols-1 md:grid-cols-3 md:gap-4">
                     <Message />
 
                     <div className="row-start-1 md:row-auto">

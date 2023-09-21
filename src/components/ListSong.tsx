@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Pagination from './Pagination';
 import Details from './Details';
 import { HiExternalLink } from 'react-icons/hi';
 import Modal from './Modal';
@@ -9,21 +8,22 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import ms from 'ms';
-
-import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
-import AudioMusic from './AudioMusic';
 import { MdExplicit } from 'react-icons/md';
 
+import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
+import TrackObjectFull = SpotifyApi.TrackObjectFull;
+
+import AudioMusic from './AudioMusic';
 type PageProps = {
-	music: any[];
-	currentPage: number;
-	url: string;
-	totalProducts: number;
-	perPage: number;
+	music: TrackObjectFull[];
+	// currentPage: number;
+	// url: string;
+	// totalProducts: number;
+	// perPage: number;
 };
 dayjs.extend(relativeTime);
 
-function Track({ track }: { track: any /* PlayHistoryObject */ }) {
+function Track({ track }: { track: TrackObjectFull }) {
 	const [statsOpen, setStatsOpen] = useState(false);
 	const [isReady, setIsReady] = useState(false);
 	const options = {
@@ -65,7 +65,7 @@ function Track({ track }: { track: any /* PlayHistoryObject */ }) {
 			onClick={open}
 			onMouseLeave={changeRandom}
 		>
-			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24} />}>
+			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24} />} image={image}>
 				<div className="space-y-4">
 					<div className="relative aspect-[3/2] ">
 						<Image
@@ -129,7 +129,7 @@ function Track({ track }: { track: any /* PlayHistoryObject */ }) {
 
 					<button
 						onClick={close}
-						className="float-right !mt-0 rounded-lg px-2 py-1 hover:bg-slate-400"
+						className="float-right !mt-0 rounded-lg px-2 py-1 hover:bg-slate-400/40 hover:delay-100"
 					>
 						Close
 					</button>
@@ -164,29 +164,18 @@ function Track({ track }: { track: any /* PlayHistoryObject */ }) {
 		</button>
 	);
 }
-const PaginationPage = ({
-	currentPage,
-	totalProducts,
-	perPage,
-	url,
+const ListSong = ({
 	music,
 }: PageProps): JSX.Element => {
 	return (
 		<>
 			<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
 				{music.map((track) => (
-					//<Track key={track.id} track={track} />
 					<Track key={track.id} track={track} />
 				))}
 			</div>
-			<Pagination
-				totalItems={totalProducts}
-				currentPage={currentPage}
-				itemsPerPage={perPage}
-				renderPageLink={(page) => `/${url}?page=${page}`}
-			/>
 		</>
 	);
 };
 
-export default PaginationPage;
+export default ListSong;

@@ -1,5 +1,5 @@
 import IORedis from 'ioredis';
-import PaginationPage from "../../components/PaginatedPage";
+import PaginationPage from "../../components/ListSong";
 import { useEffect, useState } from "react";
 import { REDIS_URL, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIS_KEYS } from "../../server/constants";
 import SpotifyWebAPI from "spotify-web-api-node";

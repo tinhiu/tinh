@@ -1,4 +1,5 @@
 import IORedis from 'ioredis';
+import { setCookie } from 'cookies-next';
 import SpotifyWebApi from 'spotify-web-api-node';
 import urlcat from 'urlcat';
 import { z } from 'zod';
@@ -13,12 +14,12 @@ import {
 import { join } from '../../../util/types';
 
 const scopes = [
-'user-top-read', 
-'user-read-private', 
-'user-read-email',
-'user-read-recently-played',
-'user-read-currently-playing',
-'user-follow-read'
+	'user-top-read',
+	'user-read-private',
+	'user-read-email',
+	'user-read-recently-played',
+	'user-read-currently-playing',
+	'user-follow-read',
 ] as const;
 
 const scope = join(scopes, ' ');
@@ -37,7 +38,6 @@ const schema = z.object({
 export default api({
 	async GET({ req, res }) {
 		const { code } = schema.parse(req.query);
-
 		if (!code) {
 			return {
 				_redirect: redirectUrl,
@@ -58,11 +58,17 @@ export default api({
 		});
 
 		const { body: user } = await userAPI.getMe();
-		
+
 		if (user.id !== '31lhz6y3u5ootzbuxbnkndz4x2ea') {
 			res.throw(403, 'You are not permitted to update OAuth keys!');
 		}
-
+		setCookie('accessToken', auth.access_token, {
+			req,
+			res,
+			maxAge: 60 * 6 * 24 * 7,
+			path: '/',
+			httpOnly: true,
+		});
 		const redis = new IORedis(REDIS_URL || '');
 
 		await redis.set(SPOTIFY_REDIS_KEYS.AccessToken, auth.access_token, 'EX', auth.expires_in);

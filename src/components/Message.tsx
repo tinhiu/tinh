@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRef } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import emailjs from '@emailjs/browser';
 import { MdOutlineMail } from 'react-icons/md';
 import { RiSendPlane2Fill, RiMessage3Line } from 'react-icons/ri';
@@ -116,7 +116,6 @@ const Message = () => {
 
 	return (
 		<>
-			<Toaster reverseOrder={true} />
 			<div className="row-span-3 rounded-md bg-white/60 p-4 dark:bg-[#b1a5a5d4] md:col-span-2 ">
 				<form ref={form} onSubmit={sendEmail} className="rounded-md border-gray-700 md:w-full">
 					<label htmlFor="email-field" className="block font-bold text-black dark:text-white">

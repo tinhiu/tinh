@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import Image from 'next/future/image';
 import { SiSpotify } from 'react-icons/si';
+import { Data } from 'use-lanyard';
 
-const Song = ({ user }: any) => {
+const Song = ({ user }: { user: Data | any }) => {
 	if (!user || !user.spotify) {
 		return (
 			<motion.div
@@ -13,7 +14,7 @@ const Song = ({ user }: any) => {
                 -bottom-8 left-14 hidden h-[7rem] w-[20rem] flex-col items-start justify-start lg:flex
                 "
 			>
-				<i className="flex items-center text-sm">*not playing anything <SiSpotify size={12} className='ml-2' /> </i> 
+				<i className="flex items-center text-sm">*not playing anything <SiSpotify size={12} className='ml-2' /> </i>
 			</motion.div>
 		);
 	}
@@ -31,9 +32,10 @@ const Song = ({ user }: any) => {
 				<div className="move-position">
 					<h1 className="mb-2 flex items-center justify-start text-base font-semibold text-black dark:text-gray-100 ">
 						Listening to Spotify
-						<span className="ml-2 h-2 w-2">
-							<span className="absolute h-2 w-2 animate-ping rounded-full bg-green-500" />
-							<span className="absolute h-2 w-2 rounded-full bg-green-600" />
+						<span className="boxContainer ml-2 h-4">
+							<div className="box box1"></div>
+							<div className="box box2"></div>
+							<div className="box box3"></div>
 						</span>
 					</h1>
 
@@ -41,7 +43,7 @@ const Song = ({ user }: any) => {
 						<div className="transition duration-500 hover:scale-105 hover:ease-out">
 							<Image
 								src={user.spotify.album_art_url}
-								className="pointer-events-none mr-4 h-[4.5rem] w-[4.5rem] rounded-md bg-cover "
+								className="pointer-events-none mr-4 h-[4.5rem] w-[4.5rem] animate-spin-slow rounded-full bg-cover"
 								alt={user.spotify.album}
 								width={150}
 								height={150}
@@ -77,8 +79,8 @@ const Song = ({ user }: any) => {
 				initial={{ opacity: 0, y: 0 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.8, easing: [0, 0.5, 0.28, 2] }}
-				className="fixed bottom-0 flex  w-full flex-col items-start justify-start bg-white/60 px-6 
-                py-2  backdrop-blur-lg dark:bg-[#5f5555ad] laptop:hidden
+				className="fixed bottom-0 z-[1] flex w-full flex-col items-start justify-start bg-white/60 px-6 
+                py-2 backdrop-blur-lg dark:bg-[#5f5555ad] laptop:hidden
                 "
 			>
 				<div className="flex h-[4rem] w-full flex-row items-center justify-start">

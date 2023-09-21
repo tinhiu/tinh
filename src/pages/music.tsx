@@ -36,8 +36,9 @@ import AudioMusic from '../components/AudioMusic';
 import { rand } from '../util/types';
 import { useRouter } from 'next/router';
 import getProducts from '../lib/getProducts';
+import { UserSpotify } from './models/UserSpotify';
 type Props = {
-	user: UserObjectPublic | any;
+	user: UserSpotify | any;
 	topTracks: TrackObjectFull[];
 	playLists: number | any;
 	following: number | any;
@@ -129,7 +130,7 @@ export default function MusicPage({
 					</motion.div>
 				</div>
 				<div className="w-full">
-					<ModalSpotify user={userLanyard} spotify={user} />
+					<ModalSpotify user={user} spotify={userLanyard} />
 				</div>
 				<div className="mx-4">
 					<div className="mb-6 mt-4 ">

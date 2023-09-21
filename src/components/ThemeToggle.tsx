@@ -27,11 +27,11 @@ const ThemeToggle = () => {
 
     return (
         <button
-            className="cursor-pointer rounded-md bg-transparent p-2 hover:bg-black/5 dark:hover:bg-white/5"
+            className="cursor-pointer rounded-full p-2 hover:border-violet-700/60 hover:bg-black/5 dark:hover:bg-white/5"
             onClick={() => changeTheme(theme)}
         >
-            {theme === "light" && <FiMoon className="h-6 w-6 text-black" />}
-            {theme === "dark" && <FiSun className="h-6 w-6 text-white" />}
+            {theme === "light" && <FiSun className="h-6 w-6 text-stone-600" />}
+            {theme === "dark" && <FiMoon className="h-6 w-6 text-white/80" />}
         </button>
     );
 };

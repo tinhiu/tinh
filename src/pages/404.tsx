@@ -10,7 +10,7 @@ function Error() {
         transition={{ ease: "easeInOut", duration: 0.4 }}
         className="mt-16 flex w-full"
         >
-            <h1 className="mb-3 mt-8 text-2xl font-bold text-black dark:text-white md:text-3xl">404 - Page Not Found🥲</h1>
+            <h1 className="mb-3 mt-8 text-2xl font-bold text-black dark:text-white md:text-3xl">404 - Page Not Found :(</h1>
         </motion.div>
     );
 }
