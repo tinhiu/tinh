@@ -1,11 +1,6 @@
 import { getCookie } from 'cookies-next';
 import SpotifyWebApi from 'spotify-web-api-node';
-import UserObjectPublic = SpotifyApi.UserObjectPublic;
-import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
-
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from '../../../server/constants';
-import getProducts from '../../../lib/getProducts';
-import { UserSpotify } from '../../models/UserSpotify';
 
 const apiSpotify = new SpotifyWebApi({
 	clientId: SPOTIFY_CLIENT_ID,
@@ -27,3 +22,4 @@ export async function getMyTopTracks(limit: number, skip: number) {
 	await setAccessToken();
 	return await apiSpotify.getMyTopTracks({ time_range: 'short_term', limit: limit, offset: skip });
 }
+export default apiSpotify;
