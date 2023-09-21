@@ -1,4 +1,4 @@
-import { getCookie } from 'cookies-next';
+import { getCookie, getCookies } from 'cookies-next';
 import SpotifyWebApi from 'spotify-web-api-node';
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from '../../../server/constants';
 
@@ -17,9 +17,10 @@ export async function getRecentlyPlayed(limit: number) {
 	return await apiSpotify.getMyRecentlyPlayedTracks({ limit: limit });
 }
 
-export async function getMyTopTracks(limit: number, skip: number) {
+export async function getMyTopTracks(limit: number, skip: number, accessToken: string) {
 	if(skip < 0 || isNaN(skip)) return undefined;
 	await setAccessToken();
+	if(accessToken != '') apiSpotify.setAccessToken(accessToken);
 	return await apiSpotify.getMyTopTracks({ time_range: 'short_term', limit: limit, offset: skip });
 }
 export default apiSpotify;

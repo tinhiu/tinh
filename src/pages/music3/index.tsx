@@ -5,8 +5,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import SpotifyWebAPI from 'spotify-web-api-node';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-import { useQuery } from 'react-query';
-import { setCookie } from 'cookies-next';
+import { QueryClient, dehydrate, useQuery } from 'react-query';
+import { getCookie, setCookie } from 'cookies-next';
 import { Data } from 'use-lanyard';
 import type { GetServerSideProps } from 'next';
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
@@ -159,121 +159,129 @@ export default function MusicPage({
 	// })
 	const { data: topTracks } = useQuery({
 		queryKey: ['getMyTopTracks', page],
-		queryFn: () => getMyTopTracks(limit, skip),
+		queryFn: () => getMyTopTracks(limit, skip, ''),
 		keepPreviousData: true,
 	})
-	console.log('topTracks: ', topTracks);
-	return <h1>Musicc..</h1>
-	// return (
-	// 	<div className='mb-14 mt-16 w-full'>
-	// 		<motion.div
-	// 			initial={{ opacity: 0, y: 7 }}
-	// 			animate={{ opacity: 1, y: 0 }}
-	// 			exit={{ opacity: 0, y: -4 }}
-	// 			transition={{ ease: 'easeInOut', duration: 0.4 }}
-	// 			className="w-full"
-	// 		>
-	// 			<UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} />
-	// 			<TopTracksOverview topTracks={topTracks?.body.items || []} />
-	// 			<Pagination
-	// 				totalItems={Number(topTracks?.body.total) || 0}
-	// 				currentPage={page}
-	// 				itemsPerPage={PER_PAGE}
-	// 				renderPageLink={(page) => `/music2?page=${page}`}
-	// 			/>
-	// 		</motion.div>
-	// 	</div>
-	// )
+	// console.log('topTracks: ', topTracks);
+	// return <h1>Musicc..</h1>
+	return (
+		<div className='mb-14 mt-16 w-full'>
+			<motion.div
+				initial={{ opacity: 0, y: 7 }}
+				animate={{ opacity: 1, y: 0 }}
+				exit={{ opacity: 0, y: -4 }}
+				transition={{ ease: 'easeInOut', duration: 0.4 }}
+				className="w-full"
+			>
+				{/* <UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} /> */}
+				<TopTracksOverview topTracks={topTracks?.body?.items || []} />
+				<Pagination
+					totalItems={Number(topTracks?.body?.total) || 0}
+					currentPage={page}
+					itemsPerPage={PER_PAGE}
+					renderPageLink={(page) => `/music3?page=${page}`}
+				/>
+			</motion.div>
+		</div>
+	)
 }
 
-// export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res, query }) => {
+	const page = Number(query.page);
+	const limit = PER_PAGE;
+	const skip = (page - 1) * (limit);
+	const queryClient = new QueryClient();
 
-// 	const redis = new IORedis(REDIS_URL || '');
-// 	const [token, refresh] = await redis.mget(
-// 		SPOTIFY_REDIS_KEYS.AccessToken,
-// 		SPOTIFY_REDIS_KEYS.RefreshToken
-// 	);
-// 	let api: SpotifyWebAPI;
+	const redis = new IORedis(REDIS_URL || '');
+	const [token, refresh] = await redis.mget(
+		SPOTIFY_REDIS_KEYS.AccessToken,
+		SPOTIFY_REDIS_KEYS.RefreshToken
+	);
+	let api: SpotifyWebAPI;
 
-// 	if (!token && refresh) {
-// 		// If we don't have a token but we do have a refresh token
-// 		api = new SpotifyWebAPI({
-// 			clientId: SPOTIFY_CLIENT_ID,
-// 			clientSecret: SPOTIFY_CLIENT_SECRET,
-// 			refreshToken: refresh,
-// 		});
-// 		const result = await api.refreshAccessToken();
-// 		setCookie('accessToken', result.body.access_token, { req, res, maxAge: 60 * 6 * 6, path: '/' });
+	if (!token && refresh) {
+		// If we don't have a token but we do have a refresh token
+		api = new SpotifyWebAPI({
+			clientId: SPOTIFY_CLIENT_ID,
+			clientSecret: SPOTIFY_CLIENT_SECRET,
+			refreshToken: refresh,
+		});
+		const result = await api.refreshAccessToken();
+		setCookie('accessToken', result.body.access_token, { req, res, maxAge: 60 * 6 * 6, path: '/' });
 
-// 		await redis.set(
-// 			SPOTIFY_REDIS_KEYS.AccessToken,
-// 			result.body.access_token,
-// 			'EX',
-// 			// Expires is in seconds as per https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
-// 			result.body.expires_in
-// 		);
-
-
-// 		// If spotify wants us to use a new refresh token, we'll need to update it
-// 		if (result.body.refresh_token) {
-// 			await redis.set(SPOTIFY_REDIS_KEYS.RefreshToken, result.body.refresh_token);
-// 			setCookie('refreshToken', result.body.refresh_token, { req, res, maxAge: 60 * 6 * 6, path: '/' });
-// 		}
-
-// 	} else if (token) {
-// 		api = new SpotifyWebAPI({
-// 			clientId: SPOTIFY_CLIENT_ID,
-// 			clientSecret: SPOTIFY_CLIENT_SECRET,
-// 			accessToken: token,
-// 		});
-// 		setCookie('accessToken', token, { req, res, maxAge: 60 * 6 * 24, path: '/' });
-// 	} else {
-// 		// throw new Error(
-// 		// 	'No Spotify tokens available! Please manually add them to the Redis store to allow tokens to refresh in the future.'
-// 		// );
-// 		return {
-// 			notFound: true,
-// 		}
-// 	}
+		await redis.set(
+			SPOTIFY_REDIS_KEYS.AccessToken,
+			result.body.access_token,
+			'EX',
+			// Expires is in seconds as per https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
+			result.body.expires_in
+		);
 
 
-// 	/* Get me */
-// 	const getMe = await api.getMe();
-// 	const user: UserSpotify = (({ country, email, product, ...rest }: any) => rest)(getMe.body);
-// 	/* Get following artist */
-// 	const follow = await api.getFollowedArtists();
-// 	user.following = follow.body.artists.total as number;
+		// If spotify wants us to use a new refresh token, we'll need to update it
+		if (result.body.refresh_token) {
+			await redis.set(SPOTIFY_REDIS_KEYS.RefreshToken, result.body.refresh_token);
+			setCookie('refreshToken', result.body.refresh_token, { req, res, maxAge: 60 * 6 * 6, path: '/' });
+		}
 
-// 	/* Get user playlists */
-// 	const playlists = await api.getUserPlaylists(user?.id);
-// 	user.playlists = playlists.body.total as number;
+	} else if (token) {
+		api = new SpotifyWebAPI({
+			clientId: SPOTIFY_CLIENT_ID,
+			clientSecret: SPOTIFY_CLIENT_SECRET,
+			accessToken: token,
+		});
+		setCookie('accessToken', token, { req, res, maxAge: 60 * 6 * 24, path: '/' });
 
-// 	/* Get getMyCurrentPlayingTrack*/
-// 	// /* const track = await api.getMyCurrentPlayingTrack(); */
+	} else {
+		// throw new Error(
+		// 	'No Spotify tokens available! Please manually add them to the Redis store to allow tokens to refresh in the future.'
+		// );
+		return {
+			notFound: true,
+		}
+	}
+
+	let accessToken = getCookie('accessToken', { req, res });
+	const data = await queryClient.prefetchQuery(
+		["getMyTopTracks", page],
+		async () => getMyTopTracks(limit, skip, accessToken as string).then((result) => {
+			return result?.body.items;
+		}));
+	/* Get me */
+	// const getMe = await api.getMe();
+	// const user: UserSpotify = (({ country, email, product, ...rest }: any) => rest)(getMe.body);
+	// /* Get following artist */
+	// const follow = await api.getFollowedArtists();
+	// user.following = follow.body.artists.total as number;
+
+	// /* Get user playlists */
+	// const playlists = await api.getUserPlaylists(user?.id);
+	// user.playlists = playlists.body.total as number;
+
+	/* Get getMyCurrentPlayingTrack*/
+	// /* const track = await api.getMyCurrentPlayingTrack(); */
 
 
-// 	/* RecentlyPlayedTracks */
-// 	// const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
+	/* RecentlyPlayedTracks */
+	// const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 
-// 	await redis.quit();
+	await redis.quit();
 
-// 	/* Lastfm */
-// 	const lfm = new LastFM(LAST_FM_API_KEY!);
-// 	let topLFMTracks = await lfm.getTopTracks('loonailysm', '1month', '6');
-// 	topLFMTracks = topLFMTracks.map((item) => ({
-// 		mbid: item.mbid,
-// 		name: item.name,
-// 		url: item.url,
-// 		artist: item.artist,
-// 		'@attr': item['@attr'],
-// 		playcount: item.playcount,
-// 		duration: item.duration,
-// 	}));
-// 	return {
-// 		props: {
-// 			user: user,
-// 			randomLastFMTrack: rand(topLFMTracks),
-// 			userLanyard: null,
-// 		},
-// 	};
-// };
+	/* Lastfm */
+	// const lfm = new LastFM(LAST_FM_API_KEY!);
+	// let topLFMTracks = await lfm.getTopTracks('loonailysm', '1month', '6');
+	// topLFMTracks = topLFMTracks.map((item) => ({
+	// 	mbid: item.mbid,
+	// 	name: item.name,
+	// 	url: item.url,
+	// 	artist: item.artist,
+	// 	'@attr': item['@attr'],
+	// 	playcount: item.playcount,
+	// 	duration: item.duration,
+	// }));
+	return {
+		props: {
+			dehydratedState: dehydrate(queryClient)
+		},
+	};
+};
