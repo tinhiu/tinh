@@ -20,6 +20,7 @@ import 'nprogress/nprogress.css';
 import '../styles/globals.css';
 import '../styles/custom.scss';
 import { Toaster } from 'react-hot-toast';
+
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
@@ -27,7 +28,13 @@ type PageProps = {
 	userLanyard?: Data | any;
 };
 export const DISCORD_ID = '885439540268003338';
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false, // default: true
+		},
+	},
+});
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	const userLanyard = useLanyardWS(DISCORD_ID);
 	const ballCanvas = useRef<HTMLDivElement>(null);
@@ -54,7 +61,6 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 						<AnimatePresence mode="wait">
 							<Component {...pageProps} key={router.pathname} userLanyard={userLanyard} />
 						</AnimatePresence>
-						<ScrollToTop />
 					</div>
 					<Song user={userLanyard} />
 					<div
@@ -65,6 +71,8 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 					/>
 					<Footer />
 					<Toaster reverseOrder={true} />
+					<ScrollToTop />
+
 				</div>
 				<ReactQueryDevtools initialIsOpen />
 			</QueryClientProvider>
@@ -72,4 +80,4 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	);
 }
 
-export default MyApp;	
+export default MyApp;

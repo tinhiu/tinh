@@ -1,12 +1,8 @@
-import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
-import { age } from '../util/age';
+import type { NextPage } from 'next';
 import Project from '../components/Project';
 import Technologies from '../components/Technologies';
-
-import { SiTypescript } from "react-icons/si";
-
-
+import { age } from '../util/age';
 const Home: NextPage = () => {
 	return (
 		<>

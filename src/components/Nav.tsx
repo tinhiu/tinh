@@ -84,7 +84,7 @@ const Nav = () => {
 					<NavLink name="Home" link="/" selected={router.pathname === '/'} />
 					<NavLink name="Contact" link="/contact" selected={router.pathname === '/contact'} />
 					<NavLink name="Music" link="/music" selected={router.pathname === '/music'} />
-					<NavLink name="Music2" link="/music2" selected={router.pathname === '/music2'} />
+					{/* <NavLink name="Music2" link="/music2" selected={router.pathname === '/music2'} /> */}
 				</div>
 				<div className="flex flex-row items-center justify-center gap-4">
 					<ThemeToggle />

@@ -50,7 +50,7 @@ html *::-webkit-scrollbar-track {
 	height: 3rem;
 	font-size: 1rem;
 	line-height: 3rem;
-	z-index: 1;
+	z-index: 2;
 	background-color: #afa9a9;
 	border: none;
 	border-radius: 50%;
@@ -152,6 +152,7 @@ html *::-webkit-scrollbar-track {
 	border-top-color: #dccdcd !important;
 }
 
+// border
 .border-image-clip-path {
 	border-image: linear-gradient(45deg, violet, purple) 1;
 	clip-path: inset(0px round 0px);

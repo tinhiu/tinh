@@ -40,7 +40,7 @@ const Song = ({ user }: { user: Data | any }) => {
 					</h1>
 
 					<div className="flex h-[6rem] w-full flex-row items-center justify-start">
-						<div className="transition duration-500 hover:scale-105 hover:ease-out">
+						<div className="scale-95 transition duration-500 hover:scale-105 hover:ease-out">
 							<Image
 								src={user.spotify.album_art_url}
 								className="pointer-events-none mr-4 h-[4.5rem] w-[4.5rem] animate-spin-slow rounded-full bg-cover"
@@ -86,7 +86,7 @@ const Song = ({ user }: { user: Data | any }) => {
 				<div className="flex h-[4rem] w-full flex-row items-center justify-start">
 					<Image
 						src={user.spotify.album_art_url}
-						className="pointer-events-none mr-4 h-[3rem] w-[3rem] rounded-md bg-cover "
+						className="pointer-events-none mr-4 h-[3rem] w-[3rem] animate-spin-slow rounded-full bg-cover"
 						alt={user.spotify.album}
 						width={150}
 						height={150}

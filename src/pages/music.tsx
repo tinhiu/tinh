@@ -36,7 +36,7 @@ import AudioMusic from '../components/AudioMusic';
 import { rand } from '../util/types';
 import { useRouter } from 'next/router';
 import getProducts from '../lib/getProducts';
-import { UserSpotify } from '../models/UserSpotify';
+import UserSpotify from '../models/UserSpotify';
 type Props = {
 	user: UserSpotify | any;
 	topTracks: TrackObjectFull[];
@@ -166,7 +166,7 @@ export default function MusicPage({
 		</motion.div>
 	);
 }
-function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
+function Track({ track }: { track: TrackObjectFull }) {
 	const [statsOpen, setStatsOpen] = useState(false);
 	const [isReady, setIsReady] = useState(false);
 	const options = {
@@ -208,7 +208,7 @@ function Track({ track }: { track: TrackObjectFull /* PlayHistoryObject */ }) {
 			onClick={open}
 			onMouseLeave={changeRandom}
 		>
-			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24} />}>
+			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24}/>} image={image}>
 				<div className="space-y-4">
 					<div className="relative aspect-[3/2] ">
 						<Image
@@ -357,7 +357,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any
 	}
 
 	/* Top tracks playing */
-	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 42  });
+	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 42 });
 	/* Get me */
 	const getMe = await api.getMe();
 	const user = (({ country, email, product, ...rest }: any) => rest)(getMe.body);
