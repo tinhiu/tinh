@@ -1,7 +1,7 @@
 import UserObjectPublic = SpotifyApi.UserObjectPublic;
 
 
-export interface UserSpotify extends UserObjectPublic {
+export default interface UserSpotify extends UserObjectPublic {
     following: number;
     playlists: number;
 }

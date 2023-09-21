@@ -36,7 +36,7 @@ import AudioMusic from '../components/AudioMusic';
 import { rand } from '../util/types';
 import { useRouter } from 'next/router';
 import getProducts from '../lib/getProducts';
-import { UserSpotify } from './models/UserSpotify';
+import { UserSpotify } from '../models/UserSpotify';
 type Props = {
 	user: UserSpotify | any;
 	topTracks: TrackObjectFull[];

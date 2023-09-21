@@ -23,7 +23,7 @@ import {
 } from '../../server/constants';
 import { rand } from '../../util/types';
 import Pagination from '../../components/Pagination';
-import { UserSpotify } from '../models/UserSpotify';
+import UserSpotify from '../../models/UserSpotify'
 import ListSong from '../../components/ListSong';
 import type { LastFMGetTrack } from '../../server/last-fm';
 
