@@ -1,4 +1,2 @@
-all source code here
-https://github.com/alii/website
-https://github.com/cnrad/lanyard-profile-readme
-https://github.com/clxmente/solorio.dev
+<sub>me clone by people [Alistair Smith](https://github.com/alii), [Conrad Crawford](https://github.com/alii), [Clemente Solorio](https://github.com/alii) 
+</sub>
