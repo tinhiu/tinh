@@ -2,7 +2,7 @@ import IORedis from 'ioredis';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { motion } from 'framer-motion';
-import { setCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 import type { GetServerSideProps, GetStaticProps, GetStaticPropsContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -25,8 +25,11 @@ import {
 import type { LastFMGetTrack } from '../../server/last-fm';
 import { LastFM } from '../../server/last-fm';
 import { rand } from '../../util/types';
-import { getMyTopTracks } from '../api/spotify/spotify';
+import { getMe, getMyTopTracks } from '../api/spotify/spotify';
+import { getRandomTopTracksFM } from '../api/spotify/last-fm';
+import usePagination from '../../hooks/usePagination';
 
+dayjs.extend(relativeTime);
 
 const PER_PAGE = 6;
 type Props = {
@@ -41,7 +44,6 @@ type UserOverView = {
 	userLanyard: Data | any,
 	randomLastFMTrack: LastFMGetTrack
 }
-dayjs.extend(relativeTime);
 
 const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) => {
 	const image: string = user?.images?.[1].url as string;
@@ -143,26 +145,22 @@ const TopTracksOverview = ({ topTracks }: { topTracks: TrackObjectFull[] }) => {
 };
 export default function MusicPage({
 	user,
-	randomLastFMTrack,
 	userLanyard,
+	randomLastFMTrack
 }: Props) {
-	// console.log(JSON.stringify(userLanyard, null, 4));
 	const router = useRouter();
 	const query = router.query;
-	const page = Number(query.page || 1);
+	const page = Number(parseInt(query.page as string) < 0 ? 1 : parseInt(query.page as string) || 1);
 	const limit = PER_PAGE;
 	const skip = (page - 1) * (limit);
-	// const recentlyQuery = useQuery({
-	// 	queryKey: ['recently'],
-	// 	queryFn: () => getRecentlyPlayed(limit),
-	// 	keepPreviousData: true,
-	// })
+
 	const { data: topTracks } = useQuery({
 		queryKey: ['getMyTopTracks', page],
 		queryFn: () => getMyTopTracks(limit, skip),
 		keepPreviousData: true,
+		staleTime: 60 * 1000
 	})
-	// return <h1>Musicc..</h1>
+
 	return (
 		<div className='mb-14 mt-16 w-full'>
 			<motion.div
@@ -193,7 +191,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		SPOTIFY_REDIS_KEYS.RefreshToken
 	);
 	let api: SpotifyWebAPI;
-
+	let accessToken = getCookie('accessToken', { req, res });
 	if (!token && refresh) {
 		// If we don't have a token but we do have a refresh token
 		api = new SpotifyWebAPI({
@@ -225,7 +223,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 			clientSecret: SPOTIFY_CLIENT_SECRET,
 			accessToken: token,
 		});
-		setCookie('accessToken', token, { req, res, maxAge: 60 * 6 * 24, path: '/' });
+		if (!accessToken) {
+			setCookie('accessToken', token, { req, res, maxAge: 60 * 6 * 24, path: '/' });
+		}
+
 	} else {
 		// throw new Error(
 		// 	'No Spotify tokens available! Please manually add them to the Redis store to allow tokens to refresh in the future.'
@@ -234,7 +235,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 			notFound: true,
 		}
 	}
-
 
 	/* Get me */
 	const getMe = await api.getMe();
@@ -246,13 +246,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	/* Get user playlists */
 	const playlists = await api.getUserPlaylists(user?.id);
 	user.playlists = playlists.body.total as number;
-
-	/* Get getMyCurrentPlayingTrack*/
-	// /* const track = await api.getMyCurrentPlayingTrack(); */
-
-
-	/* RecentlyPlayedTracks */
-	// const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 
 	await redis.quit();
 
@@ -271,8 +264,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	return {
 		props: {
 			user: user,
-			randomLastFMTrack: rand(topLFMTracks),
 			userLanyard: null,
+			randomLastFMTrack: rand(topLFMTracks)
 		},
 	};
 };

@@ -137,9 +137,17 @@ const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) =>
 		</div>
 	);
 };
-const TopTracksOverview = ({ topTracks }: { topTracks: TrackObjectFull[] }) => {
+const TopTracksOverview = ({ topTracks, page }: { topTracks: TrackObjectFull[], page: number }) => {
+	const pageTopRef = useRef(null);
+	useEffect(() => {
+		window.scrollTo({
+		  top: 0,
+		  left: 0,
+		  behavior: 'smooth',
+		});
+	  }, [page]);
 	return (
-		<ListSong music={topTracks} />
+		<div ref={pageTopRef}><ListSong music={topTracks} /></div>
 	);
 };
 export default function MusicPage({
@@ -147,18 +155,18 @@ export default function MusicPage({
 	randomLastFMTrack,
 	userLanyard,
 }: Props) {
-	// console.log(JSON.stringify(userLanyard, null, 4));
 	const router = useRouter();
 	const query = router.query;
-	const page = Number(query.page || 1);
+	const page = Number(parseInt(query.page as string) < 0 ? 1 : parseInt(query.page as string) || 1);
 	const limit = PER_PAGE;
 	const skip = (page - 1) * (limit);
+
 	useEffect(() => {
 		fetch('/api/cookie')
 	}, []);
-	
+
 	// 
-	const { data: topTracks} = useQuery({
+	const { data: topTracks } = useQuery({
 		queryKey: ['getMyTopTracks', page],
 		queryFn: () => getMyTopTracks(limit, skip),
 		keepPreviousData: true,
@@ -175,7 +183,7 @@ export default function MusicPage({
 				className="w-full"
 			>
 				{/* <UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} /> */}
-				<TopTracksOverview topTracks={topTracks?.body?.items || []} />
+				<TopTracksOverview topTracks={topTracks?.body?.items || []} page={page}/>
 				<Pagination
 					totalItems={Number(topTracks?.body?.total) || 0}
 					currentPage={page}

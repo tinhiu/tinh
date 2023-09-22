@@ -39,7 +39,7 @@ function Modal({ isOpen, image, ...props }: Props) {
 									src={image as string}
 									alt="bg"
 									layout="fill"
-									className={`h-auto w-full object-cover blur-3xl backdrop-blur-[250px] transition duration-700`}
+									className={`h-auto w-full object-cover blur-lg backdrop-blur-[250px] transition duration-700`}
 									loading="lazy"
 									decoding="async"
 								/>
@@ -53,7 +53,7 @@ function Modal({ isOpen, image, ...props }: Props) {
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-400"
-							enterFrom="opacity-0 scale-95"
+							enterFrom="opacity-0 scale-75"
 							enterTo="opacity-100 scale-100"
 							leave="ease-in duration-600"
 							leaveFrom="opacity-100 scale-100"
