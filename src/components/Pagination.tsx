@@ -30,7 +30,7 @@ const Pagination = ({
             {pageNumber}
           </span>
         ) : (
-          <Link key={i} href={renderPageLink(pageNumber as number)}>
+          <Link key={i} href={renderPageLink(pageNumber as number)} scroll={false}>
             <a
               key={i}
               className={`${pageNumber == currentPage

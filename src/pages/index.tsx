@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Project from '../components/Project';
 import Technologies from '../components/Technologies';
 import { age } from '../util/age';
+
 const Home: NextPage = () => {
 	return (
 		<>

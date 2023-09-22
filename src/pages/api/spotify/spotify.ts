@@ -6,8 +6,11 @@ const apiSpotify = new SpotifyWebApi({
 	clientId: SPOTIFY_CLIENT_ID,
 	clientSecret: SPOTIFY_CLIENT_SECRET,
 });
-
+function waiting(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 async function setAccessToken() {
+	await waiting(2000);
 	let accessToken = getCookie('accessToken');
 	apiSpotify.setAccessToken(accessToken as string);
 }
@@ -17,10 +20,9 @@ export async function getRecentlyPlayed(limit: number) {
 	return await apiSpotify.getMyRecentlyPlayedTracks({ limit: limit });
 }
 
-export async function getMyTopTracks(limit: number, skip: number, accessToken: string) {
+export async function getMyTopTracks(limit: number, skip: number) {
 	if(skip < 0 || isNaN(skip)) return undefined;
 	await setAccessToken();
-	if(accessToken != '') apiSpotify.setAccessToken(accessToken);
 	return await apiSpotify.getMyTopTracks({ time_range: 'short_term', limit: limit, offset: skip });
 }
 export default apiSpotify;

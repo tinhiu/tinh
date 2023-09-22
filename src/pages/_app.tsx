@@ -5,11 +5,10 @@ import { StrictMode, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import GoogleAnalytics from "@bradgarropy/next-google-analytics";
 
-import { QueryClientProvider, QueryClient, Hydrate } from 'react-query';
+import { QueryClientProvider, QueryClient } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AnimatePresence } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
-import { useState } from "react";
 
 import Nav from '../components/Nav';
 import Song from '../components/Song';
@@ -26,20 +25,21 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 type PageProps = {
 	userLanyard?: Data | any;
-	dehydratedState: unknown
+	dehydratedState: unknown;
+	token: string
 };
 export const DISCORD_ID = '885439540268003338';
-// const queryClient = new QueryClient({
-// 	defaultOptions: {
-// 		queries: {
-// 			refetchOnWindowFocus: false, // default: true
-// 		},
-// 	},
-// });
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false, // default: true
+		},
+	},
+});
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	const userLanyard = useLanyardWS(DISCORD_ID);
 	const ballCanvas = useRef<HTMLDivElement>(null);
-	const [queryClient] = useState(() => new QueryClient());
+	
 	useEffect(() => {
 		if (typeof window === 'undefined' || !ballCanvas.current) {
 			return;
@@ -50,7 +50,6 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	return (
 		<StrictMode>
 			<QueryClientProvider client={queryClient}>
-				<Hydrate state={pageProps.dehydratedState}>
 					<Head>
 						<title>tinh</title>
 						<meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -78,7 +77,6 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 
 					</div>
 					<ReactQueryDevtools initialIsOpen />
-				</Hydrate>
 			</QueryClientProvider>
 		</StrictMode>
 	);
