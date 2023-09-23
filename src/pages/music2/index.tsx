@@ -139,6 +139,31 @@ const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) =>
 	);
 };
 const TopTracksOverview = ({ topTracks }: { topTracks: TrackObjectFull[] }) => {
+	if (topTracks.length == 0) {
+		return (
+			<>
+				<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
+					{[...Array(6)].map((_, index) => (
+						<div
+							key={index}
+							className='group flex flex-col space-y-2 p-[2px] '>
+							<div className="space-y-5 rounded-lg bg-neutral-400/10 p-4 dark:bg-white/5">
+								<div className="h-[194.4px] rounded-lg bg-neutral-400/30 dark:bg-rose-100/10 "></div>
+								<div className="space-y-3">
+									<div className="h-3 w-4/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
+									<div className="h-3 w-2/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
+								</div>
+							</div>
+						</div>
+					))
+					}
+				</div>
+				<div className="my-8 mt-12 flex items-center justify-center">
+					<div className="h-5 w-3/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
+				</div>
+			</>
+		)
+	}
 	return (
 		<ListSong music={topTracks} />
 	);
@@ -154,7 +179,7 @@ export default function MusicPage({
 	const limit = PER_PAGE;
 	const skip = (page - 1) * (limit);
 
-	const { data: topTracks } = useQuery({
+	const { data: topTracks, isSuccess, isFetching } = useQuery({
 		queryKey: ['getMyTopTracks', page],
 		queryFn: () => getMyTopTracks(limit, skip),
 		keepPreviousData: true,
@@ -171,13 +196,13 @@ export default function MusicPage({
 				className="w-full"
 			>
 				<UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} />
-				<TopTracksOverview topTracks={topTracks?.body.items || []} />
-				<Pagination
+				{isFetching ? <TopTracksOverview topTracks={[]} /> : <TopTracksOverview topTracks={topTracks?.body.items || []} />}
+				{isSuccess && <Pagination
 					totalItems={Number(topTracks?.body.total) || 0}
 					currentPage={page}
 					itemsPerPage={PER_PAGE}
 					renderPageLink={(page) => `/music2?page=${page}`}
-				/>
+				/>}
 			</motion.div>
 		</div>
 	)
@@ -191,7 +216,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		SPOTIFY_REDIS_KEYS.RefreshToken
 	);
 	let api: SpotifyWebAPI;
-	let accessToken = getCookie('accessToken', { req, res });
 	if (!token && refresh) {
 		// If we don't have a token but we do have a refresh token
 		api = new SpotifyWebAPI({
@@ -214,7 +238,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		// If spotify wants us to use a new refresh token, we'll need to update it
 		if (result.body.refresh_token) {
 			await redis.set(SPOTIFY_REDIS_KEYS.RefreshToken, result.body.refresh_token);
-			setCookie('refreshToken', result.body.refresh_token, { req, res, maxAge: 60 * 6 * 6, path: '/' });
 		}
 
 	} else if (token) {
@@ -223,9 +246,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 			clientSecret: SPOTIFY_CLIENT_SECRET,
 			accessToken: token,
 		});
-		if (!accessToken) {
-			setCookie('accessToken', token, { req, res, maxAge: 60 * 6 * 24, path: '/' });
-		}
+		setCookie('accessToken', token, { req, res, maxAge: 60 * 6 * 24, path: '/' });
 
 	} else {
 		// throw new Error(

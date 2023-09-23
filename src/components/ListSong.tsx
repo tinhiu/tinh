@@ -140,7 +140,7 @@ function Track({ track }: { track: TrackObjectFull }) {
 				<Image
 					src={image}
 					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
-					duration-300 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
+					duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
 					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}
 					`}
 					alt={`${track.name} by ${artists}`}
