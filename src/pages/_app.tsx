@@ -25,8 +25,6 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 type PageProps = {
 	userLanyard?: Data | any;
-	dehydratedState: unknown;
-	token: string
 };
 export const DISCORD_ID = '885439540268003338';
 const queryClient = new QueryClient({
@@ -39,7 +37,6 @@ const queryClient = new QueryClient({
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	const userLanyard = useLanyardWS(DISCORD_ID);
 	const ballCanvas = useRef<HTMLDivElement>(null);
-	
 	useEffect(() => {
 		if (typeof window === 'undefined' || !ballCanvas.current) {
 			return;
@@ -68,7 +65,7 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 						<div
 							ref={ballCanvas}
 							className="ball-transitions pointer-events-none fixed
-						z-[100] h-4 w-4 rounded-full border-4 border-gray-500 bg-transparent
+						z-[100] h-4 w-4 rounded-full border-2 border-gray-500 bg-transparent
 						opacity-0 duration-200 dark:border-amber-100 "
 						/>
 						<Footer />

@@ -216,8 +216,7 @@ function Track({ track }: { track: TrackObjectFull }) {
 							layout="fill"
 							alt={`${track.album.name} by ${artists}`}
 							className={`pointer-events-none z-[-10] h-auto w-full rounded-md  bg-gray-200 object-cover
-							transition 
-							duration-700 ${isReady ? 'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
+							transition duration-700 ${isReady ? 'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
 							loading="lazy"
 							decoding="async"
 							onLoadingComplete={onLoadCallback}
@@ -283,9 +282,8 @@ function Track({ track }: { track: TrackObjectFull }) {
 				<Image
 					src={image}
 					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
-					duration-300 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
-					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}
-					`}
+					duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
+					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
 					alt={`${track.name} by ${artists}`}
 					width={400}
 					height={400}

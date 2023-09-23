@@ -2,8 +2,8 @@ import IORedis from 'ioredis';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { motion } from 'framer-motion';
-import { getCookie, setCookie } from 'cookies-next';
-import type { GetServerSideProps, GetStaticProps, GetStaticPropsContext } from 'next';
+import { setCookie } from 'cookies-next';
+import type { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -25,9 +25,7 @@ import {
 import type { LastFMGetTrack } from '../../server/last-fm';
 import { LastFM } from '../../server/last-fm';
 import { rand } from '../../util/types';
-import { getMe, getMyTopTracks } from '../api/spotify/spotify';
-import { getRandomTopTracksFM } from '../api/spotify/last-fm';
-import usePagination from '../../hooks/usePagination';
+import { getMyTopTracks } from '../api/spotify/spotify';
 
 dayjs.extend(relativeTime);
 
@@ -36,7 +34,6 @@ type Props = {
 	user: UserSpotify;
 	userLanyard: Data | any;
 	randomLastFMTrack: LastFMGetTrack;
-	//topTracks: PlayHistoryObject[];
 };
 
 type UserOverView = {
@@ -147,7 +144,14 @@ const TopTracksOverview = ({ topTracks }: { topTracks: TrackObjectFull[] }) => {
 						<div
 							key={index}
 							className='group flex flex-col space-y-2 p-[2px] '>
-							<div className="space-y-5 rounded-lg bg-neutral-400/10 p-4 dark:bg-white/5">
+							<div className="relative isolate space-y-5 overflow-hidden rounded-lg
+							bg-neutral-400/10 p-4 shadow-xl
+							shadow-black/5 before:absolute before:inset-0 before:-translate-x-full
+							before:animate-[shimmer_1.5s_infinite]
+							before:border-t before:border-rose-100/10 before:bg-gradient-to-r
+							before:from-transparent
+							before:via-rose-100/40 before:to-transparent dark:bg-white/5
+							">
 								<div className="h-[194.4px] rounded-lg bg-neutral-400/30 dark:bg-rose-100/10 "></div>
 								<div className="space-y-3">
 									<div className="h-3 w-4/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
@@ -158,9 +162,7 @@ const TopTracksOverview = ({ topTracks }: { topTracks: TrackObjectFull[] }) => {
 					))
 					}
 				</div>
-				<div className="my-8 mt-12 flex items-center justify-center">
-					<div className="h-5 w-3/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
-				</div>
+
 			</>
 		)
 	}
@@ -197,12 +199,16 @@ export default function MusicPage({
 			>
 				<UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} />
 				{isFetching ? <TopTracksOverview topTracks={[]} /> : <TopTracksOverview topTracks={topTracks?.body.items || []} />}
-				{isSuccess && <Pagination
+				{isSuccess ? <Pagination
 					totalItems={Number(topTracks?.body.total) || 0}
 					currentPage={page}
 					itemsPerPage={PER_PAGE}
 					renderPageLink={(page) => `/music2?page=${page}`}
-				/>}
+				/> : (
+					<div className="my-8 mt-12 flex items-center justify-center">
+						<div className="h-5 w-3/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
+					</div>)
+				}
 			</motion.div>
 		</div>
 	)

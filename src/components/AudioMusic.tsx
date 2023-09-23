@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
-
+import { HiMinusSm } from 'react-icons/hi'
 type Props = {
 	src: string;
 };
@@ -47,40 +47,53 @@ function AudioMusic({ src }: Props) {
 		const formatTime = minutes + ':' + seconds;
 		return formatTime;
 	};
-
 	return (
 		<>
-			<div className="flex items-center">
-				<span className="">{formatTime(musicinfo.currentTime || 0)}</span>
-				<div className="mx-1 h-1 w-full rounded-sm bg-gray-400">
-					<div
-						className="border-image-clip-path h-full rounded-sm border-2 bg-neutral-700 transition-[width]"
-						style={{ width: `${musicinfo.progressWidth}%` }}
-					></div>
-				</div>
-				<div className=" ml-auto flex items-center">
-					<div className="group">
-						<span className="block group-hover:hidden">{formatTime(musicinfo.duration || 0)}</span>
-						<span className="hidden group-hover:block">
-							<span className="">-</span>
-							{formatTime(musicinfo.duration - musicinfo.currentTime)}
-						</span>
+			{audioRef.current.isConnected ? (
+				<div className="flex items-center">
+					<span className="leading-none">{formatTime(musicinfo.currentTime || 0)}</span>
+					<div className="mx-1 h-1 w-full rounded-sm bg-gray-400">
+						<div
+							className="border-image-clip-path h-full rounded-sm border-2 bg-neutral-700 transition-[width]"
+							style={{ width: `${musicinfo.progressWidth}%` }}
+						></div>
 					</div>
-					{playing ? (
-						<AiOutlinePauseCircle className="" size={'24px'} onClick={handlePausePlayClick} />
-					) : (
-						<AiOutlinePlayCircle className="" size={'24px'} onClick={handlePausePlayClick} />
-					)}
+					<div className="ml-auto flex items-center">
+						<div className="group mr-[2px]">
+							<span className="block leading-none group-hover:hidden">{formatTime(musicinfo.duration || 0)}</span>
+							<span className="hidden items-center leading-none group-hover:flex">
+								<HiMinusSm size={12} />
+								{formatTime(musicinfo.duration - musicinfo.currentTime)}
+							</span>
+						</div>
+						{playing ? (
+							<AiOutlinePauseCircle className="" size={'24px'} onClick={handlePausePlayClick} />
+						) : (
+							<AiOutlinePlayCircle className="" size={'24px'} onClick={handlePausePlayClick} />
+						)}
+					</div>
 				</div>
-				<audio
-					loop
-					src={src}
-					ref={audioRef}
-					onTimeUpdate={timeUpdatehandler}
-					onLoadedMetadata={timeUpdatehandler}
-					className="audio"
-				></audio>
-			</div>
+			) : (
+				// <div className="relative isolate flex items-center
+				// justify-center
+				// overflow-hidden
+				// shadow-xl shadow-black/5 before:absolute before:inset-0
+				// before:-translate-x-full
+				// before:animate-[shimmer_1s_infinite] before:border-t before:border-rose-100/10
+				// before:bg-gradient-to-r
+				// before:from-transparent before:via-rose-100/40 before:to-transparent">
+				<div className="flex items-center">
+					<div className="h-[24px] w-full rounded-lg bg-neutral-400/5 dark:bg-rose-400/5"></div>
+				</div>
+			)}
+			<audio
+				loop
+				src={src}
+				ref={audioRef}
+				onTimeUpdate={timeUpdatehandler}
+				onLoadedMetadata={timeUpdatehandler}
+				className="audio"
+			></audio>
 		</>
 	);
 }

@@ -34,8 +34,15 @@ module.exports = {
       },
       animation: {
         'spin-slow': 'spin 9s linear infinite',
+      },
+      "keyframes": {
+        "shimmer": {
+          "100%": {
+            "transform": "translateX(100%)",
+          },
+        },
       }
-     
+
     },
   },
   plugins: [],
@@ -44,6 +51,6 @@ module.exports = {
       pattern: /shadow-/,
       variants: ['group-hover'],
     }
-],
+  ],
 
 }

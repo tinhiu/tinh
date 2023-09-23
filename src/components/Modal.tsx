@@ -59,8 +59,8 @@ function Modal({ isOpen, image, ...props }: Props) {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<div className="z-99 relative my-8 inline-block w-full max-w-xl
-							 overflow-hidden rounded-2xl bg-neutral-200 p-6 text-left align-middle shadow-xl
+							<div className="z-99 relative my-8 inline-block w-full max-w-xl overflow-hidden
+							 rounded-2xl bg-neutral-200 p-6 text-left align-middle shadow-lg shadow-neutral-600/50
 							  transition-all dark:bg-neutral-200">
 								<div className="relative">
 									<Dialog.Title as="h3" className="text-lg font-medium leading-6 text-[#1DB954]">

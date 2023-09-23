@@ -27,6 +27,7 @@ import UserSpotify from '../../models/UserSpotify'
 import ListSong from '../../components/ListSong';
 import type { LastFMGetTrack } from '../../server/last-fm';
 import { useEffect, useRef } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 
 
 const PER_PAGE = 6;
@@ -43,7 +44,13 @@ type UserOverView = {
 	randomLastFMTrack: LastFMGetTrack
 }
 dayjs.extend(relativeTime);
-
+const getInitialPageFromQuery = (query: ParsedUrlQuery) => {
+	const page = Number(query.page)
+	if (Number.isNaN(page) || page < 1) {
+	  return 1
+	}
+	return page
+  }
 const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) => {
 	const image: string = user?.images?.[1].url as string;
 	return (
@@ -141,11 +148,11 @@ const TopTracksOverview = ({ topTracks, page }: { topTracks: TrackObjectFull[], 
 	const pageTopRef = useRef(null);
 	useEffect(() => {
 		window.scrollTo({
-		  top: 0,
-		  left: 0,
-		  behavior: 'smooth',
+			top: 0,
+			left: 0,
+			behavior: 'smooth',
 		});
-	  }, [page]);
+	}, [page]);
 	return (
 		<div ref={pageTopRef}><ListSong music={topTracks} /></div>
 	);
@@ -156,8 +163,7 @@ export default function MusicPage({
 	userLanyard,
 }: Props) {
 	const router = useRouter();
-	const query = router.query;
-	const page = Number(parseInt(query.page as string) < 0 ? 1 : parseInt(query.page as string) || 1);
+	const page = getInitialPageFromQuery(router.query);
 	const limit = PER_PAGE;
 	const skip = (page - 1) * (limit);
 
@@ -165,14 +171,13 @@ export default function MusicPage({
 		fetch('/api/cookie')
 	}, []);
 
-	// 
+	
 	const { data: topTracks } = useQuery({
 		queryKey: ['getMyTopTracks', page],
 		queryFn: () => getMyTopTracks(limit, skip),
 		keepPreviousData: true,
 		staleTime: 60 * 1000
 	})
-
 	return (
 		<div className='mb-14 mt-16 w-full'>
 			<motion.div
@@ -183,7 +188,7 @@ export default function MusicPage({
 				className="w-full"
 			>
 				{/* <UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} /> */}
-				<TopTracksOverview topTracks={topTracks?.body?.items || []} page={page}/>
+				<TopTracksOverview topTracks={topTracks?.body?.items || []} page={page} />
 				<Pagination
 					totalItems={Number(topTracks?.body?.total) || 0}
 					currentPage={page}
