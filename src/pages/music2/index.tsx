@@ -216,14 +216,14 @@ export default function MusicPage({
 				<UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} />
 				<Tab.Group>
 					<Tab.List className="ml-2 mr-4">
-						<Tab className="ui-selected:bg-gray-500 
-						dark:ui-selected:bg-black/30 
-						ui-selected:text-white rounded-md
-						 px-2 focus:outline-0">Top</Tab>
-						<Tab className="ui-selected:bg-gray-500 
-						dark:ui-selected:bg-black/30 
-						ui-selected:text-white rounded-md
-						 px-2 focus:outline-0">Recently</Tab>
+						<Tab className="rounded-md 
+						px-2 
+						focus:outline-0 ui-selected:bg-gray-500
+						 ui-selected:text-white dark:ui-selected:bg-black/30">Top</Tab>
+						<Tab className="rounded-md 
+						px-2 
+						focus:outline-0 ui-selected:bg-gray-500
+						 ui-selected:text-white dark:ui-selected:bg-black/30">Recently</Tab>
 					</Tab.List>
 					<Tab.Panels>
 						<Tab.Panel>
@@ -323,10 +323,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
 	let recentlyTracks = await lfm.getRecentTracks('10', 'loonailysm', '1');
 	const resultRecentlyTracks = recentlyTracks.map((track) => ({
-		date: track.date || null,
+		date: {
+			uts: track.date ? track.date.uts : '',
+			'#text':track.date ? dayjs(track?.date['#text']).set('hour',
+				dayjs(track.date['#text']).hour() + 7).format('DD MMM YYYY, HH:mm') : ''
+		}|| null,
 		"@attr": track['@attr'] || null,
 		image: track.image,
-		artist: track.artist,
+		artist: {
+			name: track.artist.name,
+			url: track.artist.url
+		},
 		album: track.album,
 		url: track.url,
 		name: track.name,

@@ -59,7 +59,7 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 		>
 			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24} />} image={image}>
 				<div className="space-y-4">
-					<div className="relative aspect-[3/2] ">
+					<div className="relative aspect-[3/2]">
 						<Image
 							src={image}
 							layout="fill"

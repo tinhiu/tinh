@@ -48,6 +48,7 @@ export class LastFM {
 		});
 
 		const request = await fetch(url);
+	
 		const response = (await request.json()) as T;
 
 		if (request.status >= 400) {
