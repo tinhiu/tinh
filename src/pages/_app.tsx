@@ -47,33 +47,33 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	return (
 		<StrictMode>
 			<QueryClientProvider client={queryClient}>
-					<Head>
-						<title>tinh</title>
-						<meta name="viewport" content="width=device-width,initial-scale=1" />
-					</Head>
-					<GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS as string} />
+				<Head>
+					<title>tinh</title>
+					<meta name="viewport" content="width=device-width,initial-scale=1" />
+				</Head>
+				<GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS as string} />
+				<div
+					className="flex h-full min-h-screen w-full flex-col justify-start bg-gradient-to-b from-[#e0dbdb] to-[#e0dbdb] text-black dark:from-[#746767] dark:to-[#463a3a81] dark:text-white"
+				>
+					<Nav />
+					<div className="mx-auto w-[85%] md:max-w-3xl">
+						<AnimatePresence mode="wait">
+							<Component {...pageProps} key={router.pathname} userLanyard={userLanyard} />
+						</AnimatePresence>
+					</div>
+					<Song user={userLanyard} />
 					<div
-						className="flex h-full min-h-screen w-full flex-col justify-start bg-gradient-to-b from-[#e0dbdb] to-[#e0dbdb] text-black dark:from-[#746767] dark:to-[#463a3a81] dark:text-white"
-					>
-						<Nav />
-						<div className="mx-auto w-[85%] md:max-w-3xl">
-							<AnimatePresence mode="wait">
-								<Component {...pageProps} key={router.pathname} userLanyard={userLanyard} />
-							</AnimatePresence>
-						</div>
-						<Song user={userLanyard} />
-						<div
-							ref={ballCanvas}
-							className="ball-transitions pointer-events-none fixed
+						ref={ballCanvas}
+						className="ball-transitions pointer-events-none fixed
 						z-[100] h-4 w-4 rounded-full border-2 border-gray-500 bg-transparent
 						opacity-0 duration-200 dark:border-amber-100 "
-						/>
-						<Footer />
-						<Toaster reverseOrder={true} />
-						<ScrollToTop />
+					/>
+					<Footer />
+					<Toaster reverseOrder={true} />
+					<ScrollToTop />
 
-					</div>
-					<ReactQueryDevtools initialIsOpen />
+				</div>
+				<ReactQueryDevtools initialIsOpen />
 			</QueryClientProvider>
 		</StrictMode>
 	);

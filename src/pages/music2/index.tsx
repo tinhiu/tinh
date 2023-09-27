@@ -1,8 +1,10 @@
-import IORedis from 'ioredis';
+import { Tab } from '@headlessui/react';
+import { setCookie } from 'cookies-next';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+
 import { motion } from 'framer-motion';
-import { setCookie } from 'cookies-next';
+import IORedis from 'ioredis';
 import type { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -11,9 +13,14 @@ import SpotifyWebAPI from 'spotify-web-api-node';
 import { Data } from 'use-lanyard';
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 
-import ListSong from '../../components/ListSong';
+import type { LastFMGetRecent, LastFMGetTrack } from '../../server/last-fm';
+
+
 import Pagination from '../../components/Pagination';
+import RecentlyTracks from '../../components/RecentlyTracks';
 import ModalSpotify from '../../components/Spotify';
+import TopTracks from '../../components/TopTracks';
+
 import UserSpotify from '../../models/UserSpotify';
 import {
 	LAST_FM_API_KEY,
@@ -22,18 +29,20 @@ import {
 	SPOTIFY_CLIENT_SECRET,
 	SPOTIFY_REDIS_KEYS,
 } from '../../server/constants';
-import type { LastFMGetTrack } from '../../server/last-fm';
 import { LastFM } from '../../server/last-fm';
 import { rand } from '../../util/types';
 import { getMyTopTracks } from '../api/spotify/spotify';
 
 dayjs.extend(relativeTime);
 
+
 const PER_PAGE = 6;
 type Props = {
 	user: UserSpotify;
 	userLanyard: Data | any;
 	randomLastFMTrack: LastFMGetTrack;
+	recentlyTracks: LastFMGetRecent[],
+	tracks: TrackObjectFull[]
 };
 
 type UserOverView = {
@@ -135,11 +144,12 @@ const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) =>
 		</div>
 	);
 };
+
 const TopTracksOverview = ({ topTracks }: { topTracks: TrackObjectFull[] }) => {
 	if (topTracks.length == 0) {
 		return (
 			<>
-				<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
+				<div className="mt-2 grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
 					{[...Array(6)].map((_, index) => (
 						<div
 							key={index}
@@ -152,7 +162,7 @@ const TopTracksOverview = ({ topTracks }: { topTracks: TrackObjectFull[] }) => {
 							before:from-transparent
 							before:via-rose-100/40 before:to-transparent dark:bg-white/5
 							">
-								<div className="h-[194.4px] rounded-lg bg-neutral-400/30 dark:bg-rose-100/10 "></div>
+								<div className="h-[121.8px] rounded-lg bg-neutral-400/30 dark:bg-rose-100/10 sm:h-[194.4px] "></div>
 								<div className="space-y-3">
 									<div className="h-3 w-4/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
 									<div className="h-3 w-2/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
@@ -162,18 +172,24 @@ const TopTracksOverview = ({ topTracks }: { topTracks: TrackObjectFull[] }) => {
 					))
 					}
 				</div>
-
 			</>
 		)
 	}
 	return (
-		<ListSong music={topTracks} />
+		<TopTracks music={topTracks} />
 	);
 };
+
+const RecentlyOverview = ({ recentlyTracks }: { recentlyTracks: LastFMGetRecent[] }) => {
+	return (
+		<RecentlyTracks tracks={recentlyTracks} />
+	)
+}
 export default function MusicPage({
 	user,
 	userLanyard,
-	randomLastFMTrack
+	randomLastFMTrack,
+	recentlyTracks,
 }: Props) {
 	const router = useRouter();
 	const query = router.query;
@@ -198,17 +214,37 @@ export default function MusicPage({
 				className="w-full"
 			>
 				<UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} />
-				{isFetching ? <TopTracksOverview topTracks={[]} /> : <TopTracksOverview topTracks={topTracks?.body.items || []} />}
-				{isSuccess ? <Pagination
-					totalItems={Number(topTracks?.body.total) || 0}
-					currentPage={page}
-					itemsPerPage={PER_PAGE}
-					renderPageLink={(page) => `/music2?page=${page}`}
-				/> : (
-					<div className="my-8 mt-12 flex items-center justify-center">
-						<div className="h-5 w-3/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
-					</div>)
-				}
+				<Tab.Group>
+					<Tab.List className="ml-2 mr-4">
+						<Tab className="ui-selected:bg-gray-500 
+						dark:ui-selected:bg-black/30 
+						ui-selected:text-white rounded-md
+						 px-2 focus:outline-0">Top</Tab>
+						<Tab className="ui-selected:bg-gray-500 
+						dark:ui-selected:bg-black/30 
+						ui-selected:text-white rounded-md
+						 px-2 focus:outline-0">Recently</Tab>
+					</Tab.List>
+					<Tab.Panels>
+						<Tab.Panel>
+							{isFetching ?
+								<TopTracksOverview topTracks={[]} /> :
+								<TopTracksOverview topTracks={topTracks?.body.items || []} />}
+							{isSuccess ? <Pagination
+								totalItems={Number(topTracks?.body.total) || 0}
+								currentPage={page}
+								itemsPerPage={PER_PAGE}
+								renderPageLink={(page) => `/music2?page=${page}`}
+							/> : (
+								<div className="my-8 mt-12 flex items-center justify-center">
+									<div className="h-5 w-3/5 rounded-lg bg-neutral-400/20 dark:bg-rose-100/20"></div>
+								</div>)
+							}
+						</Tab.Panel>
+						<Tab.Panel><RecentlyOverview recentlyTracks={recentlyTracks} /></Tab.Panel>
+					</Tab.Panels>
+				</Tab.Group>
+
 			</motion.div>
 		</div>
 	)
@@ -240,7 +276,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 			result.body.expires_in
 		);
 
-
 		// If spotify wants us to use a new refresh token, we'll need to update it
 		if (result.body.refresh_token) {
 			await redis.set(SPOTIFY_REDIS_KEYS.RefreshToken, result.body.refresh_token);
@@ -255,9 +290,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		setCookie('accessToken', token, { req, res, maxAge: 60 * 6 * 24, path: '/' });
 
 	} else {
-		// throw new Error(
-		// 	'No Spotify tokens available! Please manually add them to the Redis store to allow tokens to refresh in the future.'
-		// );
 		return {
 			notFound: true,
 		}
@@ -288,11 +320,25 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		playcount: item.playcount,
 		duration: item.duration,
 	}));
+
+	let recentlyTracks = await lfm.getRecentTracks('10', 'loonailysm', '1');
+	const resultRecentlyTracks = recentlyTracks.map((track) => ({
+		date: track.date || null,
+		"@attr": track['@attr'] || null,
+		image: track.image,
+		artist: track.artist,
+		album: track.album,
+		url: track.url,
+		name: track.name,
+		loved: track.loved
+	}))
+
 	return {
 		props: {
 			user: user,
 			userLanyard: null,
-			randomLastFMTrack: rand(topLFMTracks)
+			randomLastFMTrack: rand(topLFMTracks),
+			recentlyTracks: resultRecentlyTracks
 		},
 	};
 };

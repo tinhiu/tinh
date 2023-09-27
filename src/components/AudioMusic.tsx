@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from 'react-icons/ai';
 import { HiMinusSm } from 'react-icons/hi'
 type Props = {
@@ -74,14 +74,6 @@ function AudioMusic({ src }: Props) {
 					</div>
 				</div>
 			) : (
-				// <div className="relative isolate flex items-center
-				// justify-center
-				// overflow-hidden
-				// shadow-xl shadow-black/5 before:absolute before:inset-0
-				// before:-translate-x-full
-				// before:animate-[shimmer_1s_infinite] before:border-t before:border-rose-100/10
-				// before:bg-gradient-to-r
-				// before:from-transparent before:via-rose-100/40 before:to-transparent">
 				<div className="flex items-center">
 					<div className="h-[24px] w-full rounded-lg bg-neutral-400/5 dark:bg-rose-400/5"></div>
 				</div>

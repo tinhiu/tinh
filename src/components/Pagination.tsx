@@ -19,7 +19,14 @@ const Pagination = ({
 }: PaginationProps) => {
   const pages = usePagination(totalItems, currentPage, itemsPerPage)
   if (currentPage > Math.ceil(totalItems / itemsPerPage)) {
-    return <span className='flex items-center justify-center text-sm italic'>There is no page {currentPage}</span>
+    return <span className='my-5 flex items-center justify-center text-sm italic'>
+      There is no page {currentPage} please go
+      <Link href={renderPageLink(1)} scroll={false}>
+        <a className="ml-1 font-semibold text-slate-800 underline dark:text-amber-200">
+          back
+        </a>
+      </Link>
+    </span>
   }
   return (
     <div className="my-8 mt-12 flex items-center justify-center">

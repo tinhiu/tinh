@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/future/image';
 import { SiSpotify } from 'react-icons/si';
 import { Data } from 'use-lanyard';
-
+import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif'
 const Song = ({ user }: { user: Data | any }) => {
 	if (!user || !user.spotify) {
 		return (
@@ -84,22 +84,33 @@ const Song = ({ user }: { user: Data | any }) => {
                 "
 			>
 				<div className="flex h-[4rem] w-full flex-row items-center justify-start">
-					<Image
-						src={user.spotify.album_art_url}
-						className="pointer-events-none mr-4 h-[3rem] w-[3rem] animate-spin-slow rounded-full bg-cover"
-						alt={user.spotify.album}
-						width={150}
-						height={150}
-					/>
-					<div className="flex h-full w-[15rem] flex-col items-center justify-center sm:w-full ">
+					<div className="flex flex-row items-center justify-center">
+						<Image
+							src={nowPlaying}
+							className="pointer-events-none absolute z-[1] bg-cover"
+							alt={'nowPlaying'}
+							width={16}
+							height={16}
+						/>
+						<Image
+							src={user.spotify.album_art_url}
+							className="pointer-events-none h-[3rem] w-[3rem] animate-spin-slow rounded-full bg-cover"
+							alt={user.spotify.album}
+							width={150}
+							height={150}
+						/>
+					</div>
+					<div className="ml-4 flex h-full w-[15rem] flex-col items-center justify-center sm:w-full ">
 						<a
 							href={`https://open.spotify.com/track/${user.spotify.track_id}`}
 							target="_blank"
 							rel="noreferrer"
-							className="w-full truncate font-medium text-gray-900 hover:underline dark:text-[#e1eafd]"
+							className="flex w-full truncate font-medium text-gray-900 hover:underline dark:text-[#e1eafd]"
 							title={user.spotify.song}
 						>
+
 							{user.spotify.song}
+
 						</a>
 						<p
 							className="relative w-full truncate text-sm font-normal text-gray-800 dark:text-[#cad2e0]"

@@ -12,6 +12,7 @@
     "@bradgarropy/next-google-analytics": "^1.0.2",
     "@emailjs/browser": "^3.7.0",
     "@headlessui/react": "^1.7.2",
+    "@headlessui/tailwindcss": "^0.2.0",
     "@react-spring/web": "^9.7.3",
     "@swc/helpers": "^0.5.1",
     "@tippyjs/react": "^4.2.6",

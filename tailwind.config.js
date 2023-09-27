@@ -19,6 +19,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'noise': "url('/images/noise.svg')",
+        'love': "url('/assets/image/love.png')",
       },
       transitionProperty: {
         'width': 'width 0.1s linear',
@@ -45,7 +46,9 @@ module.exports = {
 
     },
   },
-  plugins: [],
+  plugins: [
+    require('@headlessui/tailwindcss')({ prefix: 'ui' })
+  ],
   safelist: [
     {
       pattern: /shadow-/,

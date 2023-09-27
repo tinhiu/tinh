@@ -6,7 +6,6 @@ import { SiSpotify } from 'react-icons/si';
 import TailwindColor from '@videsk/tailwind-random-color';
 import Image from 'next/image';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import ms from 'ms';
 import { MdExplicit } from 'react-icons/md';
 
@@ -14,16 +13,9 @@ import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 
 import AudioMusic from './AudioMusic';
-type PageProps = {
-	music: TrackObjectFull[];
-	// currentPage: number;
-	// url: string;
-	// totalProducts: number;
-	// perPage: number;
-};
-dayjs.extend(relativeTime);
 
-function Track({ track }: { track: TrackObjectFull }) {
+
+function TopTrack({ track }: { track: TrackObjectFull }) {
 	const [statsOpen, setStatsOpen] = useState(false);
 	const [isReady, setIsReady] = useState(false);
 	const options = {
@@ -164,18 +156,18 @@ function Track({ track }: { track: TrackObjectFull }) {
 		</button>
 	);
 }
-const ListSong = ({
+
+const TopTracks = ({
 	music,
-}: PageProps): JSX.Element => {
+}: {music: TrackObjectFull[]}): JSX.Element => {
 	return (
-		<>
-			<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
-				{music.map((track) => (
-					<Track key={track.id} track={track} />
-				))}
-			</div>
-		</>
+		<div className="mt-2 grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
+			{music.map((track) => (
+				<TopTrack key={track?.id} track={track} />
+			))}
+		</div>
 	);
+
 };
 
-export default ListSong;
+export default TopTracks;

@@ -8,7 +8,7 @@ function Error() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -4 }}
         transition={{ ease: "easeInOut", duration: 0.4 }}
-        className="mt-16 flex w-full"
+        className="mt-16 flex h-[50vh] w-full"
         >
             <h1 className="mb-3 mt-8 text-2xl font-bold text-black dark:text-white md:text-3xl">404 - Page Not Found :(</h1>
         </motion.div>

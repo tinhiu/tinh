@@ -1,28 +1,23 @@
-import IORedis from 'ioredis';
-import dayjs from 'dayjs';
-import ms from 'ms';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { useState } from 'react';
-import SpotifyWebAPI from 'spotify-web-api-node';
-import Image from 'next/image';
-import type { GetStaticProps } from 'next';
-import { motion } from 'framer-motion';
-import { HiExternalLink } from 'react-icons/hi';
 import TailwindColor from '@videsk/tailwind-random-color';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { motion } from 'framer-motion';
+import IORedis from 'ioredis';
+import ms from 'ms';
+import type { GetStaticProps } from 'next';
+import Image from 'next/image';
+import { useState } from 'react';
+import { HiExternalLink } from 'react-icons/hi';
 import { MdExplicit } from 'react-icons/md';
 import { SiSpotify } from 'react-icons/si';
-import Modal from '../components/Modal';
-import ModalSpotify from '../components/Spotify';
+import SpotifyWebAPI from 'spotify-web-api-node';
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
-import UsersTopTracksResponse = SpotifyApi.UsersTopTracksResponse;
-import PlayHistoryObject = SpotifyApi.PlayHistoryObject;
-import UserObjectPublic = SpotifyApi.UserObjectPublic;
-import ListOfUsersPlaylist = SpotifyApi.ListOfUsersPlaylistsResponse;
-import FollowedArtists = SpotifyApi.UsersFollowedArtistsResponse;
-import CurrentPlayingTrack = SpotifyApi.CurrentlyPlayingResponse;
-import type { LastFMGetTrack } from '../server/last-fm';
-import { LastFM } from '../server/last-fm';
+
+import AudioMusic from '../components/AudioMusic';
+import Details from '../components/Details';
+import Modal from '../components/Modal';
+import ModalSpotify from '../components/Spotify';
 import {
 	LAST_FM_API_KEY,
 	REDIS_URL,
@@ -30,13 +25,11 @@ import {
 	SPOTIFY_CLIENT_SECRET,
 	SPOTIFY_REDIS_KEYS,
 } from '../server/constants';
-import Details from '../components/Details';
-import AudioMusic from '../components/AudioMusic';
+import type { LastFMGetTrack } from '../server/last-fm';
+import { LastFM } from '../server/last-fm';
 
-import { rand } from '../util/types';
-import { useRouter } from 'next/router';
-import getProducts from '../lib/getProducts';
 import UserSpotify from '../models/UserSpotify';
+import { rand } from '../util/types';
 type Props = {
 	user: UserSpotify | any;
 	topTracks: TrackObjectFull[];
@@ -44,7 +37,6 @@ type Props = {
 	following: number | any;
 	userLanyard: any;
 	randomLastFMTrack: LastFMGetTrack;
-	//topTracks: PlayHistoryObject[];
 };
 
 dayjs.extend(relativeTime);
@@ -158,11 +150,9 @@ export default function MusicPage({
 
 			<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
 				{topTracks.map((track) => (
-					//<Track key={track.id} track={track} />
 					<Track key={track.id} track={track} />
 				))}
 			</div>
-			{/* <Pagination page={parseInt(page)} perPage={parseInt(perPage)} itemCount={userTopTracks.total ?? 0} /> */}
 		</motion.div>
 	);
 }
@@ -305,7 +295,7 @@ function Track({ track }: { track: TrackObjectFull }) {
 		</button>
 	);
 }
-export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any) => {
+export const getStaticProps: GetStaticProps<Props> = async () => {
 	const redis = new IORedis(REDIS_URL || '');
 	const [token, refresh] = await redis.mget(
 		SPOTIFY_REDIS_KEYS.AccessToken,
@@ -347,11 +337,10 @@ export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any
 			clientSecret: SPOTIFY_CLIENT_SECRET,
 			accessToken: token,
 		});
-		//console.log(api);
 	} else {
-		throw new Error(
-			'No Spotify tokens available! Please manually add them to the Redis store to allow tokens to refresh in the future.'
-		);
+		return {
+			notFound: true,
+		}
 	}
 
 	/* Top tracks playing */
@@ -390,7 +379,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ userLanyard }: any
 			playLists: playlists.body.total,
 			following: followings.body.artists.total,
 			randomLastFMTrack: rand(topLFMTracks),
-			userLanyard: userLanyard || null,
+			userLanyard: null,
 		},
 		revalidate,
 	};

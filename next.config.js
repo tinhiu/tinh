@@ -5,6 +5,7 @@ const nextConfig = {
 	images: {
 		domains: [
 			'i.scdn.co',
+			'lastfm.freetls.fastly.net'
 		],
 	},
 	typescript: {
@@ -13,7 +14,7 @@ const nextConfig = {
 		// your project has type errors.
 		// !! WARN !!
 		ignoreBuildErrors: true
-	}
+	},
 }
 
 module.exports = nextConfig

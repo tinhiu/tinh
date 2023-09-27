@@ -1,8 +1,6 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
-	//console.log(JSON.stringify(images, null, 4));
-	
 	return (
 		<Html>
 			<Head>
