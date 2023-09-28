@@ -321,7 +321,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		duration: item.duration,
 	}));
 
-	let recentlyTracks = await lfm.getRecentTracks('10', 'loonailysm', '1');
+	let recentlyTracks = await lfm.getRecentTracks('15', 'loonailysm', '1');
 	const resultRecentlyTracks = recentlyTracks.map((track) => ({
 		date: {
 			uts: track.date ? track.date.uts : '',
@@ -330,10 +330,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		}|| null,
 		"@attr": track['@attr'] || null,
 		image: track.image,
-		artist: {
-			name: track.artist.name,
-			url: track.artist.url
-		},
+		artist: track.artist,
 		album: track.album,
 		url: track.url,
 		name: track.name,

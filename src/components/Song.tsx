@@ -10,11 +10,10 @@ const Song = ({ user }: { user: Data | any }) => {
 				initial={{ opacity: 0, y: 0 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 1, duration: 2, easing: [0, 0.5, 0.28, 2] }}
-				className="fixed 
-                -bottom-8 left-14 hidden h-[7rem] w-[20rem] flex-col items-start justify-start lg:flex
-                "
+				className="fixed bottom-11 left-20 hidden w-2 flex-col items-start justify-start lg:flex"
 			>
-				<i className="flex items-center text-sm">*not playing anything <SiSpotify size={12} className='ml-2' /> </i>
+				<i className="flex items-center 
+				justify-center text-2xl text-[#1DB954]">!<SiSpotify size={30} className='ml-2' /> </i>
 			</motion.div>
 		);
 	}
@@ -24,10 +23,8 @@ const Song = ({ user }: { user: Data | any }) => {
 			<motion.div
 				initial={{ opacity: 0, y: 0 }}
 				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 5, duration: 0.6, easing: [0, 0.5, 0.28, 2] }}
-				className="fixed 
-                bottom-8 left-6 hidden h-[7rem] w-[20rem] flex-col items-start justify-start laptop:flex
-                "
+				transition={{ delay: 5, duration: 2, easing: [0, 0.5, 0.28, 2] }}
+				className="fixed bottom-8 left-6 hidden h-[7rem] w-[20rem] flex-col items-start justify-start laptop:flex"
 			>
 				<div className="move-position">
 					<h1 className="mb-2 flex items-center justify-start text-base font-semibold text-black dark:text-gray-100 ">

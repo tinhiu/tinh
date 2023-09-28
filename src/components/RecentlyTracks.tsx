@@ -55,7 +55,7 @@ function RecentlyTracks({
 										</td>
 										<td className="mx-2 grid w-[50%] truncate">
 											<Link href={track.url}>
-												<a className="font-bold hover:underline" target='_blank'>
+												<a className="w-fit font-bold hover:underline" target='_blank'>
 													{track.name}
 												</a>
 											</Link>

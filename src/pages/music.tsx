@@ -30,6 +30,7 @@ import { LastFM } from '../server/last-fm';
 
 import UserSpotify from '../models/UserSpotify';
 import { rand } from '../util/types';
+
 type Props = {
 	user: UserSpotify | any;
 	topTracks: TrackObjectFull[];
@@ -198,7 +199,7 @@ function Track({ track }: { track: TrackObjectFull }) {
 			onClick={open}
 			onMouseLeave={changeRandom}
 		>
-			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24}/>} image={image}>
+			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24} />} image={image}>
 				<div className="space-y-4">
 					<div className="relative aspect-[3/2] ">
 						<Image
@@ -269,7 +270,7 @@ function Track({ track }: { track: TrackObjectFull }) {
 			</Modal>
 
 			<div className={`group-hover:${ranDom} w-full transition-all group-hover:shadow-lg`}>
-				<Image
+				 <Image
 					src={image}
 					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
 					duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
@@ -277,11 +278,11 @@ function Track({ track }: { track: TrackObjectFull }) {
 					alt={`${track.name} by ${artists}`}
 					width={400}
 					height={400}
-					loading="lazy"
+					loading="eager"
 					decoding="async"
 					sizes="100vw"
 					onLoadingComplete={onLoadCallback}
-				/>
+				/> 
 			</div>
 
 			<div className="w-full truncate">

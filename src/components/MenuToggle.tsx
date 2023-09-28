@@ -19,7 +19,6 @@ export const MenuToggle = ({ toggle }: any) => {
 						closed: { d: 'M 2 2.5 L 20 2.5' },
 						open: { d: 'M 3 16.5 L 17 2.5' },
 					}}
-                    
 				/>
 				<Path
 					d="M 2 9.423 L 20 9.423"

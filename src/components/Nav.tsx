@@ -90,7 +90,7 @@ const Nav = () => {
 					<ThemeToggle />
 				</div>
 				<motion.div className="progress-bar rounded-lg dark:bg-neutral-400" style={{ scaleX }} />
-			</motion.div>
+			</motion.div >
 			<motion.div className="sticky top-0 z-[990] flex w-full flex-row items-center justify-between border-b border-slate-800/50 bg-white/60 px-4 py-3 shadow-md backdrop-blur-lg dark:border-white/30 dark:bg-[#5f5555ad] sm:hidden">
 				<motion.div
 					animate={isOpen ? 'open' : 'closed'}
