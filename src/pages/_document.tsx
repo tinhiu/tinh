@@ -16,8 +16,7 @@ export default function Document() {
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
 			</Head>
-			{/* bg-gray-300 bg-gradient-to-b from-[#e0dbdb] to-[#e0dbdb]
-			 text-black dark:from-[#746767] dark:to-[#463a3a81] dark:text-white */}
+			
 			<body className="bg-[#e0dbdb] text-black dark:bg-[#746767] dark:text-white">
 				<Main />
 				<NextScript />

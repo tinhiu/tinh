@@ -32,6 +32,7 @@ import {
 import { LastFM } from '../../server/last-fm';
 import { rand } from '../../util/types';
 import { getMyTopTracks } from '../api/spotify/spotify';
+import { ParsedUrlQuery } from 'querystring';
 
 dayjs.extend(relativeTime);
 
@@ -50,7 +51,13 @@ type UserOverView = {
 	userLanyard: Data | any,
 	randomLastFMTrack: LastFMGetTrack
 }
-
+const getInitialPageFromQuery = (query: ParsedUrlQuery) => {
+	const page = Number(query.page)
+	if (Number.isNaN(page) || page < 1) {
+		return 1
+	}
+	return page
+}
 const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) => {
 	const image: string = user?.images?.[1].url as string;
 	return (
@@ -120,7 +127,7 @@ const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) =>
 				<ModalSpotify user={user} spotify={userLanyard} />
 			</div>
 			<div className="mx-4">
-				<div className="mb-6 mt-4 ">
+				<div className="mb-2 mt-4 ">
 					Listening to music is my cup of tea. I listen to many different kinds of music. Most of
 					the time, I love listening to music. Here are some of the songs I listen to the most in
 					recent months.
@@ -205,13 +212,13 @@ export default function MusicPage({
 	})
 
 	return (
-		<div className='mb-14 mt-16 w-full'>
+		<div className='mb-24 mt-10 w-full'>
 			<motion.div
 				initial={{ opacity: 0, y: 7 }}
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: -4 }}
 				transition={{ ease: 'easeInOut', duration: 0.4 }}
-				className="w-full"
+				className="mt-1 w-full"
 			>
 				<UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} />
 				<Tab.Group>

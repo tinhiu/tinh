@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import IORedis from 'ioredis';
 import ms from 'ms';
 import type { GetStaticProps } from 'next';
+import Link from "next/link";
 import Image from 'next/image';
 import { useState } from 'react';
 import { HiExternalLink } from 'react-icons/hi';
@@ -25,13 +26,11 @@ import {
 	SPOTIFY_CLIENT_SECRET,
 	SPOTIFY_REDIS_KEYS,
 } from '../server/constants';
-import type { LastFMGetRecent, LastFMGetTrack } from '../server/last-fm';
+import type { LastFMGetTrack } from '../server/last-fm';
 import { LastFM } from '../server/last-fm';
 
 import UserSpotify from '../models/UserSpotify';
 import { rand } from '../util/types';
-import RecentlyTracks from '../components/RecentlyTracks';
-import { Tab } from '@headlessui/react';
 
 type Props = {
 	user: UserSpotify | any;
@@ -40,7 +39,6 @@ type Props = {
 	following: number | any;
 	userLanyard: any;
 	randomLastFMTrack: LastFMGetTrack;
-	recentlyTracks: LastFMGetRecent[]
 };
 
 dayjs.extend(relativeTime);
@@ -52,7 +50,6 @@ export default function MusicPage({
 	following,
 	randomLastFMTrack,
 	userLanyard,
-	recentlyTracks
 }: Props) {
 	const image = user.images[1].url;
 	// console.log(JSON.stringify(userLanyard, null, 4));
@@ -64,7 +61,7 @@ export default function MusicPage({
 			transition={{ ease: 'easeInOut', duration: 0.4 }}
 			className="mb-24 mt-10 w-full"
 		>
-			<div className="mt-1 ">
+			<div className="mt-1">
 				<div className="flex justify-center ">
 					<motion.div
 						initial={{ opacity: 0, x: -50 }}
@@ -130,7 +127,7 @@ export default function MusicPage({
 					<ModalSpotify user={user} spotify={userLanyard} />
 				</div>
 				<div className="mx-4">
-					<div className="mb-6 mt-4 ">
+					<div className="mb-2 mt-4 ">
 						Listening to music is my cup of tea. I listen to many different kinds of music. Most of
 						the time, I love listening to music. Here are some of the songs I listen to the most in
 						recent months.
@@ -152,36 +149,20 @@ export default function MusicPage({
 					</div>
 				</div>
 			</div>
-			<Tab.Group>
-				<Tab.List className="ml-2 mr-4">
-					<Tab className="rounded-md 
-						px-2 
-						focus:outline-0 ui-selected:bg-gray-500
-						 ui-selected:text-white dark:ui-selected:bg-black/30">Top</Tab>
-					<Tab className="rounded-md 
-						px-2 
-						focus:outline-0 ui-selected:bg-gray-500
-						 ui-selected:text-white dark:ui-selected:bg-black/30">Recently</Tab>
-				</Tab.List>
-				<Tab.Panels>
-					<Tab.Panel>
-						<div className="mt-2 grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
-							{topTracks.map((track) => (
-								<Track key={track.id} track={track} />
-							))}
-						</div>
-					</Tab.Panel>
-					<Tab.Panel><RecentlyOverview recentlyTracks={recentlyTracks} /></Tab.Panel>
-				</Tab.Panels>
-			</Tab.Group>
-
+			<div className="px-2 text-white">
+				<Link href='/music2'>
+					<a className="rounded-md bg-gray-500 px-2 py-1 focus:outline-0 dark:bg-black/30 ">
+						Pagination {">"}
+					</a>
+				</Link>
+			</div>
+			<div className="mt-2 grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
+				{topTracks.map((track) => (
+					<Track key={track.id} track={track} />
+				))}
+			</div>
 		</motion.div>
 	);
-}
-const RecentlyOverview = ({ recentlyTracks }: { recentlyTracks: LastFMGetRecent[] }) => {
-	return (
-		<RecentlyTracks tracks={recentlyTracks} />
-	)
 }
 function Track({ track }: { track: TrackObjectFull }) {
 	const [statsOpen, setStatsOpen] = useState(false);
@@ -399,24 +380,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 		playcount: item.playcount,
 		duration: item.duration,
 	}));
-	let recentlyTracks = await lfm.getRecentTracks('15', 'loonailysm', '1');
-	const resultRecentlyTracks = recentlyTracks.map((track) => ({
-		date: {
-			uts: track.date ? track.date.uts : '',
-			'#text': track.date ? dayjs(track?.date['#text']).set('hour',
-				dayjs(track.date['#text']).hour() + 7).format('DD MMM YYYY, HH:mm') : ''
-		} || null,
-		"@attr": track['@attr'] || null,
-		image: track.image,
-		artist: {
-			url: track.artist.url,
-			name: track.artist.name
-		},
-		album: track.album,
-		url: track.url,
-		name: track.name,
-		loved: track.loved
-	}))
 	return {
 		props: {
 			user: user,
@@ -424,7 +387,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 			playLists: playlists.body.total,
 			following: followings.body.artists.total,
 			randomLastFMTrack: rand(topLFMTracks),
-			recentlyTracks: resultRecentlyTracks,
 			userLanyard: null,
 		},
 		revalidate,

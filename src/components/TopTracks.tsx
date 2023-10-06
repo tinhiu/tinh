@@ -85,14 +85,14 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 						target="_blank"
 						rel="noreferrer"
 					>
-						<div className="w-[90%]">
+						<div className="w-[90%] dark:text-black">
 							<h2 className="truncate text-xl font-bold group-hover:underline md:text-2xl">
 								{track.name}
 							</h2>
 							<h3 className="text-sm italic text-gray-800 dark:text-gray-800">by {artists}</h3>
 						</div>
 
-						<HiExternalLink size={24} />
+						<HiExternalLink size={24} className="dark:text-black" />
 					</a>
 
 					<>
@@ -121,7 +121,7 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 
 					<button
 						onClick={close}
-						className="float-right !mt-0 rounded-lg px-2 py-1 hover:bg-slate-400/40 hover:delay-100"
+						className="float-right !mt-0 rounded-lg px-2 py-1 hover:bg-slate-400/40 hover:delay-100 dark:text-black"
 					>
 						Close
 					</button>
