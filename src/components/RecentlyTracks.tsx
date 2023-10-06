@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import dayjs from 'dayjs';
-import { type LastFMGetRecent } from '../server/last-fm';
+import { LastFM, type LastFMGetRecent } from '../server/last-fm';
 import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif'
 import images from '../../public/assets/image'
 import Link from 'next/link';
+import { LAST_FM_API_KEY } from '../server/constants';
+const lfm = new LastFM(LAST_FM_API_KEY!);
 
 function RecentlyTracks({
 	tracks,
@@ -13,7 +15,7 @@ function RecentlyTracks({
 	const onLoadCallback = () => {
 		setIsReady(true);
 	};
-
+	
 	return (
 		<div className="mt-2">
 			<div className="table-scrollx grid w-full grid-cols-1 gap-4 overflow-x-auto ">
@@ -42,7 +44,7 @@ function RecentlyTracks({
 												height={60}
 												alt={track.name}
 												onLoadingComplete={onLoadCallback}
-
+												loading="eager"
 											/>
 											</div>
 										</td>

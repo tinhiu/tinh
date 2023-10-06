@@ -167,7 +167,7 @@ const Message = () => {
 					<div className="flex flex-row-reverse">
 						<button
 							type="submit"
-							className="shadow-button duration-400 flex cursor-pointer items-center rounded-3xl bg-[#e2e2e2] px-3 py-2 font-semibold text-[#624b4b] transition hover:scale-105 hover:ease-out dark:bg-[#716868] dark:text-white/80"
+							className="shadow-button flex cursor-pointer items-center rounded-3xl bg-[#e2e2e2] px-3 py-2 font-semibold text-[#624b4b] transition duration-1000 hover:ease-out dark:bg-[#716868] dark:text-white/80"
 						>
 							Send
 							{!sending && <RiSendPlane2Fill className="ml-2 " />}

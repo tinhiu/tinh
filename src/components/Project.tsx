@@ -37,7 +37,7 @@ const projects = [
   }, {
     title: "🌟 loc mobile \u2197",
     description: "An ecommerce app build with MERN STACK",
-    url: "",
+    url: "https://github.com/tinhiu/ecommerce",
     techs: [
       {
         name: 'Mongodb',

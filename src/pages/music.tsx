@@ -25,11 +25,13 @@ import {
 	SPOTIFY_CLIENT_SECRET,
 	SPOTIFY_REDIS_KEYS,
 } from '../server/constants';
-import type { LastFMGetTrack } from '../server/last-fm';
+import type { LastFMGetRecent, LastFMGetTrack } from '../server/last-fm';
 import { LastFM } from '../server/last-fm';
 
 import UserSpotify from '../models/UserSpotify';
 import { rand } from '../util/types';
+import RecentlyTracks from '../components/RecentlyTracks';
+import { Tab } from '@headlessui/react';
 
 type Props = {
 	user: UserSpotify | any;
@@ -38,6 +40,7 @@ type Props = {
 	following: number | any;
 	userLanyard: any;
 	randomLastFMTrack: LastFMGetTrack;
+	recentlyTracks: LastFMGetRecent[]
 };
 
 dayjs.extend(relativeTime);
@@ -49,6 +52,7 @@ export default function MusicPage({
 	following,
 	randomLastFMTrack,
 	userLanyard,
+	recentlyTracks
 }: Props) {
 	const image = user.images[1].url;
 	// console.log(JSON.stringify(userLanyard, null, 4));
@@ -58,7 +62,7 @@ export default function MusicPage({
 			animate={{ opacity: 1, y: 0 }}
 			exit={{ opacity: 0, y: -4 }}
 			transition={{ ease: 'easeInOut', duration: 0.4 }}
-			className="mb-32 mt-16 w-full"
+			className="mb-24 mt-10 w-full"
 		>
 			<div className="mt-1 ">
 				<div className="flex justify-center ">
@@ -148,14 +152,36 @@ export default function MusicPage({
 					</div>
 				</div>
 			</div>
+			<Tab.Group>
+				<Tab.List className="ml-2 mr-4">
+					<Tab className="rounded-md 
+						px-2 
+						focus:outline-0 ui-selected:bg-gray-500
+						 ui-selected:text-white dark:ui-selected:bg-black/30">Top</Tab>
+					<Tab className="rounded-md 
+						px-2 
+						focus:outline-0 ui-selected:bg-gray-500
+						 ui-selected:text-white dark:ui-selected:bg-black/30">Recently</Tab>
+				</Tab.List>
+				<Tab.Panels>
+					<Tab.Panel>
+						<div className="mt-2 grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
+							{topTracks.map((track) => (
+								<Track key={track.id} track={track} />
+							))}
+						</div>
+					</Tab.Panel>
+					<Tab.Panel><RecentlyOverview recentlyTracks={recentlyTracks} /></Tab.Panel>
+				</Tab.Panels>
+			</Tab.Group>
 
-			<div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
-				{topTracks.map((track) => (
-					<Track key={track.id} track={track} />
-				))}
-			</div>
 		</motion.div>
 	);
+}
+const RecentlyOverview = ({ recentlyTracks }: { recentlyTracks: LastFMGetRecent[] }) => {
+	return (
+		<RecentlyTracks tracks={recentlyTracks} />
+	)
 }
 function Track({ track }: { track: TrackObjectFull }) {
 	const [statsOpen, setStatsOpen] = useState(false);
@@ -201,7 +227,7 @@ function Track({ track }: { track: TrackObjectFull }) {
 		>
 			<Modal isOpen={statsOpen} setIsOpen={close} title={<SiSpotify size={24} />} image={image}>
 				<div className="space-y-4">
-					<div className="relative aspect-[3/2] ">
+					<div className="relative aspect-[3/2]">
 						<Image
 							src={image}
 							layout="fill"
@@ -222,18 +248,18 @@ function Track({ track }: { track: TrackObjectFull }) {
 					<a
 						href={track.external_urls.spotify}
 						className="group flex justify-between rounded-md border 
-						bg-gray-400  p-3 no-underline dark:border-0 dark:bg-neutral-400"
+						bg-gray-400 p-3 no-underline dark:border-0 dark:bg-neutral-400"
 						target="_blank"
 						rel="noreferrer"
 					>
 						<div className="w-[90%]">
-							<h2 className="truncate text-xl font-bold group-hover:underline md:text-2xl">
+							<h2 className="truncate text-xl font-bold group-hover:underline dark:text-black md:text-2xl">
 								{track.name}
 							</h2>
 							<h3 className="text-sm italic text-gray-800 dark:text-gray-800">by {artists}</h3>
 						</div>
 
-						<HiExternalLink size={24} />
+						<HiExternalLink size={24} className="dark:text-black" />
 					</a>
 
 					<>
@@ -262,7 +288,7 @@ function Track({ track }: { track: TrackObjectFull }) {
 
 					<button
 						onClick={close}
-						className="float-right !mt-0 rounded-lg px-2 py-1 hover:bg-slate-400"
+						className="float-right !mt-0 rounded-lg px-2 py-1 hover:bg-slate-400 dark:text-black"
 					>
 						Close
 					</button>
@@ -270,7 +296,7 @@ function Track({ track }: { track: TrackObjectFull }) {
 			</Modal>
 
 			<div className={`group-hover:${ranDom} w-full transition-all group-hover:shadow-lg`}>
-				 <Image
+				<Image
 					src={image}
 					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
 					duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
@@ -282,7 +308,7 @@ function Track({ track }: { track: TrackObjectFull }) {
 					decoding="async"
 					sizes="100vw"
 					onLoadingComplete={onLoadCallback}
-				/> 
+				/>
 			</div>
 
 			<div className="w-full truncate">
@@ -373,6 +399,24 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 		playcount: item.playcount,
 		duration: item.duration,
 	}));
+	let recentlyTracks = await lfm.getRecentTracks('15', 'loonailysm', '1');
+	const resultRecentlyTracks = recentlyTracks.map((track) => ({
+		date: {
+			uts: track.date ? track.date.uts : '',
+			'#text': track.date ? dayjs(track?.date['#text']).set('hour',
+				dayjs(track.date['#text']).hour() + 7).format('DD MMM YYYY, HH:mm') : ''
+		} || null,
+		"@attr": track['@attr'] || null,
+		image: track.image,
+		artist: {
+			url: track.artist.url,
+			name: track.artist.name
+		},
+		album: track.album,
+		url: track.url,
+		name: track.name,
+		loved: track.loved
+	}))
 	return {
 		props: {
 			user: user,
@@ -380,6 +424,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 			playLists: playlists.body.total,
 			following: followings.body.artists.total,
 			randomLastFMTrack: rand(topLFMTracks),
+			recentlyTracks: resultRecentlyTracks,
 			userLanyard: null,
 		},
 		revalidate,

@@ -69,8 +69,8 @@ function Modal({ isOpen, image, ...props }: Props) {
 
 									<div className="absolute right-0 top-0 text-xl">
 										<button type="button"
-											className="hover: rounded-full p-2 leading-none 
-											hover:bg-slate-500/40  hover:delay-200"
+											className="rounded-full p-2 leading-none 
+											hover:bg-slate-500/40 hover:delay-200"
 											onClick={close}>
 											<MdOutlineClose size={17} />
 										</button>

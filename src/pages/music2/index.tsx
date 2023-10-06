@@ -330,7 +330,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		}|| null,
 		"@attr": track['@attr'] || null,
 		image: track.image,
-		artist: track.artist,
+		artist: {
+			url: track.artist.url,
+			name: track.artist.name
+		},
 		album: track.album,
 		url: track.url,
 		name: track.name,

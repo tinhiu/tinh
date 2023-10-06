@@ -1,12 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-function withOpacity(variableName) {
-  return ({ opacityValue }) => {
-    if (opacityValue !== undefined) {
-      return `rgba(var(${variableName}), ${opacityValue})`
-    }
-    return `rgb(var(${variableName}))`
-  }
-}
+
+const plugin = require("tailwindcss/plugin")
+
 const randomColor = Math.floor(Math.random() * 16777215).toString(16);
 module.exports = {
   darkMode: 'class',
@@ -47,7 +42,17 @@ module.exports = {
     },
   },
   plugins: [
-    require('@headlessui/tailwindcss')({ prefix: 'ui' })
+    require('@headlessui/tailwindcss')({ prefix: 'ui' }),
+    plugin(function ({ addComponents }) {
+      addComponents({
+        ".divider-y": {
+          "@apply h-full w-px bg-black bg-opacity-10 dark:bg-white dark:bg-opacity-10": {},
+        },
+        ".divider-x": {
+          "@apply h-px w-full bg-black bg-opacity-10 dark:bg-white dark:bg-opacity-10": {},
+        },
+      })
+    }),
   ],
   safelist: [
     {

@@ -12,7 +12,7 @@ const Home: NextPage = () => {
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: -4 }}
 				transition={{ ease: 'easeInOut', duration: 0.4 }}
-				className="mb-24 mt-16 w-full"
+				className="mb-24 mt-10 w-full"
 			>
 				<div className="space-y-4">
 					<h1 className="text-4xl font-bold md:text-5xl">Hi, I'm Tinh</h1>

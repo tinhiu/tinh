@@ -50,7 +50,7 @@ function AudioMusic({ src }: Props) {
 	return (
 		<>
 			{audioRef.current.isConnected ? (
-				<div className="flex items-center">
+				<div className="flex items-center dark:text-black">
 					<span className="leading-none">{formatTime(musicinfo.currentTime || 0)}</span>
 					<div className="mx-1 h-1 w-full rounded-sm bg-gray-400">
 						<div
