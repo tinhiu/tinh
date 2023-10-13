@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import { Router } from 'next/router';
 import NProgress from 'nprogress';
-import { StrictMode, useEffect, useRef } from 'react';
+import { StrictMode, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import GoogleAnalytics from "@bradgarropy/next-google-analytics";
 
@@ -45,6 +45,7 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 
 		return loadCursor(ballCanvas.current);
 	}, []);
+
 	return (
 		<StrictMode>
 			<QueryClientProvider client={queryClient}>
@@ -71,7 +72,7 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 				/>
 				<Toaster reverseOrder={true} />
 				<ScrollToTop />
-				<ReactQueryDevtools initialIsOpen />
+				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>
 		</StrictMode>
 	);

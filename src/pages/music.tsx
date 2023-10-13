@@ -29,11 +29,10 @@ import {
 import type { LastFMGetTrack } from '../server/last-fm';
 import { LastFM } from '../server/last-fm';
 
-import UserSpotify from '../models/UserSpotify';
 import { rand } from '../util/types';
 
 type Props = {
-	user: UserSpotify | any;
+	user: any;
 	topTracks: TrackObjectFull[];
 	playLists: number | any;
 	following: number | any;
@@ -364,7 +363,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	/* getUserPlaylists */
 	const playlists = await api.getUserPlaylists(user?.id);
 	const followings = await api.getFollowedArtists();
-
+	/* const song = await api.getMyCurrentPlayingTrack(); */
 	/* RecentlyPlayedTracks */
 	//const tracks = await api.getMyRecentlyPlayedTracks({ limit: 20, after: 1484811043508 });
 

@@ -59,7 +59,7 @@ const getInitialPageFromQuery = (query: ParsedUrlQuery) => {
 	return page
 }
 const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) => {
-	const image: string = user?.images?.[1].url as string;
+	const image: string = user.images?.[1].url as string;
 	return (
 		<div className="mt-0">
 			<div className="flex justify-center ">
@@ -204,7 +204,7 @@ export default function MusicPage({
 	const limit = PER_PAGE;
 	const skip = (page - 1) * (limit);
 
-	const { data: topTracks, isSuccess, isFetching } = useQuery({
+	const { data: topTracks, isSuccess, isFetching, isLoading } = useQuery({
 		queryKey: ['getMyTopTracks', page],
 		queryFn: () => getMyTopTracks(limit, skip),
 		keepPreviousData: true,
@@ -258,7 +258,6 @@ export default function MusicPage({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-
 	const redis = new IORedis(REDIS_URL || '');
 	const [token, refresh] = await redis.mget(
 		SPOTIFY_REDIS_KEYS.AccessToken,
@@ -332,9 +331,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	const resultRecentlyTracks = recentlyTracks.map((track) => ({
 		date: {
 			uts: track.date ? track.date.uts : '',
-			'#text':track.date ? dayjs(track?.date['#text']).set('hour',
+			'#text': track.date ? dayjs(track?.date['#text']).set('hour',
 				dayjs(track.date['#text']).hour() + 7).format('DD MMM YYYY, HH:mm') : ''
-		}|| null,
+		} || null,
 		"@attr": track['@attr'] || null,
 		image: track.image,
 		artist: {

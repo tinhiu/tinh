@@ -28,7 +28,7 @@ function AudioMusic({ src }: Props) {
 			setPlaying(!playing);
 		}
 	};
-	const timeUpdatehandler = async (e: any) => {
+	const timeUpdatehandler = async (e: React.ChangeEvent<HTMLAudioElement>) => {
 		const current = e.target.currentTime;
 		const duration = e.target.duration;
 		let progressWidth = (current / duration) * 100;

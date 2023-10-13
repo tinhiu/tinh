@@ -27,6 +27,7 @@ module.exports = {
       },
       screens: {
         'laptop': '1285px',
+        'inspect': '1286px'
       },
       animation: {
         'spin-slow': 'spin 9s linear infinite',

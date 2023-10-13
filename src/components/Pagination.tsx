@@ -21,7 +21,7 @@ const Pagination = ({
   if (currentPage > Math.ceil(totalItems / itemsPerPage)) {
     return <span className='my-5 flex items-center justify-center text-sm italic'>
       There is no page {currentPage} please go
-      <Link href={renderPageLink(1)} scroll={false}>
+      <Link href={'/music2'} scroll={true}>
         <a className="ml-1 font-semibold text-slate-800 underline dark:text-amber-200">
           back
         </a>

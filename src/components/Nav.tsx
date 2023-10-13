@@ -2,8 +2,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { classNames } from "../util/classNames";
 import { useRouter } from "next/router";
-import { ReactElement, useRef } from "react";
+import { ReactElement } from "react";
 import { BsSlashLg } from "react-icons/bs";
+import { AiFillGithub } from "react-icons/ai";
 import { SiSpotify, } from "react-icons/si";
 import { FcContacts, } from "react-icons/fc";
 import ThemeToggle from "./ThemeToggle";
@@ -40,7 +41,7 @@ const Nav = () => {
 					<div className="grow"></div>
 					<NavLink link="/contact" selected={router.pathname === "/contact"}
 						icon={<FcContacts size={21} />} />
-					<NavLink link="/music" selected={router.pathname === "/music"}
+					<NavLink link="/music" selected={router.pathname === "/music" || router.pathname === "/music2"}
 						icon={<SiSpotify size={21} className="text-[#1DB954] dark:text-[#00ff00]" />} />
 					<div className="divider-y h-4"></div>
 					<ThemeToggle />

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 const ThemeToggle = () => {
-    const [theme, setTheme] = useState<string>("dark");
+    const [theme, setTheme] = useState<string>("light");
 
     useEffect(() => {
         let storedTheme = localStorage.getItem("theme") as string;

@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import dayjs from 'dayjs';
-import { LastFM, type LastFMGetRecent } from '../server/last-fm';
+import { type LastFMGetRecent } from '../server/last-fm';
 import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif'
 import images from '../../public/assets/image'
 import Link from 'next/link';
-import { LAST_FM_API_KEY } from '../server/constants';
-const lfm = new LastFM(LAST_FM_API_KEY!);
 
 function RecentlyTracks({
 	tracks,

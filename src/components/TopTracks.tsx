@@ -42,7 +42,6 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 	const changeRandom = () => {
 		const randomColor = new TailwindColor(options).pick();
 		// const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-		//console.log(randomColor);
 		setRanDom(randomColor);
 	};
 	const album = track.album as AlbumObjectFull;

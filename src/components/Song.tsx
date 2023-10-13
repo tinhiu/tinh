@@ -1,9 +1,23 @@
+import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
+import { Data } from 'use-lanyard';
 import { motion } from 'framer-motion';
 import Image from 'next/future/image';
 import { SiSpotify } from 'react-icons/si';
-import { Data } from 'use-lanyard';
+import { TbHeadphonesOff } from 'react-icons/tb';
 import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif'
+import cat from '../../public/assets/image/gif/neon-cat-rainbow.gif'
+
 const Song = ({ user }: { user: Data | any }) => {
+	const [, rerender] = useState({});
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			rerender({});
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, []);
 	if (!user || !user.spotify) {
 		return (
 			<motion.div
@@ -12,32 +26,52 @@ const Song = ({ user }: { user: Data | any }) => {
 				transition={{ delay: 1, duration: 2, easing: [0, 0.5, 0.28, 2] }}
 				className="fixed bottom-11 left-20 hidden w-2 flex-col items-start justify-start lg:flex"
 			>
-				<i className="flex items-center 
-				justify-center text-2xl text-[#1DB954]">!<SiSpotify size={30} className='ml-2' /> </i>
+				<span className="flex items-center justify-center text-2xl text-black dark:text-white">
+					<TbHeadphonesOff size={30} className='ml-2' />
+				</span>
+
 			</motion.div>
 		);
 	}
+	const total = user.spotify.timestamps.end - user.spotify.timestamps.start;
+	const progress = 100 - (100 * (user.spotify.timestamps.end - new Date().getTime())) / total;
 
+	const formatTime = (currentTime: any) => {
+		let minutes = Math.floor(currentTime / 60);
+		let seconds = Math.floor(currentTime % 60);
+		seconds = seconds >= 10 ? seconds : ((`0` + (seconds % 60)) as any);
+		const formatTime = minutes + ':' + seconds;
+		return formatTime;
+	};
 	return (
 		<>
 			<motion.div
 				initial={{ opacity: 0, y: 0 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 5, duration: 2, easing: [0, 0.5, 0.28, 2] }}
-				className="fixed bottom-8 left-6 hidden h-[7rem] w-[20rem] flex-col items-start justify-start laptop:flex"
+				className="fixed bottom-8 left-6 hidden h-[7rem] w-[19rem] flex-col items-start justify-start font-sans laptop:flex"
 			>
 				<div className="move-position">
 					<h1 className="mb-2 flex items-center justify-start text-base font-semibold text-black dark:text-gray-100 ">
 						Listening to Spotify
-						<span className="boxContainer ml-2 h-4">
-							<div className="box box1"></div>
-							<div className="box box2"></div>
-							<div className="box box3"></div>
+						<span className="boxContainer ml-2 h-4 transition-all">
+							<div className="box box1 dark:bg-[#00ff00] "></div>
+							<div className="box box2 dark:bg-[#00ff00]"></div>
+							<div className="box box3 dark:bg-[#00ff00]"></div>
+						</span>
+						<span className="ml-2">
+							<Image
+								src={cat}
+								className="pointer-events-none bg-cover"
+								alt='cat'
+								width={40}
+								height={40}
+							/>
 						</span>
 					</h1>
 
-					<div className="flex h-[6rem] w-full flex-row items-center justify-start">
-						<div className="scale-95 transition duration-500 hover:scale-105 hover:ease-out">
+					<div className="flex h-[6rem] w-full flex-row items-center justify-start rounded-lg bg-white/60 p-1 backdrop-blur-lg dark:bg-[#5f5555ad]">
+						<div className="w-20 scale-95 transition duration-500 hover:scale-100 hover:ease-out">
 							<Image
 								src={user.spotify.album_art_url}
 								className="pointer-events-none mr-4 h-[4.5rem] w-[4.5rem] animate-spin-slow rounded-full bg-cover"
@@ -46,7 +80,7 @@ const Song = ({ user }: { user: Data | any }) => {
 								height={150}
 							/>
 						</div>
-						<div className="flex h-full w-56 flex-col items-start justify-center">
+						<div className="flex h-full w-52 flex-col items-start justify-center inspect:w-64">
 							<a
 								href={`https://open.spotify.com/track/${user.spotify.track_id}`}
 								target="_blank"
@@ -62,12 +96,19 @@ const Song = ({ user }: { user: Data | any }) => {
 							>
 								by {user.spotify.artist.replace(/;/g, ',')}
 							</p>
-							<p
-								className="text-black-900 relative w-full truncate text-sm font-normal dark:text-[#cad2e0]"
-								title={user.spotify.album}
-							>
-								on {user.spotify.album}
-							</p>
+							<div className="mt-2 flex w-full items-center justify-center pr-1 leading-none">
+								<div className="h-1 w-full rounded-sm bg-gray-400">
+									<div
+										className="h-full rounded-sm bg-[#1DB954] dark:bg-[#00ff00]"
+										style={{ width: `${progress}%` }}
+									></div>
+								</div>
+								<div className="mx-1">
+									{formatTime(dayjs((new Date().getTime() - user.spotify.timestamps.start)).valueOf() / 1000)}</div>
+								<div className="ml-1 text-[#1DB954] dark:text-[#00ff00]">
+									<SiSpotify size={16} />
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -81,7 +122,7 @@ const Song = ({ user }: { user: Data | any }) => {
                 "
 			>
 				<div className="flex h-[4rem] w-full flex-row items-center justify-start">
-					<div className="flex flex-row items-center justify-center">
+					<div className="flex w-16 flex-row items-center justify-center">
 						<Image
 							src={nowPlaying}
 							className="pointer-events-none absolute z-[1] bg-cover"
@@ -97,7 +138,7 @@ const Song = ({ user }: { user: Data | any }) => {
 							height={150}
 						/>
 					</div>
-					<div className="ml-4 flex h-full w-[15rem] flex-col items-center justify-center sm:w-full ">
+					<div className="ml-4 flex h-full w-full flex-col items-center justify-center truncate">
 						<a
 							href={`https://open.spotify.com/track/${user.spotify.track_id}`}
 							target="_blank"
@@ -115,6 +156,19 @@ const Song = ({ user }: { user: Data | any }) => {
 						>
 							by {user.spotify.artist.replace(/;/g, ',')}
 						</p>
+						<div className="flex w-full items-center justify-center leading-none">
+							<div className="h-1 w-full rounded-sm bg-gray-400">
+								<div
+									className="h-full rounded-sm bg-[#1DB954] dark:bg-[#00ff00]"
+									style={{ width: `${progress}%` }}
+								></div>
+							</div>
+							<div className="mx-1">
+								{formatTime(dayjs((new Date().getTime() - user.spotify.timestamps.start)).valueOf() / 1000)}</div>
+							<div className="ml-1 text-[#1DB954] dark:text-[#00ff00]">
+								<SiSpotify size={16} />
+							</div>
+						</div>
 					</div>
 				</div>
 			</motion.div>

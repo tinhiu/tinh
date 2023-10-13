@@ -1,8 +1,5 @@
 import { IconType } from "react-icons";
 import {
-  Tooltip,
-} from 'react-tippy';
-import {
   SiTypescript,
   SiNextdotjs,
   SiTailwindcss,
@@ -12,29 +9,14 @@ import {
   SiExpress
 
 } from "react-icons/si";
-import 'react-tippy/dist/tippy.css'
+import Tippy from '@tippyjs/react/';
+import 'tippy.js/dist/tippy.css';
 interface TechProps {
   name: string;
   icon: IconType;
 }
 const projects = [
   {
-    title: "🌟 tinh \u2197",
-    description: "My personal website",
-    url: "",
-    techs: [
-      {
-        name: 'Typescript',
-        icon: SiTypescript
-      }, {
-        name: 'Nextjs',
-        icon: SiNextdotjs
-      }, {
-        name: 'Tailwind',
-        icon: SiTailwindcss
-      }
-    ]
-  }, {
     title: "🌟 loc mobile \u2197",
     description: "An ecommerce app build with MERN STACK",
     url: "https://github.com/tinhiu/ecommerce",
@@ -53,13 +35,33 @@ const projects = [
         icon: SiNodedotjs
       }
     ]
-  }
+  },
+  {
+    title: "🌟 tinh \u2197",
+    description: "My personal website",
+    url: "",
+    techs: [
+      {
+        name: 'Typescript',
+        icon: SiTypescript
+      }, {
+        name: 'Nextjs',
+        icon: SiNextdotjs
+      }, {
+        name: 'Tailwind',
+        icon: SiTailwindcss
+      }
+    ]
+  },
 ];
+
 export const TechItem = ({ name, icon }: TechProps) => {
   return (
-    <Tooltip title={name} position={"top"} duration={250} arrow={true}>
-      <span>{icon({ className: "h-6 w-6 mr-6" })}</span>
-    </Tooltip>
+      <Tippy delay={[0, 10]}
+        content={name}
+        placement="bottom">
+        <span >{icon({ className: "h-6 w-6 mr-6" })}</span>
+      </Tippy>
   );
 };
 
@@ -69,8 +71,6 @@ const Project = (): JSX.Element => {
       {projects.map((prj, index) => {
         return (
           <div className="group relative flex" key={index}>
-            <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-t from-violet-400 to-amber-300 opacity-0 blur-sm transition-all duration-700 ease-in-out group-hover:opacity-100"></div>
-            <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-t from-violet-400 to-amber-300 opacity-0 blur-sm transition-all duration-700 ease-in-out group-hover:opacity-100"></div>
             <a
               href={prj.url}
               target="_blank"

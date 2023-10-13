@@ -4,7 +4,7 @@
  * when you know the total of music and jumping to X page is fast in your DB.
  */
 
-export default async function getProducts({
+export default async function getMusic({
   music,
   limit,
   page,
