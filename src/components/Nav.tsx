@@ -41,7 +41,7 @@ const Nav = () => {
 					<div className="grow"></div>
 					<NavLink link="/contact" selected={router.pathname === "/contact"}
 						icon={<FcContacts size={21} />} />
-					<NavLink link="/music" selected={router.pathname === "/music" || router.pathname === "/music2"}
+					<NavLink link="/spotify" selected={router.pathname === "/music" || router.pathname === "/spotify"}
 						icon={<SiSpotify size={21} className="text-[#1DB954] dark:text-[#00ff00]" />} />
 					<div className="divider-y h-4"></div>
 					<ThemeToggle />

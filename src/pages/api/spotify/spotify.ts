@@ -24,7 +24,7 @@ export async function getRecentlyPlayed(limit: number) {
 export async function getMyTopTracks(limit: number, skip: number) {
 	if (skip < 0 || isNaN(skip) || skip > 50) return undefined;
 	await setAccessToken();
-	await waiting(1000);
+	await waiting(2000);
 	return await apiSpotify.getMyTopTracks({ time_range: 'short_term', limit: limit, offset: skip });
 }
 export default api({

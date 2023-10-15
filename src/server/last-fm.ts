@@ -2,7 +2,7 @@ import urlcat from 'urlcat';
 
 // Method is the "RPC call" to request for, e.g. `user.gettoptracks`
 export type LastFMParams = { method: string } & Record<string, string>;
-
+export const LIMIT = 15;
 export class LastFM {
 	private readonly apiKey: string;
 
