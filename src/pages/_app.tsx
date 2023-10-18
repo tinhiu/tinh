@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import { Router } from 'next/router';
 import NProgress from 'nprogress';
-import { StrictMode, useEffect, useRef, useState } from 'react';
+import { StrictMode, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import GoogleAnalytics from "@bradgarropy/next-google-analytics";
 

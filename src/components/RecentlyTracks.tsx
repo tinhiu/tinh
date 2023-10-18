@@ -43,7 +43,7 @@ function RecentlyTracks({
 	return (
 		<div className="mt-2">
 			<div className="table-scrollx grid w-full grid-cols-1 gap-4 overflow-x-auto ">
-				<table className="min-w-full">
+				<table className="min-w-max sm:min-w-full">
 					<tbody>
 						{music.map((track, index) => (
 							<tr key={index}
@@ -72,7 +72,7 @@ function RecentlyTracks({
 										/>
 									</div>
 								</td>
-								<td className="flex h-8 w-8 items-center justify-center">
+								<td className="hidden h-8 w-8 items-center justify-center sm:flex">
 									{
 										track.loved === '1' ?
 											<span className="heart-before relative h-5 w-5" />
@@ -81,11 +81,11 @@ function RecentlyTracks({
 								</td>
 								<td className="mx-2 grid w-[50%] truncate">
 									<Link href={track.url}>
-										<a className="w-fit font-bold hover:underline" target='_blank'>
+										<a className="overflow-hidden text-ellipsis font-bold hover:underline" target='_blank'>
 											{track.name}
 										</a>
 									</Link>
-									<span className="block sm:hidden">{track.artist.name}</span>
+									<span className="block truncate sm:hidden">{track.artist.name}</span>
 								</td>
 								<td className="hidden w-[35%] truncate sm:block">
 									<Link href={track.artist.url}>
@@ -94,8 +94,8 @@ function RecentlyTracks({
 										</a>
 									</Link>
 								</td>
-								<td className="flex w-40 items-center justify-end
-										 text-right text-black/70 dark:text-white/75">
+								<td className="flex w-32 items-center justify-end text-right text-black/70
+										 dark:text-white/75 sm:w-40">
 									{!Boolean(track['@attr']?.nowplaying) ? (
 										<span className="truncate" title={track.date['#text']}>
 											{dayjs(Number(track.date.uts) * 1000).fromNow()}

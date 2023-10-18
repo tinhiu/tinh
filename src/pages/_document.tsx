@@ -17,7 +17,7 @@ export default function Document() {
 
 			</Head>
 			
-			<body className="bg-[#c4c5c5] text-black dark:bg-[#746767] dark:text-white">
+			<body className="bg-[#e2dcdc] text-black dark:bg-[#746767] dark:text-white">
 				<Main />
 				<NextScript />
 			</body>

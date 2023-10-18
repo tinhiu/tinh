@@ -70,7 +70,7 @@ const Song = ({ user }: { user: Data | any }) => {
 						</span>
 					</h1>
 
-					<div className="flex h-[6rem] w-full flex-row items-center justify-start rounded-lg bg-white/60 p-1 backdrop-blur-lg dark:bg-[#5f5555ad]">
+					<div className="flex h-[6rem] w-full flex-row items-center justify-start rounded-lg bg-white/60 p-2 backdrop-blur-lg dark:bg-[#5f5555ad]">
 						<div className="w-20 scale-95 transition duration-500 hover:scale-100 hover:ease-out">
 							<Image
 								src={user.spotify.album_art_url}

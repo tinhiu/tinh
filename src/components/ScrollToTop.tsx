@@ -23,7 +23,7 @@ const ScrollToTop = () => {
 	return (
 		<AnimatePresence>
 			{scrollPosition > 100 && (
-				<motion.button
+				<motion.div
 					className="top-to-btm shadow-sm dark:bg-neutral-300/75"
 					onClick={goToTop}
 					initial={{ scale: 0, opacity: 0 }}
@@ -35,8 +35,8 @@ const ScrollToTop = () => {
 					}}
 					whileTap={{ scale: 1 }}
 				>
-					{<FaAngleUp size={24} className='text-white'/>}
-				</motion.button>
+					{<FaAngleUp size={20} className='text-white'/>}
+				</motion.div>
 			)}
 		</AnimatePresence>
 	);
