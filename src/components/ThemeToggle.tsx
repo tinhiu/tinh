@@ -8,9 +8,16 @@ const ThemeToggle = () => {
 
         if (!storedTheme) {
             localStorage.setItem("theme", theme);
+            document.querySelector("html")?.classList.add(theme);
         } else {
             setTheme(storedTheme);
-            storedTheme === "dark" ? document.querySelector("html")?.classList.add("dark") : null;
+            if (storedTheme === "light") {
+                document.querySelector("html")?.classList.remove("dark")
+                document.querySelector("html")?.classList.add("light")
+            } else {
+                document.querySelector("html")?.classList.remove("light")
+                document.querySelector("html")?.classList.add("dark");
+            }
         }
     }, [theme]);
 
@@ -19,9 +26,6 @@ const ThemeToggle = () => {
         localStorage.setItem("theme", newTheme);
         setTheme(newTheme);
         document.querySelector('#theme-toggle')?.setAttribute('aria-label', newTheme)
-        newTheme === "light"
-            ? document.querySelector("html")?.classList.remove("dark")
-            : document.querySelector("html")?.classList.add("dark");
     };
 
     return (
