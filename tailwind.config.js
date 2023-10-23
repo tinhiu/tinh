@@ -4,7 +4,7 @@ const plugin = require("tailwindcss/plugin")
 
 const randomColor = Math.floor(Math.random() * 16777215).toString(16);
 module.exports = {
-  darkMode: 'class',
+  darkMode: ['class', '[data-mode="dark"]'],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",

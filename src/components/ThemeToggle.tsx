@@ -8,16 +8,11 @@ const ThemeToggle = () => {
 
         if (!storedTheme) {
             localStorage.setItem("theme", theme);
-            document.querySelector("html")?.classList.add(theme);
+            document.querySelector("html")?.setAttribute("data-mode", theme);
         } else {
             setTheme(storedTheme);
-            if (storedTheme === "light") {
-                document.querySelector("html")?.classList.remove("dark")
-                document.querySelector("html")?.classList.add("light")
-            } else {
-                document.querySelector("html")?.classList.remove("light")
-                document.querySelector("html")?.classList.add("dark");
-            }
+            storedTheme === "light" ? document.querySelector("html")?.setAttribute("data-mode", 'light')
+            : document.querySelector("html")?.setAttribute("data-mode", 'dark');
         }
     }, [theme]);
 

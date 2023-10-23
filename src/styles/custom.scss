@@ -259,7 +259,7 @@ html *::-webkit-scrollbar-track {
 		stroke-linecap: round;
 	}
 
-	[class='dark'] & {
+	[data-mode='dark'] & {
 		--icon-fill: hsl(208 100% 97%);
 		--icon-fill-hover: hsl(210 15% 90%);
 	}
@@ -290,20 +290,20 @@ html *::-webkit-scrollbar-track {
 	stroke: var(--icon-fill-hover);
 }
 
-[class='dark'] .sun-and-moon > .sun {
+[data-mode='dark'] .sun-and-moon > .sun {
 	transform: scale(1.75);
 }
 
-[class='dark'] .sun-and-moon > .sun-beams {
+[data-mode='dark'] .sun-and-moon > .sun-beams {
 	opacity: 0;
 }
 
-[class='dark'] .sun-and-moon > .moon > circle {
+[data-mode='dark'] .sun-and-moon > .moon > circle {
 	transform: translateX(-7px);
 }
 
 @supports (cx: 1) {
-	[class='dark'] .sun-and-moon > .moon > circle {
+	[data-mode='dark'] .sun-and-moon > .moon > circle {
 		cx: 17;
 		transform: translateX(0);
 	}
@@ -328,18 +328,18 @@ html *::-webkit-scrollbar-track {
 		}
 	}
 
-	[class='dark'] .sun-and-moon > .sun {
+	[data-mode='dark'] .sun-and-moon > .sun {
 		transition-timing-function: var(--ease-3);
 		transition-duration: 0.25s;
 		transform: scale(1.75);
 	}
 
-	[class='dark'] .sun-and-moon > .sun-beams {
+	[data-mode='dark'] .sun-and-moon > .sun-beams {
 		transition-duration: 0.15s;
 		transform: rotateZ(-25deg);
 	}
 
-	[class='dark'] .sun-and-moon > .moon > circle {
+	[data-mode='dark'] .sun-and-moon > .moon > circle {
 		transition-duration: 0.5s;
 		transition-delay: 0.25s;
 	}
