@@ -14,7 +14,6 @@ export default function Document() {
 				<meta name="keywords" content="tinh, web developer, github, typescript" />
 				<meta name="author" content="tinh" />
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-				<link rel="stylesheet" href="https://unpkg.com/open-props/easings.min.css" />
 
 			</Head>
 			

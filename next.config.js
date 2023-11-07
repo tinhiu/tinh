@@ -7,6 +7,7 @@ const nextConfig = {
 			'i.scdn.co',
 			'lastfm.freetls.fastly.net'
 		],
+		unoptimized: true,
 	},
 	typescript: {
 		// !! WARN !!

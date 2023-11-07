@@ -264,9 +264,6 @@ html *::-webkit-scrollbar-track {
 		--icon-fill-hover: hsl(210 15% 90%);
 	}
 
-	@media (hover: none) {
-		--size: 48px;
-	}
 }
 
 .sun-and-moon > :is(.moon, .sun, .sun-beams) {

@@ -112,7 +112,7 @@ const ModalSpotify = ({ spotify, user }: Props) => {
 								loading="lazy"
 								decoding="async"
 								onLoadingComplete={onLoadCallback}
-
+								quality={100}
 							/>
 						</div>
 					</div>

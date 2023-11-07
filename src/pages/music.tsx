@@ -227,8 +227,8 @@ function Track({ track }: { track: TrackObjectFull }) {
 
 					<a
 						href={track.external_urls.spotify}
-						className="group flex justify-between rounded-md border 
-						bg-gray-400 p-3 no-underline dark:border-0 dark:bg-neutral-400"
+						className="group flex justify-between rounded-md  
+						border bg-gray-400 p-3 no-underline dark:border-0 dark:bg-neutral-400"
 						target="_blank"
 						rel="noreferrer"
 					>
