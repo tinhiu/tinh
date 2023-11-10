@@ -4,30 +4,33 @@ import { Data } from 'use-lanyard';
 import { motion } from 'framer-motion';
 import Image from 'next/future/image';
 import { SiSpotify } from 'react-icons/si';
-import { TbHeadphonesOff } from 'react-icons/tb';
 import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif'
 import cat from '../../public/assets/image/gif/neon-cat-rainbow.gif'
+import cat2 from '../../public/assets/image/gif/cat-pixel2.gif'
 
 const Song = ({ user }: { user: Data | any }) => {
 	const [, rerender] = useState({});
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			rerender({});
-		}, 1000);
+		if (user?.listening_to_spotify) {
+			const interval = setInterval(() => {
+				rerender({});
+			}, 1000);
 
-		return () => clearInterval(interval);
-	}, []);
+			return () => clearInterval(interval);
+		}
+		return;
+	}, [user?.listening_to_spotify]);
 	if (!user || !user.spotify) {
 		return (
 			<motion.div
 				initial={{ opacity: 0, y: 0 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 1, duration: 2, easing: [0, 0.5, 0.28, 2] }}
-				className="fixed bottom-11 left-20 hidden w-2 flex-col items-start justify-start lg:flex"
+				className="fixed bottom-11 left-20 hidden flex-col items-start justify-start lg:flex"
 			>
 				<span className="flex items-center justify-center text-2xl text-black dark:text-white">
-					<TbHeadphonesOff size={30} className='ml-2' />
+					<Image src={cat2} height={120} width={120} alt='cat1' />
 				</span>
 
 			</motion.div>

@@ -39,7 +39,24 @@ const projects = [
   {
     title: "🌟 tinh \u2197",
     description: "My personal website",
-    url: "",
+    url: "https://github.com/tinhiu/tinh",
+    techs: [
+      {
+        name: 'Typescript',
+        icon: SiTypescript
+      }, {
+        name: 'Nextjs',
+        icon: SiNextdotjs
+      }, {
+        name: 'Tailwind',
+        icon: SiTailwindcss
+      }
+    ]
+  },
+  {
+    title: "🌟 pokedex \u2197",
+    description: "Pokedex using PokeAPI get list pokemon",
+    url: "https://github.com/tinhiu/pokedex",
     techs: [
       {
         name: 'Typescript',
@@ -57,11 +74,11 @@ const projects = [
 
 export const TechItem = ({ name, icon }: TechProps) => {
   return (
-      <Tippy delay={[0, 10]}
-        content={name}
-        placement="bottom">
-        <span >{icon({ className: "h-6 w-6 mr-6" })}</span>
-      </Tippy>
+    <Tippy delay={[0, 10]}
+      content={name}
+      placement="bottom">
+      <span >{icon({ className: "h-6 w-6 mr-6" })}</span>
+    </Tippy>
   );
 };
 
