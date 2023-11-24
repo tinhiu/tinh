@@ -158,7 +158,7 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 
 const TopTracks = ({
 	music,
-}: {music: TrackObjectFull[]}): JSX.Element => {
+}: { music: TrackObjectFull[] }): JSX.Element => {
 	return (
 		<div className="mt-2 grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
 			{music.map((track) => (

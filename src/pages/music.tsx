@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import IORedis from 'ioredis';
 import ms from 'ms';
 import type { GetStaticProps } from 'next';
-import Link from "next/link";
+import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { HiExternalLink } from 'react-icons/hi';
@@ -276,19 +276,21 @@ function Track({ track }: { track: TrackObjectFull }) {
 			</Modal>
 
 			<div className={`group-hover:${ranDom} w-full transition-all group-hover:shadow-lg`}>
-				<Image
-					src={image}
-					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
-					duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
-					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
-					alt={`${track.name} by ${artists}`}
-					width={400}
-					height={400}
-					loading="eager"
-					decoding="async"
-					sizes="100vw"
-					onLoadingComplete={onLoadCallback}
-				/>
+				<div className="overflow-hidden">
+					<Image
+						src={image}
+						className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
+						duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
+						${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
+						alt={`${track.name} by ${artists}`}
+						width={400}
+						height={400}
+						loading="eager"
+						decoding="async"
+						sizes="100vw"
+						onLoadingComplete={onLoadCallback}
+					/>
+				</div>
 			</div>
 
 			<div className="w-full truncate">
@@ -347,7 +349,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	} else {
 		return {
 			notFound: true,
-		}
+		};
 	}
 
 	/* Top tracks playing */

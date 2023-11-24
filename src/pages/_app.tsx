@@ -3,7 +3,7 @@ import { Router } from 'next/router';
 import NProgress from 'nprogress';
 import { StrictMode, useEffect, useRef } from 'react';
 import Head from 'next/head';
-import GoogleAnalytics from "@bradgarropy/next-google-analytics";
+import GoogleAnalytics from '@bradgarropy/next-google-analytics';
 
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -37,7 +37,7 @@ const queryClient = new QueryClient({
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	const userLanyard = useLanyardWS(DISCORD_ID);
 	const ballCanvas = useRef<HTMLDivElement>(null);
-	const showFooter = router.route === "/"
+	const showFooter = router.route === '/';
 	useEffect(() => {
 		if (typeof window === 'undefined' || !ballCanvas.current) {
 			return;

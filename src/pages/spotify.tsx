@@ -1,4 +1,3 @@
-
 import { Tab } from '@headlessui/react';
 import TailwindColor from '@videsk/tailwind-random-color';
 import dayjs from 'dayjs';
@@ -8,7 +7,7 @@ import IORedis from 'ioredis';
 import ms from 'ms';
 import type { GetStaticProps } from 'next';
 import Image from 'next/image';
-import Link from "next/link";
+import Link from 'next/link';
 import { useState } from 'react';
 import { HiExternalLink } from 'react-icons/hi';
 import { MdExplicit } from 'react-icons/md';
@@ -23,8 +22,6 @@ import Details from '../components/Details';
 import Modal from '../components/Modal';
 import RecentlyTracks from '../components/RecentlyTracks';
 import ModalSpotify from '../components/Spotify';
-
-
 import {
 	LAST_FM_API_KEY,
 	REDIS_URL,
@@ -38,7 +35,6 @@ import UserSpotify from '../models/UserSpotify';
 
 dayjs.extend(relativeTime);
 
-
 type Props = {
 	user: any;
 	userLanyard: any;
@@ -46,15 +42,13 @@ type Props = {
 	randomLastFMTrack: LastFMGetTrack;
 };
 type UserOverView = {
-	user: UserSpotify,
-	userLanyard: Data | any,
-	randomLastFMTrack: LastFMGetTrack
-}
+	user: UserSpotify;
+	userLanyard: Data | any;
+	randomLastFMTrack: LastFMGetTrack;
+};
 const RecentlyOverview = ({ userLanyard }: { userLanyard: any }) => {
-	return (
-		<RecentlyTracks userLanyard={userLanyard} />
-	)
-}
+	return <RecentlyTracks userLanyard={userLanyard} />;
+};
 const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) => {
 	const image: string = user.images?.[1].url as string;
 	return (
@@ -69,7 +63,7 @@ const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) =>
 					<div className="relative transition duration-500 hover:-translate-x-5 hover:scale-105 hover:ease-out">
 						<Image
 							src={image}
-							className="pointer-events-none h-auto rounded-full drop-shadow-md"
+							className="pointer-events-none h-[150px] rounded-full drop-shadow-md"
 							alt={`${user.display_name}`}
 							width={150}
 							height={150}
@@ -148,14 +142,9 @@ const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) =>
 		</div>
 	);
 };
-export default function Spotify({
-	user,
-	topTracks,
-	randomLastFMTrack,
-	userLanyard,
-}: Props) {
+export default function Spotify({ user, topTracks, randomLastFMTrack, userLanyard }: Props) {
 	return (
-		<div className='mb-24 mt-10 w-full'>
+		<div className="mb-24 mt-10 w-full">
 			<motion.div
 				initial={{ opacity: 0, y: 7 }}
 				animate={{ opacity: 1, y: 0 }}
@@ -166,14 +155,22 @@ export default function Spotify({
 				<UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} />
 				<Tab.Group>
 					<Tab.List className="ml-2 mr-4">
-						<Tab className="rounded-md 
+						<Tab
+							className="rounded-md 
 						px-2 
 						focus:outline-0 ui-selected:bg-gray-500
-						 ui-selected:text-white dark:ui-selected:bg-black/30">Top</Tab>
-						<Tab className="rounded-md 
+						 ui-selected:text-white dark:ui-selected:bg-black/30"
+						>
+							Top
+						</Tab>
+						<Tab
+							className="rounded-md 
 						px-2 
 						focus:outline-0 ui-selected:bg-gray-500
-						 ui-selected:text-white dark:ui-selected:bg-black/30">Recently</Tab>
+						 ui-selected:text-white dark:ui-selected:bg-black/30"
+						>
+							Recently
+						</Tab>
 					</Tab.List>
 					<Tab.Panels>
 						<Tab.Panel>
@@ -183,12 +180,14 @@ export default function Spotify({
 								))}
 							</div>
 						</Tab.Panel>
-						<Tab.Panel><RecentlyOverview userLanyard={userLanyard} /></Tab.Panel>
+						<Tab.Panel>
+							<RecentlyOverview userLanyard={userLanyard} />
+						</Tab.Panel>
 					</Tab.Panels>
 				</Tab.Group>
 			</motion.div>
 		</div>
-	)
+	);
 }
 function Track({ track }: { track: TrackObjectFull }) {
 	const [statsOpen, setStatsOpen] = useState(false);
@@ -303,19 +302,21 @@ function Track({ track }: { track: TrackObjectFull }) {
 			</Modal>
 
 			<div className={`group-hover:${ranDom} w-full transition-all group-hover:shadow-lg`}>
-				<Image
-					src={image}
-					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
-					duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
-					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
-					alt={`${track.name} by ${artists}`}
-					width={400}
-					height={400}
-					loading="eager"
-					decoding="async"
-					sizes="100vw"
-					onLoadingComplete={onLoadCallback}
-				/>
+				<div className="overflow-hidden">
+					<Image
+						src={image}
+						className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
+						duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
+						${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}`}
+						alt={`${track.name} by ${artists}`}
+						width={400}
+						height={400}
+						loading="eager"
+						decoding="async"
+						sizes="100vw"
+						onLoadingComplete={onLoadCallback}
+					/>
+				</div>
 			</div>
 
 			<div className="w-full truncate">
@@ -374,11 +375,12 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	} else {
 		return {
 			notFound: true,
-		}
+		};
 	}
 
 	/* Top tracks playing */
 	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 42 });
+
 	/* Get me */
 	const getMe = await api.getMe();
 	const user: UserSpotify = (({ country, email, product, ...rest }: any) => rest)(getMe.body);
@@ -410,5 +412,5 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 			userLanyard: null,
 		},
 		revalidate,
-	}
-}
+	};
+};

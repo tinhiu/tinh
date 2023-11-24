@@ -25,11 +25,7 @@ export class LastFM {
 		});
 	}
 
-	async getRecentTracks(
-		limit: string,
-		user: string,
-		extended: string,
-	): Promise<LastFMGetRecent[]> {
+	async getRecentTracks(limit: string, user: string, extended: string): Promise<LastFMGetRecent[]> {
 		return this.req<GetRecentTracks>('get', {
 			method: 'user.getRecentTracks',
 			limit,
@@ -48,7 +44,7 @@ export class LastFM {
 		});
 
 		const request = await fetch(url);
-	
+
 		const response = (await request.json()) as T;
 
 		if (request.status >= 400) {

@@ -8,7 +8,7 @@ import UserSpotify from '../models/UserSpotify';
 
 type Props = {
 	spotify: Data;
-	user: UserSpotify
+	user: UserSpotify;
 };
 const ModalSpotify = ({ spotify, user }: Props) => {
 	// console.log(JSON.stringify(spotify, null, 4));
@@ -44,7 +44,7 @@ const ModalSpotify = ({ spotify, user }: Props) => {
 						before:rounded-2xl before:bg-noise
 						before:opacity-80 before:content-['']"
 						>
-							<div className='m-0 h-full overflow-hidden rounded-2xl border-0 p-0'>
+							<div className="m-0 h-full overflow-hidden rounded-2xl border-0 p-0">
 								<Image
 									src={image}
 									className={`duration-3000 z-[-10] h-full rounded-2xl bg-gray-400 object-cover
@@ -55,7 +55,7 @@ const ModalSpotify = ({ spotify, user }: Props) => {
 									sizes="(max-width: 768px) 100vw"
 									loading="lazy"
 									decoding="async"
-									onLoadingComplete={onLoadCallback}
+									onLoad={onLoadCallback}
 								/>
 							</div>
 						</div>
@@ -99,7 +99,7 @@ const ModalSpotify = ({ spotify, user }: Props) => {
 					before:opacity-60 before:content-['']
 					"
 					>
-						<div className='m-0 h-full overflow-hidden rounded-2xl border-0 p-0'>
+						<div className="m-0 h-full overflow-hidden rounded-2xl border-0 p-0">
 							<Image
 								style={{ borderRadius: '2rem!important' }}
 								src={spotify.spotify?.album_art_url as string}
@@ -111,7 +111,7 @@ const ModalSpotify = ({ spotify, user }: Props) => {
 								sizes="(max-width: 768px) 100vw"
 								loading="lazy"
 								decoding="async"
-								onLoadingComplete={onLoadCallback}
+								onLoad={onLoadCallback}
 								quality={100}
 							/>
 						</div>

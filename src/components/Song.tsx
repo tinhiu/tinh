@@ -4,9 +4,9 @@ import { Data } from 'use-lanyard';
 import { motion } from 'framer-motion';
 import Image from 'next/future/image';
 import { SiSpotify } from 'react-icons/si';
-import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif'
-import cat from '../../public/assets/image/gif/neon-cat-rainbow.gif'
-import cat2 from '../../public/assets/image/gif/cat-pixel2.gif'
+import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif';
+import cat from '../../public/assets/image/gif/neon-cat-rainbow.gif';
+import cat2 from '../../public/assets/image/gif/cat-pixel2.gif';
 
 const Song = ({ user }: { user: Data | any }) => {
 	const [, rerender] = useState({});
@@ -21,21 +21,22 @@ const Song = ({ user }: { user: Data | any }) => {
 		}
 		return;
 	}, [user?.listening_to_spotify]);
+
 	if (!user || !user.spotify) {
 		return (
 			<motion.div
 				initial={{ opacity: 0, y: 0 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 1, duration: 2, easing: [0, 0.5, 0.28, 2] }}
-				className="fixed bottom-11 left-20 hidden flex-col items-start justify-start lg:flex"
+				className="fixed bottom-7 left-20 hidden flex-col items-start justify-start lg:flex"
 			>
 				<span className="flex items-center justify-center text-2xl text-black dark:text-white">
-					<Image src={cat2} height={120} width={120} alt='cat1' />
+					<Image src={cat2} height={120} width={120} alt="cat2" className='object-contain' />
 				</span>
-
 			</motion.div>
 		);
 	}
+
 	const total = user.spotify.timestamps.end - user.spotify.timestamps.start;
 	const progress = 100 - (100 * (user.spotify.timestamps.end - new Date().getTime())) / total;
 
@@ -49,10 +50,11 @@ const Song = ({ user }: { user: Data | any }) => {
 	return (
 		<>
 			<motion.div
-				initial={{ opacity: 0, y: 0 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 5, duration: 2, easing: [0, 0.5, 0.28, 2] }}
-				className="fixed bottom-8 left-6 hidden h-[7rem] w-[19rem] flex-col items-start justify-start font-sans laptop:flex"
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{ duration: 2, easing: [0, 0.5, 0.28, 2] }}
+				className="fixed bottom-12 left-6 hidden h-[7rem] w-[19rem] flex-col items-start justify-start font-sans 
+             transition-opacity laptop:flex"
 			>
 				<div className="move-position">
 					<h1 className="mb-2 flex items-center justify-start text-base font-semibold text-black dark:text-gray-100 ">
@@ -65,8 +67,8 @@ const Song = ({ user }: { user: Data | any }) => {
 						<span className="ml-2">
 							<Image
 								src={cat}
-								className="pointer-events-none bg-cover"
-								alt='cat'
+								className="pointer-events-none bg-cover object-contain"
+								alt="cat"
 								width={40}
 								height={40}
 							/>
@@ -107,7 +109,10 @@ const Song = ({ user }: { user: Data | any }) => {
 									></div>
 								</div>
 								<div className="mx-1">
-									{formatTime(dayjs((new Date().getTime() - user.spotify.timestamps.start)).valueOf() / 1000)}</div>
+									{formatTime(
+										dayjs(new Date().getTime() - user.spotify.timestamps.start).valueOf() / 1000
+									)}
+								</div>
 								<div className="ml-1 text-[#1DB954] dark:text-[#00ff00]">
 									<SiSpotify size={16} />
 								</div>
@@ -121,8 +126,8 @@ const Song = ({ user }: { user: Data | any }) => {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.8, easing: [0, 0.5, 0.28, 2] }}
 				className="fixed bottom-0 z-[1] flex w-full flex-col items-start justify-start bg-white/60 px-6 
-                py-2 backdrop-blur-lg dark:bg-[#5f5555ad] laptop:hidden
-                "
+            py-2 backdrop-blur-lg dark:bg-[#5f5555ad] laptop:hidden
+            "
 			>
 				<div className="flex h-[4rem] w-full flex-row items-center justify-start">
 					<div className="flex w-16 flex-row items-center justify-center">
@@ -149,9 +154,7 @@ const Song = ({ user }: { user: Data | any }) => {
 							className="flex w-full truncate font-medium text-gray-900 hover:underline dark:text-[#e1eafd]"
 							title={user.spotify.song}
 						>
-
 							{user.spotify.song}
-
 						</a>
 						<p
 							className="relative w-full truncate text-sm font-normal text-gray-800 dark:text-[#cad2e0]"
@@ -167,7 +170,10 @@ const Song = ({ user }: { user: Data | any }) => {
 								></div>
 							</div>
 							<div className="mx-1">
-								{formatTime(dayjs((new Date().getTime() - user.spotify.timestamps.start)).valueOf() / 1000)}</div>
+								{formatTime(
+									dayjs(new Date().getTime() - user.spotify.timestamps.start).valueOf() / 1000
+								)}
+							</div>
 							<div className="ml-1 text-[#1DB954] dark:text-[#00ff00]">
 								<SiSpotify size={16} />
 							</div>
