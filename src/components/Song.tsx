@@ -54,10 +54,9 @@ const Song = ({ user }: { user: Data | any }) => {
 				animate={{ opacity: 1 }}
 				transition={{ duration: 2, easing: [0, 0.5, 0.28, 2] }}
 				className="fixed bottom-12 left-6 hidden h-[7rem] w-[19rem] flex-col items-start justify-start font-sans 
-             transition-opacity laptop:flex"
-			>
+             transition-opacity laptop:flex">
 				<div className="move-position">
-					<h1 className="mb-2 flex items-center justify-start text-base font-semibold text-black dark:text-gray-100 ">
+					<h1 className="mb-2 flex items-center justify-start text-base font-semibold text-black dark:text-gray-100">
 						Listening to Spotify
 						<span className="boxContainer ml-2 h-4 transition-all">
 							<div className="box box1 dark:bg-[#00ff00] "></div>
@@ -75,7 +74,8 @@ const Song = ({ user }: { user: Data | any }) => {
 						</span>
 					</h1>
 
-					<div className="flex h-[6rem] w-full flex-row items-center justify-start rounded-lg bg-white/60 p-2 backdrop-blur-lg dark:bg-[#5f5555ad]">
+					<div className="flex h-[6rem] w-full flex-row items-center justify-start rounded-lg
+					bg-white/60 p-2 backdrop-blur-lg dark:bg-[#5f5555ad]">
 						<div className="w-20 scale-95 transition duration-500 hover:scale-100 hover:ease-out">
 							<Image
 								src={user.spotify.album_art_url}
@@ -125,10 +125,8 @@ const Song = ({ user }: { user: Data | any }) => {
 				initial={{ opacity: 0, y: 0 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.8, easing: [0, 0.5, 0.28, 2] }}
-				className="fixed bottom-0 z-[1] flex w-full flex-col items-start justify-start bg-white/60 px-6 
-            py-2 backdrop-blur-lg dark:bg-[#5f5555ad] laptop:hidden
-            "
-			>
+				className="fixed bottom-0 z-[1] flex w-full flex-col items-start justify-start
+				bg-white/60 px-6 py-2 backdrop-blur-lg dark:bg-[#5f5555ad] laptop:hidden">
 				<div className="flex h-[4rem] w-full flex-row items-center justify-start">
 					<div className="flex w-16 flex-row items-center justify-center">
 						<Image

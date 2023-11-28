@@ -9,11 +9,11 @@ module.exports = {
 		'next/core-web-vitals',
 		'plugin:react/recommended',
 		'plugin:tailwindcss/recommended',
-		
+
 	],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
-		ecmaFeatures: {jsx: true},
+		ecmaFeatures: { jsx: true },
 		ecmaVersion: 12,
 		sourceType: 'module',
 		project: './tsconfig.json'
