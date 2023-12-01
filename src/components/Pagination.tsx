@@ -46,9 +46,7 @@ const Pagination = ({
 								? ' text-zinc-800 dark:text-amber-200'
 								: ' text-gray-400  dark:text-white/60'}
                 mx-1 rounded-full px-4 pb-2 pt-[0.7rem] text-sm font-semibold leading-none
-                no-underline hover:bg-white/70 dark:hover:dark:bg-[#5f5555ad]/40
-                
-                `}
+                no-underline hover:bg-white/70 dark:hover:dark:bg-[#5f5555ad]/40`}
 						>
 							{pageNumber}
 						</a>

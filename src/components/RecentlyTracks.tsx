@@ -46,9 +46,7 @@ function RecentlyTracks({ userLanyard }: { userLanyard: any | null }) {
 						{music.map((track, index) => (
 							<tr
 								key={index}
-								className={`table-border relative flex items-center justify-evenly bg-gray-300/5 
-										p-2 hover:bg-white/40 dark:hover:bg-black/10
-									${Boolean(track['@attr']?.nowplaying) ? 'rounded-t-md bg-white/60 dark:bg-black/20 ' : ''} `}
+								className={`table-border relative flex items-center justify-evenly bg-gray-300/5 p-2 hover:bg-white/40 dark:hover:bg-black/10 ${Boolean(track['@attr']?.nowplaying) ? 'rounded-t-md bg-white/60 dark:bg-black/20 ' : ''} `}
 							>
 								<td className="mx-2 flex w-auto items-center">
 									<div
