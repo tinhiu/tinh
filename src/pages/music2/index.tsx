@@ -1,8 +1,8 @@
-import { Tab } from '@headlessui/react';
-import { setCookie } from 'cookies-next';
+
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-
+import { Tab } from '@headlessui/react';
+import { setCookie } from 'cookies-next';
 import { motion } from 'framer-motion';
 import IORedis from 'ioredis';
 import type { GetServerSideProps } from 'next';
@@ -13,8 +13,7 @@ import SpotifyWebAPI from 'spotify-web-api-node';
 import { Data } from 'use-lanyard';
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 
-import type { LastFMGetRecent, LastFMGetTrack } from '../../server/last-fm';
-
+import type { LastFMGetTrack } from '../../server/last-fm';
 
 import Pagination from '../../components/Pagination';
 import RecentlyTracks from '../../components/RecentlyTracks';
@@ -181,13 +180,13 @@ const TopTracksOverview = ({ topTracks }: { topTracks: TrackObjectFull[] }) => {
 			</>
 		)
 	}
-	
+
 	return (
 		<TopTracks music={topTracks} />
 	);
 };
 
-const RecentlyOverview = ({userLanyard}: {userLanyard: any}) => {
+const RecentlyOverview = ({ userLanyard }: { userLanyard: any }) => {
 	return (
 		<RecentlyTracks userLanyard={userLanyard} />
 	)
@@ -203,7 +202,7 @@ export default function MusicPage({
 	const limit = PER_PAGE;
 	const skip = (page - 1) * (limit);
 
-	const { data: topTracks, isSuccess, isFetching} = useQuery({
+	const { data: topTracks, isSuccess, isFetching } = useQuery({
 		queryKey: ['getMyTopTracks', page],
 		queryFn: () => getMyTopTracks(limit, skip),
 		keepPreviousData: true,

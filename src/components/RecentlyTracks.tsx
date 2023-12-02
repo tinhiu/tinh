@@ -60,7 +60,7 @@ function RecentlyTracks({ userLanyard }: { userLanyard: any | null }) {
 											className={`pointer-events-none rounded-md object-cover px-2
 												transition duration-700 ${isReady ?
 													'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
-											src={track.image[3]['#text'] || images.defaultImage}
+											src={track.image[2]['#text'] || images.defaultImage}
 											width={60}
 											height={60}
 											alt={track.name}
