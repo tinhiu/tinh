@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+
 import { Router } from 'next/router';
 import NProgress from 'nprogress';
 import { StrictMode, useEffect, useRef } from 'react';
@@ -52,6 +53,8 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 				<Head>
 					<title>tinh</title>
 					<meta name="viewport" content="width=device-width,initial-scale=1" />
+					<link rel="preconnect" href="https://fonts.googleapis.com" />
+					<link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet" />
 				</Head>
 				<GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS as string} />
 				<div className="relative flex w-full flex-col">

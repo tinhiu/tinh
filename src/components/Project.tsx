@@ -70,6 +70,23 @@ const projects = [
       }
     ]
   },
+  {
+    title: "🌟 tumblr profile \u2197",
+    description: "Web app get profile information of Tumblr",
+    url: "https://github.com/tinhiu/tumblr-next",
+    techs: [
+      {
+        name: 'Typescript',
+        icon: SiTypescript
+      }, {
+        name: 'Nextjs',
+        icon: SiNextdotjs
+      }, {
+        name: 'Tailwind',
+        icon: SiTailwindcss
+      }
+    ]
+  },
 ];
 
 export const TechItem = ({ name, icon }: TechProps) => {

@@ -74,7 +74,7 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 					{track.preview_url ? (
 						<AudioMusic src={track.preview_url || ''} />
 					) : (
-						<p className="flex justify-end text-sm italic">*preview not available</p>
+						<p className="flex justify-end text-sm italic dark:text-black">*preview not available</p>
 					)}
 
 					<a
