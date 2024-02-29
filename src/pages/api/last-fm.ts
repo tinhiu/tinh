@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { LIMIT, LastFM, LastFMGetRecent } from '../../server/last-fm';
+import { LIMIT, LastFM, LastFMGetRecent, PixelGrid } from '../../server/last-fm';
 import { LAST_FM_API_KEY } from '../../server/constants';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -7,6 +7,7 @@ dayjs.extend(relativeTime);
 
 type Data = {
 	data: LastFMGetRecent[] | [];
+	lastfm: PixelGrid[] | [];
 };
 export default async function GET(req: NextApiRequest, res: NextApiResponse<Data>) {
 	try {
@@ -34,9 +35,11 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse<Data
 			name: track.name,
 			loved: track.loved,
 		}));
-		res.status(200).send({ data: resultRecentlyTracks });
+		let result = await lfm.getPixelGrid('pixel-grid', '0', '');
+
+		res.status(200).send({ data: resultRecentlyTracks, lastfm: result.reverse() });
 	} catch (err) {
-		res.status(500).send({ data: [] });
+		res.status(500).send({ data: [], lastfm: [] });
 	}
 }
 export const api = {

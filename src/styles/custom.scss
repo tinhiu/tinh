@@ -1,4 +1,39 @@
+@use 'sass:map';
 @import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap');
+$schema-limit: 4;
+$schema-theme1: #28a745;
+$schema-theme2: #17a2b8;
+$schema-theme3: #ffc107;
+$schema-theme4: #553ffc;
+$schema-black: #000;
+$schema-white: #fff;
+$schema-colors: (
+	1: (
+		1: $schema-theme1,
+		2: rgba($schema-theme1, 0.68),
+		3: rgba($schema-theme1, 0.38),
+		4: mix($schema-theme1, $schema-white),
+	),
+	2: (
+		1: $schema-theme2,
+		2: rgba($schema-theme2, 0.68),
+		3: rgba($schema-theme2, 0.38),
+		4: mix($schema-theme2, $schema-white),
+	),
+	3: (
+		1: $schema-theme3,
+		2: rgba($schema-theme3, 0.68),
+		3: rgba($schema-theme3, 0.38),
+		4: mix($schema-white, $schema-theme3),
+	),
+	4: (
+		1: $schema-theme4,
+		2: rgba($schema-theme4, 0.68),
+		3: rgba($schema-theme4, 0.38),
+		4: mix($schema-white, $schema-theme4),
+	),
+);
+
 $progress-color: #c2b0ac;
 $--light: #afa9a9;
 .text3 {
@@ -342,5 +377,73 @@ html *::-webkit-scrollbar-track {
 	[data-mode='dark'] .sun-and-moon > .moon > circle {
 		transition-duration: 0.5s;
 		transition-delay: 0.25s;
+	}
+}
+.experiment-container {
+	@each $schema, $colors in $schema-colors {
+		@each $color, $value in $colors {
+			.schema#{$schema} {
+				background-color: $value;
+			}
+		}
+	}
+}
+.pixel-grid {
+	&-container {
+		display: flex;
+		flex-wrap: wrap;
+		width: 100%;
+
+		& > .pixel {
+			border-radius: 3px;
+			flex: 1;
+			min-height: 0;
+			min-width: 0;
+
+			@each $schema, $colors in $schema-colors {
+				@each $color, $value in $colors {
+					&.schema#{$schema}.color#{$color} {
+						background-color: $value;
+					}
+				}
+			}
+		}
+		&.big-size {
+			.pixel {
+				margin: 4.5px;
+				min-height: 48px;
+				max-height: 48px;
+				min-width: 48px;
+				max-width: 48px;
+			}
+		}
+		&.small-size {
+			.pixel {
+				margin: 3px;
+				min-height: 18px;
+				max-height: 18px;
+				min-width: 18px;
+				max-width: 18px;
+			}
+		}
+	}
+	&-tooltip {
+		background-color: #000;
+		border-radius: 2px;
+		color: #fff;
+		font-size: 14px;
+		line-height: 24px;
+		max-width: 318px;
+		min-width: 185px;
+		padding: 11px 20px;
+		border-radius: 4px;
+		text-align: center;
+		& > .tooltip-date {
+			color: #adadad;
+		}
+		& > .tooltip-scrobbles {
+			font-size: 17px;
+			font-weight: 700;
+		}
 	}
 }

@@ -36,6 +36,24 @@ export class LastFM {
 		});
 	}
 
+	async getPixelGrid(labs: string, from: string, to: string): Promise<PixelGrid[]> {
+		const url = urlcat(`https://www.last.fm/labs/${labs}?from_date=${from}&to_date=${to}&ajax=1`, {
+			format: 'json',
+		});
+		const request = await fetch(url, {
+			headers: {
+				Cookie: `sessionid=${process.env.NEXT_PUBLIC_LAST_FM_COOKIES_SESSIONID}`,
+			},
+		});
+		const response = (await request.json()) as PixelGrid[];
+
+		if (request.status >= 400) {
+			throw new Error(`Last.fm API error failed with status ${request.status}`);
+		}
+
+		return response;
+	}
+
 	protected async req<T>(method: string, params: LastFMParams) {
 		const url = urlcat('https://ws.audioscrobbler.com/2.0/', {
 			api_key: this.apiKey,
@@ -102,4 +120,10 @@ export type GetRecentTracks = {
 	recenttracks: {
 		track: LastFMGetRecent[];
 	};
+};
+export type PixelGrid = {
+	count: string;
+	date: string;
+	milestones: [];
+	value: number;
 };

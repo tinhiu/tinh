@@ -54,17 +54,17 @@ function AudioMusic({ src }: Props) {
 					<span className="leading-none">{formatTime(musicinfo.currentTime || 0)}</span>
 					<div className="mx-1 h-1 w-full rounded-sm bg-gray-400">
 						<div
-							className="border-image-clip-path h-full rounded-sm border-2 bg-neutral-700 transition-[width]"
+							className="border-image-clip-path rounded-sm border-2 bg-neutral-700 transition-[width]"
 							style={{ width: `${musicinfo.progressWidth}%` }}
 						></div>
 					</div>
 					<div className="ml-auto flex items-center">
-						<div className="group mr-[2px]">
-							<span className="block leading-none group-hover:hidden">{formatTime(musicinfo.duration || 0)}</span>
-							<span className="hidden items-center leading-none group-hover:flex">
+						<div className="mr-[2px]">
+							<span className="block leading-none">{formatTime(musicinfo.duration || 0)}</span>
+							{/* <span className="hidden items-center leading-none group-hover:flex">
 								<HiMinusSm size={12} />
 								{formatTime(musicinfo.duration - musicinfo.currentTime)}
-							</span>
+							</span> */}
 						</div>
 						{playing ? (
 							<AiOutlinePauseCircle className="" size={'24px'} onClick={handlePausePlayClick} />

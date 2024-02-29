@@ -15,6 +15,10 @@ const nextConfig = {
 		// your project has type errors.
 		ignoreBuildErrors: false
 	},
+	experimental: {
+		//largePageDataBytes: 128 * 1000, // 128KB by default
+		largePageDataBytes: 228 * 1000,
+	},
 }
 
 module.exports = nextConfig
