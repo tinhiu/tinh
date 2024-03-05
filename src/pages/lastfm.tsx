@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { GetStaticProps } from 'next';
+import type { GetServerSideProps } from 'next';
+
 import Tippy from '@tippyjs/react/';
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { MdZoomInMap } from "react-icons/md";
@@ -89,7 +90,7 @@ export default function LastFMPage({
     )
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
     const lfm = new LastFM(LAST_FM_API_KEY!);
     let result = await lfm.getPixelGrid('pixel-grid', '0', '');
