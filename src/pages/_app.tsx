@@ -5,7 +5,6 @@ import NProgress from 'nprogress';
 import { StrictMode, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import GoogleAnalytics from '@bradgarropy/next-google-analytics';
-import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -58,7 +57,6 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 					{/* <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet" /> */}
 				</Head>
 				<GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS as string} />
-				<Analytics />
 				<SpeedInsights />
 				<div className="relative flex w-full flex-col">
 					<Nav />
