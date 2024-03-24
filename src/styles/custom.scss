@@ -195,12 +195,6 @@ html *::-webkit-scrollbar-track {
 	transition: opacity 0.2s, transform 0.2s;
 }
 // tippy
-.tippy-box {
-	left: -10px !important;
-}
-.tippy-popper {
-	left: -10px !important;
-}
 .dark .tippy-tooltip-content {
 	color: #000 !important;
 }
