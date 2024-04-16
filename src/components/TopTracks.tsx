@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import Details from './Details';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import ColorThief from "colorthief";
 import { HiExternalLink } from 'react-icons/hi';
-import Modal from './Modal';
 import { SiSpotify } from 'react-icons/si';
 import TailwindColor from '@videsk/tailwind-random-color';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import ms from 'ms';
 import { MdExplicit } from 'react-icons/md';
+
+import Details from './Details';
+import Modal from './Modal';
 
 import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
@@ -16,7 +18,7 @@ import AudioMusic from './AudioMusic';
 
 
 function TopTrack({ track }: { track: TrackObjectFull }) {
-	const [statsOpen, setStatsOpen] = useState(false);
+	const ref = useRef<HTMLImageElement>(null);
 	const [isReady, setIsReady] = useState(false);
 	const options = {
 		colors: ['yellow', 'orange', 'blue', 'cyan', 'purple', 'emerald'],
@@ -24,12 +26,23 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 		prefix: 'shadow',
 	};
 	const [ranDom, setRanDom] = useState('shadow-blue-400');
+	const [color, setColor] = useState([225, 213, 213]);
+	const changeRandom = useCallback(() => {
+		const randomColor = new TailwindColor(options).pick();
+		setRanDom(randomColor);
+	}, []);
+
+
 	const onLoadCallback = () => {
-		setIsReady(true);
+		setTimeout(() => {
+			setIsReady(true);
+		}, 900)
 	};
+	const [statsOpen, setStatsOpen] = useState(false);
 
 	const image = track.album.images[0].url;
-	const artists = track.artists.map((artist: { name: any; }) => artist.name).join(', ');
+
+	const artists = track.artists.map((artist: { name: string; }) => artist.name).join(', ');
 
 	const close = () => {
 		setStatsOpen(false);
@@ -39,20 +52,27 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 		setStatsOpen(true);
 	};
 
-	const changeRandom = () => {
-		const randomColor = new TailwindColor(options).pick();
-		// const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-		setRanDom(randomColor);
-	};
+	useEffect(() => {
+		const img = ref.current;
+		if (!img) return;
+		img.crossOrigin = 'Anonymous';
+		if (img.complete) {
+			setColor(new ColorThief().getColor(img))
+		} else {
+			img.addEventListener('load', () => {
+				setColor(new ColorThief().getColor(img))
+
+			})
+		}
+	}, [])
+
 	const album = track.album as AlbumObjectFull;
 
 	return (
 		<button
 			key={track.id}
 			type="button"
-			className="group flex flex-col space-y-2 p-[2px] text-left align-top no-underline
-			outline-none focus:outline-none focus:ring-4 
-			focus:ring-amber-100 dark:focus:ring-gray-200"
+			className="group flex flex-col space-y-2 p-[2px] text-left align-top no-underline outline-none focus:outline-none focus:ring-4 focus:ring-amber-100 dark:focus:ring-gray-200"
 			onClick={open}
 			onMouseLeave={changeRandom}
 		>
@@ -61,20 +81,17 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 					<div className="relative aspect-[3/2]">
 						<Image
 							src={image}
-							layout="fill"
+							fill
 							alt={`${track.album.name} by ${artists}`}
-							className={`pointer-events-none z-[-10] h-auto w-full rounded-md  bg-gray-200 object-cover
-							transition 
-							duration-700 ${isReady ? 'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
-							loading="lazy"
+							className={`pointer-events-none z-[-10] h-auto w-full rounded-md bg-gray-200 object-cover transition duration-700 `}
+							loading="eager"
 							decoding="async"
-							onLoadingComplete={onLoadCallback}
 						/>
 					</div>
 					{track.preview_url ? (
 						<AudioMusic src={track.preview_url || ''} />
 					) : (
-						<p className="flex justify-end text-sm italic dark:text-black">*preview not available</p>
+						<p className="flex justify-end text-sm italic dark:text-black font-sans font-semibold">*preview not available</p>
 					)}
 
 					<a
@@ -108,7 +125,16 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 								},
 								{
 									name: 'Album:',
-									value: album.name,
+									value: (
+										<span>
+											<a href={album.external_urls.spotify}
+												target="_blank"
+												className='hover:underline'
+												rel="noreferrer">
+												{album.name}
+											</a>
+										</span>
+									),
 								},
 								{
 									name: 'Duration:',
@@ -128,22 +154,28 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 			</Modal>
 
 			<div className={`group-hover:${ranDom} w-full transition-all group-hover:shadow-lg`}>
-				<Image
-					src={image}
-					className={`pointer-events-none scale-100 rounded-lg brightness-105 transition-all 
-					duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 
-					${isReady ? 'scale-100 bg-gray-400 blur-0' : 'scale-120 blur-2xl'}
-					`}
-					alt={`${track.name} by ${artists}`}
-					width={400}
-					height={400}
-					loading="lazy"
-					decoding="async"
-					sizes="100vw"
-					onLoadingComplete={onLoadCallback}
-				/>
-			</div>
+				<figure className='relative p-0 m-0 border-0 opacity-1 overflow-hidden block'
+					style={{
+						backgroundColor: `${!isReady && `rgba(${color.join(',')}, 0.9)`}`,
+						borderColor: `${!isReady && `rgba(${color.join(',')}, 0.9 )`}`,
+						filter: `${!isReady ? 'blur(1px)' : ''}`
+					}}>
+					<Image
+						ref={ref}
+						src={image}
+						className={`pointer-events-none scale-100 brightness-105 transition-all duration-700 group-hover:scale-110 group-hover:brightness-110 md:brightness-90 ${isReady ? 'scale-100 bg-gray-400 blur-0 ' : 'opacity-0 scale-120 blur-2xl'}`}
+						alt={`${track.name} by ${artists}`}
+						width={400}
+						height={400}
+						loading="lazy"
+						decoding="async"
+						sizes="100vw"
+						onLoadingComplete={onLoadCallback}
+					/>
+				</figure>
 
+
+			</div>
 			<div className="w-full truncate">
 				<ul className="mt-4 contents items-center py-0.5 text-lg">
 					<li className="w-full truncate font-bold ">
@@ -159,11 +191,14 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 const TopTracks = ({
 	music,
 }: { music: TrackObjectFull[] }): JSX.Element => {
+
 	return (
 		<div className="mt-2 grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-3">
-			{music.map((track) => (
-				<TopTrack key={track?.id} track={track} />
-			))}
+			{music.map((track, i) => {
+				return (
+					<TopTrack key={track?.id} track={track} />
+				)
+			})}
 		</div>
 	);
 

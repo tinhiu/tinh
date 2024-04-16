@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { classNames } from '../util/classNames';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
-import { BsSlashLg } from 'react-icons/bs';
+import { GoDotFill } from "react-icons/go";
 import { SiSpotify } from 'react-icons/si';
 import { FcContacts } from 'react-icons/fc';
 import ThemeToggle from './ThemeToggle';
@@ -17,17 +17,14 @@ const NavLink = ({
 	selected: boolean;
 }) => {
 	return (
-		<Link href={link}>
-			<a
-				className={classNames(
-					selected
-						? 'bg-[#faebd7]/70  dark:bg-white/30'
-						: 'bg-transparent hover:bg-gray-700/5 dark:hover:bg-[#c8c8dc]/5 dark:text-white',
-					'cursor-pointer px-2 py-1 rounded-full text-black/80 hover:text-black dark:text-white/80 dark:hover:text-white transition-all duration-300'
-				)}
-			>
-				{icon}
-			</a>
+		<Link href={link} className={classNames(
+			selected
+				? 'bg-[#faebd7]/70  dark:bg-white/30'
+				: 'bg-transparent hover:bg-gray-700/5 dark:hover:bg-[#c8c8dc]/5 dark:text-white',
+			'cursor-pointer px-2 py-1 rounded-full text-black/80 hover:text-black dark:text-white/80 dark:hover:text-white transition-all duration-300'
+		)}>
+
+			{icon}
 		</Link>
 	);
 };
@@ -43,7 +40,7 @@ const Nav = () => {
 				className=" mx-auto w-[85%] max-w-3xl"
 			>
 				<nav className="flex items-center justify-between space-x-3 py-4 sm:py-2">
-					<NavLink link="/" selected={router.pathname === '/'} icon={<BsSlashLg size={21} />} />
+					<NavLink link="/" selected={router.pathname === '/'} icon={<GoDotFill size={21} />} />
 					<div className="grow"></div>
 					<NavLink
 						link="/contact"

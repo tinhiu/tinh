@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Data } from 'use-lanyard';
-import Image from 'next/future/image';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { SiSpotify } from 'react-icons/si';
 import { HiExternalLink } from 'react-icons/hi';

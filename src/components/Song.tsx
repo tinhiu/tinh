@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Data } from 'use-lanyard';
 import { motion } from 'framer-motion';
-import Image from 'next/future/image';
+import Image from 'next/image';
 import { SiSpotify } from 'react-icons/si';
 import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif';
 import cat from '../../public/assets/image/gif/neon-cat-rainbow.gif';
