@@ -221,7 +221,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 	}
 
 	/* Top tracks playing */
-	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 41 });
+	const tracks = await api.getMyTopTracks({ time_range: 'short_term', limit: 42 });
 
 	/* Get me */
 	const getMe = await api.getMe();

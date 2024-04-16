@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import { LIMIT, type LastFMGetRecent } from '../server/last-fm';
 import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif';
 import images from '../../public/assets/image';
-import Link from 'next/link';
 
 function RecentlyTracks({ userLanyard }: { userLanyard: any | null }) {
 	const [isReady, setIsReady] = useState(false);
@@ -13,14 +12,14 @@ function RecentlyTracks({ userLanyard }: { userLanyard: any | null }) {
 		setIsReady(true);
 	};
 	useEffect(() => {
-		const fectData = () => {
+		const fetchData = () => {
 			fetch('/api/last-fm')
 				.then((result) => result.json())
 				.then((result) => {
 					setMusic(result.data);
 				});
 		};
-		fectData();
+		fetchData();
 	}, [userLanyard]);
 
 	if (!music) {
@@ -53,13 +52,11 @@ function RecentlyTracks({ userLanyard }: { userLanyard: any | null }) {
 										className="relative flex h-full
 										w-full before:absolute
 										before:h-full before:w-full
-										before:rounded-2xl before:bg-noise
+										before:rounded-sm before:bg-noise
 										before:opacity-80 before:content-['']"
 									>
 										<Image
-											className={`pointer-events-none rounded-md object-cover px-2
-												transition duration-700 ${isReady ?
-													'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-2xl'}`}
+											className={`pointer-events-none rounded-md object-cover	transition duration-700 ${isReady ? 'scale-100 bg-gray-200 blur-0' : 'scale-110 blur-sm'}`}
 											src={track.image[2]['#text'] || images.defaultImage}
 											width={60}
 											height={60}
@@ -77,19 +74,16 @@ function RecentlyTracks({ userLanyard }: { userLanyard: any | null }) {
 									)}
 								</td>
 								<td className="mx-2 grid w-[50%] truncate">
-									<Link href={track.url}>
-										<a className="overflow-hidden text-ellipsis font-bold hover:underline" target='_blank'>
-											{track.name}
-										</a>
-									</Link>
+									<a href={track.url} className="overflow-hidden text-ellipsis font-bold hover:underline" target='_blank' rel="noreferrer"
+										title={track.name}>
+										{track.name}
+									</a>
 									<span className="block truncate sm:hidden">{track.artist.name}</span>
 								</td>
 								<td className="hidden w-[35%] truncate sm:block">
-									<Link href={track.artist.url}>
-										<a className="hover:underline" target='_blank'>
-											{track.artist.name}
-										</a>
-									</Link>
+									<a href={track.artist.url} className="hover:underline" target='_blank' rel="noreferrer" title={track.artist.name}>
+										{track.artist.name}
+									</a>
 								</td>
 								<td className="flex w-32 items-center justify-end text-right text-black/70
 										 dark:text-white/75 sm:w-40"

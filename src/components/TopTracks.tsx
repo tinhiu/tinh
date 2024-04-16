@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ColorThief from "colorthief";
 import { HiExternalLink } from 'react-icons/hi';
 import { SiSpotify } from 'react-icons/si';
@@ -25,12 +25,13 @@ function TopTrack({ track }: { track: TrackObjectFull }) {
 		range: [4, 4], // Between 400 and 400,
 		prefix: 'shadow',
 	};
+
 	const [ranDom, setRanDom] = useState('shadow-blue-400');
 	const [color, setColor] = useState([225, 213, 213]);
-	const changeRandom = useCallback(() => {
+	const changeRandom = () => {
 		const randomColor = new TailwindColor(options).pick();
 		setRanDom(randomColor);
-	}, []);
+	};
 
 
 	const onLoadCallback = () => {
