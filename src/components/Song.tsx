@@ -49,6 +49,7 @@ const ProgressBar = memo(({ start, end, user }: ProgressProps) => {
 		</>
 	);
 });
+ProgressBar.displayName = "ProgressBar";
 const Song = ({ user }: { user: Data | any }) => {
 	if (!user || !user.spotify) {
 		return (
@@ -184,3 +185,4 @@ const Song = ({ user }: { user: Data | any }) => {
 	);
 };
 export default Song;
+// clxmente/spotify-obs/src/app/[discord_id]/song.tsx
