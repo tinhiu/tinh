@@ -18,12 +18,12 @@ function AudioMusic({ src }: Props) {
 	});
 	useEffect(() => {
 		if (!src) return; // don't have preview_url
+
 		if (audioRef.current) {
 			audioRef.current.src = src;
 			audioRef.current.volume = .25;
-			audioRef.current.play();
 		}
-		setPlaying(true);
+		setPlaying(false);
 	}, [currentSong, src]);
 	const handlePausePlayClick = () => {
 		if (playing) {
@@ -36,7 +36,7 @@ function AudioMusic({ src }: Props) {
 	};
 	const timeUpdatehandler = async (e: React.ChangeEvent<HTMLAudioElement>) => {
 		const current = e.target.currentTime;
-		const duration = e.target.duration;
+		const duration = Number(e.target.duration);
 		let progressWidth = (current / duration) * 100;
 
 		setMusicinfo({
@@ -55,7 +55,7 @@ function AudioMusic({ src }: Props) {
 	};
 	return (
 		<>
-			{audioRef.current.isConnected ? (
+			{(musicinfo.duration !== 0 && !isNaN(musicinfo.duration)) ? (
 				<div className="flex items-center dark:text-black">
 					<span className="leading-none">{formatTime(musicinfo.currentTime || 0)}</span>
 					<div className="mx-1 h-1 w-full rounded-sm bg-gray-400">
@@ -80,7 +80,7 @@ function AudioMusic({ src }: Props) {
 					</div>
 				</div>
 			) : (
-				<div className="flex items-center">
+				<div className="flex items-center w-full">
 					<div className="h-[24px] w-full rounded-lg bg-neutral-400/5 dark:bg-rose-400/5"></div>
 				</div>
 			)}

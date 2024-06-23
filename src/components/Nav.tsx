@@ -3,10 +3,13 @@ import Link from 'next/link';
 import { classNames } from '../util/classNames';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
-import { GoDotFill } from "react-icons/go";
 import { SiSpotify } from 'react-icons/si';
 import { FcContacts } from 'react-icons/fc';
 import ThemeToggle from './ThemeToggle';
+import Image from 'next/image';
+
+import logo from '../../public/images/favicon.ico';
+
 const NavLink = ({
 	icon,
 	link,
@@ -17,13 +20,16 @@ const NavLink = ({
 	selected: boolean;
 }) => {
 	return (
-		<Link href={link} className={classNames(
-			selected
-				? 'bg-[#faebd7]/70  dark:bg-white/30'
-				: 'bg-transparent hover:bg-gray-700/5 dark:hover:bg-[#c8c8dc]/5 dark:text-white',
-			'cursor-pointer px-2 py-1 rounded-full text-black/80 hover:text-black dark:text-white/80 dark:hover:text-white transition-all duration-300'
-		)}>
-
+		<Link
+			href={link}
+			className={classNames(
+				selected
+					? 'bg-[#faebd7]/70 dark:bg-white/30'
+					: 'bg-transparent hover:bg-gray-700/5 dark:text-white dark:hover:bg-[#c8c8dc]/5',
+				link === '/' ? 'px-1 py-1' : 'px-2 py-1',
+				'cursor-pointer rounded-full text-black/80 transition-all duration-300 hover:text-black dark:text-white/80 dark:hover:text-white'
+			)}
+		>
 			{icon}
 		</Link>
 	);
@@ -37,10 +43,14 @@ const Nav = () => {
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: -10 }}
 				transition={{ cease: 'easeInOut', duration: 0.5 }}
-				className=" mx-auto w-[85%] max-w-3xl"
+				className="mx-auto w-[85%] max-w-3xl"
 			>
 				<nav className="flex items-center justify-between space-x-3 py-4 sm:py-2">
-					<NavLink link="/" selected={router.pathname === '/'} icon={<GoDotFill size={21} />} />
+					<NavLink
+						link="/"
+						selected={router.pathname === '/'}
+						icon={<Image src={logo} alt="logo" width={20} height={20} />}
+					/>
 					<div className="grow"></div>
 					<NavLink
 						link="/contact"
