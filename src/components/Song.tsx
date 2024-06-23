@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Data } from 'use-lanyard';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -8,20 +8,48 @@ import nowPlaying from '../../public/assets/image/gif/now_playing_grey.gif';
 import cat from '../../public/assets/image/gif/neon-cat-rainbow.gif';
 import cat2 from '../../public/assets/image/gif/cat-pixel2.gif';
 
-const Song = ({ user }: { user: Data | any }) => {
+type ProgressProps = {
+	start: number;
+	end: number;
+	user: Data | any;
+}
+const ProgressBar = memo(({ start, end, user }: ProgressProps) => {
 	const [, rerender] = useState({});
 
+	const total = end - start;
+	const progress = 100 - (100 * (end - new Date().getTime())) / total;
+
 	useEffect(() => {
-		if (user?.listening_to_spotify) {
-			const interval = setInterval(() => {
-				rerender({});
-			}, 1000);
+		const interval = setInterval(() => {
+			rerender({});
+		}, 1000);
 
-			return () => clearInterval(interval);
-		}
-		return;
-	}, [user?.listening_to_spotify]);
-
+		return () => clearInterval(interval);
+	}, [start, end]);
+	const formatTime = (currentTime: any) => {
+		let minutes = Math.floor(currentTime / 60);
+		let seconds = Math.floor(currentTime % 60);
+		seconds = seconds >= 10 ? seconds : ((`0` + (seconds % 60)) as any);
+		const formatTime = minutes + ':' + seconds;
+		return formatTime;
+	};
+	return (
+		<>
+			<div className="h-1 w-full rounded-sm overflow-hidden bg-gray-400">
+				<div
+					className="h-full rounded-sm bg-[#1DB954] dark:bg-[#00ff00] transition-all duration-1000 ease-linear will-change-[width]"
+					style={{ width: `${progress}%` }}
+				></div>
+			</div>
+			<div className="mx-1">
+				{formatTime(
+					dayjs(new Date().getTime() - user.spotify.timestamps.start).valueOf() / 1000
+				)}
+			</div>
+		</>
+	);
+});
+const Song = ({ user }: { user: Data | any }) => {
 	if (!user || !user.spotify) {
 		return (
 			<motion.div
@@ -37,16 +65,8 @@ const Song = ({ user }: { user: Data | any }) => {
 		);
 	}
 
-	const total = user.spotify.timestamps.end - user.spotify.timestamps.start;
-	const progress = 100 - (100 * (user.spotify.timestamps.end - new Date().getTime())) / total;
+	const { start, end } = user.spotify.timestamps;
 
-	const formatTime = (currentTime: any) => {
-		let minutes = Math.floor(currentTime / 60);
-		let seconds = Math.floor(currentTime % 60);
-		seconds = seconds >= 10 ? seconds : ((`0` + (seconds % 60)) as any);
-		const formatTime = minutes + ':' + seconds;
-		return formatTime;
-	};
 	return (
 		<>
 			<motion.div
@@ -102,17 +122,7 @@ const Song = ({ user }: { user: Data | any }) => {
 								by {user.spotify.artist.replace(/;/g, ',')}
 							</p>
 							<div className="mt-2 flex w-full items-center justify-center pr-1 leading-none">
-								<div className="h-1 w-full rounded-sm bg-gray-400">
-									<div
-										className="h-full rounded-sm bg-[#1DB954] dark:bg-[#00ff00]"
-										style={{ width: `${progress}%` }}
-									></div>
-								</div>
-								<div className="mx-1">
-									{formatTime(
-										dayjs(new Date().getTime() - user.spotify.timestamps.start).valueOf() / 1000
-									)}
-								</div>
+								<ProgressBar start={start} end={end} user={user} />
 								<div className="ml-1 text-[#1DB954] dark:text-[#00ff00]">
 									<SiSpotify size={16} />
 								</div>
@@ -161,17 +171,8 @@ const Song = ({ user }: { user: Data | any }) => {
 							by {user.spotify.artist.replace(/;/g, ',')}
 						</p>
 						<div className="flex w-full items-center justify-center leading-none">
-							<div className="h-1 w-full rounded-sm bg-gray-400">
-								<div
-									className="h-full rounded-sm bg-[#1DB954] dark:bg-[#00ff00]"
-									style={{ width: `${progress}%` }}
-								></div>
-							</div>
-							<div className="mx-1">
-								{formatTime(
-									dayjs(new Date().getTime() - user.spotify.timestamps.start).valueOf() / 1000
-								)}
-							</div>
+							<ProgressBar start={start} end={end} user={user} />
+
 							<div className="ml-1 text-[#1DB954] dark:text-[#00ff00]">
 								<SiSpotify size={16} />
 							</div>

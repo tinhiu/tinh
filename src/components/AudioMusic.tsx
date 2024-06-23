@@ -6,7 +6,8 @@ type Props = {
 };
 
 function AudioMusic({ src }: Props) {
-	const audioRef = useRef(new Audio(src));
+	const audioRef = useRef<HTMLAudioElement>(new Audio());
+
 
 	const [playing, setPlaying] = useState(false);
 	const [currentSong, setCurrentSong] = useState(audioRef);
@@ -17,7 +18,12 @@ function AudioMusic({ src }: Props) {
 	});
 	useEffect(() => {
 		if (!src) return; // don't have preview_url
-		currentSong.current.volume = 0.15;
+		if (audioRef.current) {
+			audioRef.current.src = src;
+			audioRef.current.volume = .25;
+			audioRef.current.play();
+		}
+		setPlaying(true);
 	}, [currentSong, src]);
 	const handlePausePlayClick = () => {
 		if (playing) {
