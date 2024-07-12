@@ -13,6 +13,7 @@ type Props = {
 	image?: string;
 };
 function Modal({ isOpen, image, onCloseModal, ...props }: Props) {
+
 	return (
 		<Transition appear show={isOpen} as={Fragment}>
 			<Dialog
@@ -35,7 +36,7 @@ function Modal({ isOpen, image, onCloseModal, ...props }: Props) {
 						<Image
 							src={image as string}
 							alt="bg"
-							className={`h-auto w-full object-cover blur-lg backdrop-blur-[250px] transition duration-700`}
+							className={`h-full w-full bg-cover bg-center bg-no-repeat object-cover blur-lg backdrop-blur-[250px] transition duration-700`}
 							loading="lazy"
 							width={0}
 							height={0}
@@ -44,18 +45,18 @@ function Modal({ isOpen, image, onCloseModal, ...props }: Props) {
 					</Dialog.Overlay>
 				</Transition.Child>
 				<div className="fixed inset-0 flex w-screen items-center justify-center overflow-y-auto p-4">
-					<Dialog.Panel className="w-full max-w-xl rounded">
+					<Dialog.Panel className="flex h-full w-full max-w-xl items-center justify-center rounded">
 						<div className="w-full">
 							<Transition.Child
 								as={Fragment}
 								enter="ease-out duration-300"
-								enterFrom="opacity-0 scale-75"
+								enterFrom="opacity-0 scale-90"
 								enterTo="opacity-100 scale-100"
 								leave="ease-in duration-700"
 								leaveFrom="opacity-100 scale-100"
-								leaveTo="opacity-0 scale-95"
+								leaveTo="opacity-0 scale-0"
 							>
-								<div className="relative z-50 my-8 inline-block w-full max-w-xl overflow-hidden rounded-2xl bg-neutral-200 p-6 text-left align-middle shadow-lg shadow-neutral-600/50 transition-all dark:bg-neutral-200">
+								<div className="relative z-50 inline-block w-full max-w-xl overflow-hidden rounded-2xl bg-neutral-200 p-6 text-left align-middle shadow-lg shadow-neutral-600/50 transition-all dark:bg-neutral-200">
 									<div className="relative">
 										<Dialog.Title as="h3" className="text-lg font-medium leading-6 text-[#1DB954]">
 											{props.title}
