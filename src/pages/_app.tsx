@@ -38,7 +38,6 @@ const queryClient = new QueryClient({
 function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 	const userLanyard = useLanyardWS(DISCORD_ID);
 	const ballCanvas = useRef<HTMLDivElement>(null);
-	const showFooter = router.route === '/';
 	useEffect(() => {
 		if (typeof window === 'undefined' || !ballCanvas.current) {
 			return;
@@ -64,14 +63,11 @@ function MyApp({ Component, pageProps, router }: AppProps<PageProps>) {
 							<Component {...pageProps} key={router.pathname} userLanyard={userLanyard} />
 						</AnimatePresence>
 					</div>
-					<>{showFooter && <Footer />}</>
 				</div>
 				<Song user={userLanyard} />
 				<div
 					ref={ballCanvas}
-					className="ball-transitions pointer-events-none fixed
-						z-[100] h-4 w-4 rounded-full border-2 border-gray-500 bg-transparent
-						opacity-0 duration-200 dark:border-amber-100 "
+					className="ball-transitions pointer-events-none fixed z-[100] h-4 w-4 rounded-full border-2 border-gray-500 bg-transparent opacity-0 duration-200 dark:border-amber-100"
 				/>
 				<Toaster reverseOrder={true} />
 				<ScrollToTop />
