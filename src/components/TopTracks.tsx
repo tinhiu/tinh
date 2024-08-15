@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ColorThief from 'colorthief';
 import { HiExternalLink } from 'react-icons/hi';
 import { SiSpotify } from 'react-icons/si';
@@ -15,7 +15,6 @@ import AlbumObjectFull = SpotifyApi.AlbumObjectFull;
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 
 import AudioMusic from './AudioMusic';
-import { Dialog, Transition } from '@headlessui/react';
 
 function TopTrack({ track }: { track: TrackObjectFull }) {
 	const ref = useRef<HTMLImageElement>(null);

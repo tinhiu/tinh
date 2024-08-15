@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import type { NextPage } from 'next';
+import LrcPlayer from '../components/Player';
 
 const Home: NextPage = () => {
 	return (
@@ -9,9 +10,9 @@ const Home: NextPage = () => {
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: -4 }}
 				transition={{ ease: 'easeInOut', duration: 0.4 }}
-				className="mt-10 w-full"
+				className="flex w-full flex-col items-center justify-center"
 			>
-				<p>I'm about . . .</p>
+				<LrcPlayer />
 			</motion.div>
 		</>
 	);

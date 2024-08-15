@@ -54,7 +54,9 @@ $--light: #afa9a9;
 }
 
 #nprogress .peg {
-	box-shadow: 0 0 10px $progress-color, 0 0 5px $progress-color;
+	box-shadow:
+		0 0 10px $progress-color,
+		0 0 5px $progress-color;
 }
 
 #nprogress .spinner-icon {
@@ -192,7 +194,9 @@ html *::-webkit-scrollbar-track {
 }
 // ball
 .ball-transitions {
-	transition: opacity 0.2s, transform 0.2s;
+	transition:
+		opacity 0.2s,
+		transform 0.2s;
 }
 // tippy
 .dark .tippy-tooltip-content {
@@ -344,7 +348,9 @@ html *::-webkit-scrollbar-track {
 	}
 
 	.sun-and-moon > .sun-beams {
-		transition: transform 0.5s var(--ease-elastic-4), opacity 0.5s var(--ease-3);
+		transition:
+			transform 0.5s var(--ease-elastic-4),
+			opacity 0.5s var(--ease-3);
 	}
 
 	.sun-and-moon .moon > circle {
@@ -439,5 +445,46 @@ html *::-webkit-scrollbar-track {
 			font-size: 17px;
 			font-weight: 700;
 		}
+	}
+}
+.lyrics {
+	display: flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	height: 62vh;
+	overflow-y: scroll;
+	-ms-overflow-style: none;
+	// &::-webkit-scrollbar {
+	// 	display: none;
+	// }
+	div.line {
+		cursor: pointer;
+		font-family: 'Heebo', sans-serif;
+		font-size: 2rem;
+		font-weight: 700;
+		line-height: 2.4rem;
+		letter-spacing: -0.01em;
+		color: rgba(0, 0, 0, 0.8);
+		text-align: left;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		&.passed {
+			color: rgba(255, 255, 255, 0.7);
+			-webkit-filter: none;
+			filter: none;
+			opacity: 1;
+		}
+		&.active {
+			color: rgb(255, 255, 255);
+			-webkit-filter: none;
+			filter: none;
+			opacity: 1;
+		}
+	}
+}
+@media screen and (max-width: 768px) {
+	.lyrics div.line {
+		font-size: 1.5rem;
 	}
 }

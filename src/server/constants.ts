@@ -1,7 +1,7 @@
 // Generic in case NodeJS.ProcessEnv is ever extended in the future
 function env<Key extends keyof NodeJS.ProcessEnv>(key: Key) {
 	const value = process.env[key];
-	
+
 	if (!value) {
 		throw new Error(`Missing environment variable ${key}`);
 	}
@@ -13,6 +13,7 @@ function env<Key extends keyof NodeJS.ProcessEnv>(key: Key) {
 export const LAST_FM_API_KEY = process.env.NEXT_PUBLIC_LAST_FM_API_KEY;
 export const SPOTIFY_CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 export const SPOTIFY_CLIENT_SECRET = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+export const SPOTIFY_COOKIE = process.env.NEXT_PUBLIC_SPOTIFY_COOKIE;
 
 // Whilst I use upstash, I didn't want anybody else
 // using this to be locked into using upstash.
