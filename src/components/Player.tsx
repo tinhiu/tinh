@@ -21,7 +21,7 @@ const Player = () => {
 		if (audioRef.current) {
 			audioRef.current.volume = 0.25;
 		}
-	}, [audioRef.current?.volume]);
+	}, [audioRef.current]);
 
 	if (!lrc) return <h1>Loading...</h1>;
 	const handlePausePlayClick = () => {
@@ -54,13 +54,7 @@ const Player = () => {
 				/>
 			) : null}
 			{Boolean(audioUrl) && (
-				<audio
-					ref={audioRef}
-					controls
-					src={audioUrl}
-					autoPlay={Boolean(audioUrl && lrc)}
-					className="hidden"
-				/>
+				<audio ref={audioRef} controls src={audioUrl} autoPlay={false} className="hidden" />
 			)}
 		</div>
 	);
