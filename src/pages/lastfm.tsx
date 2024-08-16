@@ -24,7 +24,6 @@ export default function LastFMPage({ data }: Props) {
 		}
 		setSchema(schema + 1);
 	};
-	useEffect(() => {}, []);
 
 	return (
 		<div className="experiment-container mb-16 flex flex-col items-center justify-center">
@@ -76,7 +75,7 @@ export default function LastFMPage({ data }: Props) {
 									data-scrobbles={squares.count}
 									className={`pixel schema${schema} color${color}`}
 									style={{
-										transition: `background-color 0.1s ease ${delay.toFixed(4)}s, min-width 0.25s ease, min-height 0.25s ease;`,
+										transition: `background-color 0.1s ease ${delay.toFixed(4)}s, min-width 0.25s ease, min-height 0.25s ease`,
 									}}
 								></button>
 							</Tippy>
