@@ -1,0 +1,7 @@
+@font-face {
+	font-family: 'LittleVi';
+	src:
+		local('LittleVi'),
+		url('../fonts/LittleVi.ttf') format ('truetype');
+	font-weight: 700;
+}

@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import localFont from '@next/font/local';
 
 import { Router } from 'next/router';
 import NProgress from 'nprogress';
@@ -13,7 +14,6 @@ import { Toaster } from 'react-hot-toast';
 
 import Nav from '../components/Nav';
 import Song from '../components/Song';
-import Footer from '../components/Footer';
 import ScrollToTop from '../components/ScrollToTop';
 import { Data, useLanyardWS } from 'use-lanyard';
 import { loadCursor } from '../util/cursor';
@@ -27,6 +27,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 type PageProps = {
 	userLanyard?: Data | any;
 };
+export const LittleVi = localFont({ src: '../fonts/LittleVi.ttf' });
 export const DISCORD_ID = '885439540268003338';
 const queryClient = new QueryClient({
 	defaultOptions: {

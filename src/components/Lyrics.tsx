@@ -2,6 +2,7 @@ import React, { MutableRefObject, RefObject, useEffect, useRef, useState } from 
 import { v4 as uuidv4 } from 'uuid';
 
 import { LrcLyrics, LyricLine } from '../util/lrcParser';
+import { LittleVi } from '../pages/_app';
 type LyricsProps = {
 	lrc: LrcLyrics;
 	audioRef: RefObject<HTMLAudioElement>;
@@ -132,6 +133,7 @@ const Lyrics = ({
 						if (!playing) setPlaying(!playing);
 						setAudioTime(+wordSpan.attributes.getNamedItem('data-time')!.value);
 					}}
+					style={LittleVi.style}
 				>
 					{line.text}
 				</div>

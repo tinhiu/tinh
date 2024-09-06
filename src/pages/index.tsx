@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import type { NextPage } from 'next';
-import LrcPlayer from '../components/Player';
+import Player from '../components/Player';
 
 const Home: NextPage = () => {
 	return (
@@ -12,7 +12,7 @@ const Home: NextPage = () => {
 				transition={{ ease: 'easeInOut', duration: 0.4 }}
 				className="flex w-full flex-col items-center justify-center"
 			>
-				<LrcPlayer />
+				<Player />
 			</motion.div>
 		</>
 	);

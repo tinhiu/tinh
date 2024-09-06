@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { AiOutlinePauseCircle, AiOutlinePlayCircle } from 'react-icons/ai';
+
 import { LrcLyrics, parse } from '../util/lrcParser';
 import Lyrics from './Lyrics';
-import { AiOutlinePauseCircle, AiOutlinePlayCircle } from 'react-icons/ai';
+import { LittleVi } from '../pages/_app';
 
 const Player = () => {
 	const [playing, setPlaying] = useState(false);
@@ -36,7 +38,9 @@ const Player = () => {
 	return (
 		<div className="flex h-full w-full flex-col items-center justify-center gap-4 rounded-2xl bg-black/5 px-6 py-10 shadow-xl sm:h-fit sm:py-12">
 			<div className="flex w-full items-center justify-between">
-				<p className="font-semibold">Ocean - Ghostly Kisses</p>
+				<p className="text-4xl font-semibold" style={LittleVi.style}>
+					Ocean - Ghostly Kisses
+				</p>
 				{playing ? (
 					<AiOutlinePauseCircle className="" size={'24px'} onClick={handlePausePlayClick} />
 				) : (
