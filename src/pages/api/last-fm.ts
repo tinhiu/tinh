@@ -14,16 +14,16 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse<Data
 		const lfm = new LastFM(LAST_FM_API_KEY!);
 
 		let recentlyTracks = await lfm.getRecentTracks(LIMIT.toString(), 'loonailysm', '1');
+
 		const resultRecentlyTracks = recentlyTracks.map((track) => ({
-			date:
-				{
-					uts: track.date ? track.date.uts : '',
-					'#text': track.date
-						? dayjs(track?.date['#text'])
-								.set('hour', dayjs(track.date['#text']).hour() + 7)
-								.format('DD MMM YYYY, HH:mm')
-						: '',
-				} || null,
+			date: {
+				uts: track.date ? track.date.uts : '',
+				'#text': track.date
+					? dayjs(track?.date['#text'])
+							.set('hour', dayjs(track.date['#text']).hour() + 7)
+							.format('DD MMM YYYY, HH:mm')
+					: '',
+			},
 			'@attr': track['@attr'] || null,
 			image: track.image,
 			artist: {

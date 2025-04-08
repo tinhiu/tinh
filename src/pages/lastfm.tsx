@@ -12,6 +12,7 @@ type Props = {
 let delay = 0;
 let color = 4;
 export default function LastFMPage({ data }: Props) {
+	console.log('data: ', data);
 	const [bigSize, setBigSize] = useState(false);
 	const [schema, setSchema] = useState(1);
 	const handleZoom = () => {
@@ -89,8 +90,8 @@ export default function LastFMPage({ data }: Props) {
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
 	const client = new LyricsClient(SPOTIFY_COOKIE || '');
-	const lyrics = await client.getLyrics('7s9gcI3vON7hpTzQO2PEun');
-	console.log('lyrics: ', lyrics);
+	// const lyrics = await client.getLyrics('7s9gcI3vON7hpTzQO2PEun');
+	// console.log('lyrics: ', lyrics);
 	const lfm = new LastFM(LAST_FM_API_KEY!);
 	let result = await lfm.getPixelGrid('pixel-grid', '0', '');
 	return {

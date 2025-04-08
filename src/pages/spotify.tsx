@@ -10,7 +10,6 @@ import SpotifyWebAPI from 'spotify-web-api-node';
 import { Data } from 'use-lanyard';
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
 
-
 import RecentlyTracks from '../components/RecentlyTracks';
 import ModalSpotify from '../components/Spotify';
 import UserSpotify from '../models/UserSpotify';
@@ -24,7 +23,6 @@ import {
 } from '../server/constants';
 import { LastFM, LastFMGetTrack } from '../server/last-fm';
 import { rand } from '../util/types';
-
 
 dayjs.extend(relativeTime);
 
@@ -43,10 +41,11 @@ const RecentlyOverview = ({ userLanyard }: { userLanyard: any }) => {
 	return <RecentlyTracks userLanyard={userLanyard} />;
 };
 const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) => {
-	const image: string = user.images?.[1].url as string;
+	// console.log('user: ', user);
+	const image: string = (user.images?.[0].url as string) ?? (user.images?.[1].url as string);
 	return (
 		<div className="mt-0">
-			<div className="flex justify-center ">
+			<div className="flex justify-center">
 				<motion.div
 					initial={{ opacity: 0, x: -50 }}
 					animate={{ opacity: 1, x: 0 }}
@@ -111,7 +110,7 @@ const UserOverview = ({ user, userLanyard, randomLastFMTrack }: UserOverView) =>
 				<ModalSpotify user={user} spotify={userLanyard} />
 			</div>
 			<div className="mx-4">
-				<div className="mb-2 mt-4 ">
+				<div className="mb-2 mt-4">
 					Listening to music is my cup of tea. I listen to many different kinds of music. Most of
 					the time, I love listening to music. Here are some of the songs I listen to the most in
 					recent months.
@@ -148,14 +147,11 @@ export default function Spotify({ user, topTracks, randomLastFMTrack, userLanyar
 				<UserOverview user={user} userLanyard={userLanyard} randomLastFMTrack={randomLastFMTrack} />
 				<Tab.Group>
 					<Tab.List className="ml-2 mr-4">
-						<Tab className="rounded-md px-2 
-						focus:outline-0 ui-selected:bg-gray-500
-						 ui-selected:text-white dark:ui-selected:bg-black/30">Top
+						<Tab className="rounded-md px-2 focus:outline-0 ui-selected:bg-gray-500 ui-selected:text-white dark:ui-selected:bg-black/30">
+							Top
 						</Tab>
-						<Tab className="rounded-md px-2 
-						focus:outline-0 ui-selected:bg-gray-500
-						 ui-selected:text-white dark:ui-selected:bg-black/30"
-						>Recently
+						<Tab className="rounded-md px-2 focus:outline-0 ui-selected:bg-gray-500 ui-selected:text-white dark:ui-selected:bg-black/30">
+							Recently
 						</Tab>
 					</Tab.List>
 					<Tab.Panels>

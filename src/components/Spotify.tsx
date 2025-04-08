@@ -13,7 +13,7 @@ type Props = {
 const ModalSpotify = ({ spotify, user }: Props) => {
 	// console.log(JSON.stringify(spotify, null, 4));
 	const [isReady, setIsReady] = useState(false);
-	const image: string = user.images?.[1].url as string;
+	const image: string = (user.images?.[0].url as string) ?? (user.images?.[1].url as string);
 
 	const onLoadCallback = () => {
 		setIsReady(true);
